@@ -48,23 +48,18 @@ Les deux versions partageront les contenus pédagogiques et la progression, mais
 
 ## État du projet
 
-**Phase actuelle : préparation du projet.** Ce dépôt contient les spécifications initiales. Le code Flutter, les médias audio, les tests et les APK restent à construire et à valider.
+**Version d'essai jouable.**
 
-## Démarrage futur
+- Application web : https://mansstyle59.github.io/les-petits-lecteurs/app/ (fonctionne hors connexion après la première ouverture ; sur iPhone, Safari → Partager → « Sur l'écran d'accueil »).
+- APK Android mobile et Android TV : https://github.com/mansstyle59/les-petits-lecteurs/releases/tag/essai (signature de développement, installation manuelle).
+- 4 modules, 17 leçons, 213 voix françaises générées (Piper, voix siwis).
 
-Une fois le projet Flutter initialisé :
+À faire : relecture pédagogique des contenus, enregistrement humain des sons courts (p, t, b, d, c, k, g), synchronisation en ligne éventuelle, illustrations dédiées, application iOS native (nécessite un Mac et un compte développeur Apple).
 
-```bash
-flutter pub get
-flutter analyze
-flutter test
-flutter run
-```
+L'architecture actuelle (application web embarquée dans une WebView Android) remplace pour l'instant le projet Flutter décrit dans la documentation.
 
-Construction Android mobile (après configuration du SDK Android) :
+## Développement
 
-```bash
-flutter build apk --release
-```
-
-La version Android TV nécessitera une configuration spécifique, une navigation complète à la télécommande et des tests sur émulateur ou appareil Android TV. Ne pas annoncer un APK TV opérationnel avant ces validations.
+- `tools/generer_voix.py` : régénère les voix à partir de `contenu/cours.json`.
+- `tools/build_sw.py` : régénère le cache hors connexion après toute modification.
+- Les APK sont compilés automatiquement par GitHub Actions à chaque push sur `main`.

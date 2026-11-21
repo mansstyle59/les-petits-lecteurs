@@ -301,7 +301,12 @@
     function ask() {
       locked = false;
       var idx = order[step], it = l.items[idx];
-      var others = shuffle(pool.filter(function (x) { return itemKey(x) !== itemKey(it); })).slice(0, 2);
+      // Pas de distracteur qui se prononce comme la bonne réponse (ex. : c, k et q font tous « ke »)
+      var others = shuffle(pool.filter(function (x) {
+        if (itemKey(x) === itemKey(it)) return false;
+        if (it.son_tts !== undefined && x.son_tts === it.son_tts) return false;
+        return true;
+      })).slice(0, 2);
       var opts = shuffle([it].concat(others));
       var showText = l.type_jeu === "image_vers_mot" ? esc(it.mot) : l.type_jeu === "lecture_phrase" ? esc(it.phrase) : "";
       var html = '<div class="game"><div class="progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="' + order.length + '" aria-valuenow="' + step + '"><span style="width:' + (step / order.length * 100) + '%"></span></div>' +
@@ -328,6 +333,9 @@
           } else {
             errors++;
             b.classList.add("bad"); b.disabled = true;
+            // Garder le focus sur un choix encore possible (télécommande)
+            var nextChoice = app.querySelector(".choice:not([disabled])");
+            if (nextChoice && document.activeElement === document.body) nextChoice.focus();
             fb.className = "feedback bad"; fb.textContent = "Essaie encore !";
             play(["ui/encore.mp3"].concat(qa));
           }
