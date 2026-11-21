@@ -1,0 +1,40 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "fr.lespetitslecteurs"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "fr.lespetitslecteurs"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "0.1-essai"
+    }
+
+    buildFeatures { buildConfig true }
+
+    flavorDimensions "ecran"
+    productFlavors {
+        mobile {
+            dimension "ecran"
+            buildConfigField "String", "APP_MODE", "\"mobile\""
+        }
+        tv {
+            dimension "ecran"
+            applicationIdSuffix ".tv"
+            buildConfigField "String", "APP_MODE", "\"tv\""
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation "androidx.webkit:webkit:1.11.0"
+}

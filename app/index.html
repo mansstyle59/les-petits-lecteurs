@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1769d2">
+  <meta name="description" content="Les Petits Lecteurs : apprendre les lettres, les sons, les syllabes et les premiers mots.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Petits Lecteurs">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" type="image/png" href="../icon-192.png">
+  <link rel="stylesheet" href="app.css">
+  <title>Les Petits Lecteurs — J'apprends à lire</title>
+</head>
+<body>
+  <header class="topbar">
+    <button class="topbar-back" id="btn-back" type="button" aria-label="Retour" hidden>
+      <span aria-hidden="true">←</span><span class="topbar-back-label">Retour</span>
+    </button>
+    <div class="topbar-title" id="topbar-title">Les Petits Lecteurs</div>
+    <div class="topbar-stars" id="topbar-stars" aria-live="polite"></div>
+  </header>
+  <main id="app" class="screen" tabindex="-1">
+    <div class="loading" role="status">Chargement…</div>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
