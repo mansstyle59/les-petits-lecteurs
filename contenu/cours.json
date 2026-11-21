@@ -1,0 +1,875 @@
+{
+  "version": "0.1",
+  "statut": "Brouillon : à faire relire par une personne spécialisée dans l'apprentissage de la lecture avant publication.",
+  "notes_audio": [
+    "Le texte « tts » sert au moteur vocal ; le texte affiché reste celui de l'application.",
+    "Les consonnes occlusives (p, t, b, d, c, k, g) doivent être enregistrées en audio : la synthèse vocale ajoute souvent un « e ».",
+    "Les noms de lettres (« emme », « esse ») et les sons (« mmm », « sss ») sont distincts : l'enfant apprend le son utile à la lecture."
+  ],
+  "modules": [
+    {
+      "id": "M1",
+      "titre": "Les lettres",
+      "lecons": [
+        {
+          "id": "L1",
+          "titre": "Les voyelles",
+          "objectif": "Reconnaître les lettres a, e, i, o, u : leur nom et leur son.",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "A a",
+              "lettre_majuscule": "A",
+              "lettre_minuscule": "a",
+              "nom_tts": "a",
+              "son_tts": "a",
+              "exemple": "avion",
+              "illustration": "✈️",
+              "note": ""
+            },
+            {
+              "affiche": "E e",
+              "lettre_majuscule": "E",
+              "lettre_minuscule": "e",
+              "nom_tts": "e",
+              "son_tts": "e",
+              "exemple": "éléphant",
+              "illustration": "🐘",
+              "note": "Son [e] comme dans « éléphant ». Le e muet de « le » n'est pas enseigné ici."
+            },
+            {
+              "affiche": "I i",
+              "lettre_majuscule": "I",
+              "lettre_minuscule": "i",
+              "nom_tts": "i",
+              "son_tts": "i",
+              "exemple": "île",
+              "illustration": "🏝️",
+              "note": ""
+            },
+            {
+              "affiche": "O o",
+              "lettre_majuscule": "O",
+              "lettre_minuscule": "o",
+              "nom_tts": "o",
+              "son_tts": "o",
+              "exemple": "olive",
+              "illustration": "🫒",
+              "note": ""
+            },
+            {
+              "affiche": "U u",
+              "lettre_majuscule": "U",
+              "lettre_minuscule": "u",
+              "nom_tts": "u",
+              "son_tts": "u",
+              "exemple": "usine",
+              "illustration": "🏭",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        },
+        {
+          "id": "L2",
+          "titre": "Les sons continus : m, l, r, s",
+          "objectif": "Reconnaître m, l, r, s et leur son.",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "M m",
+              "lettre_majuscule": "M",
+              "lettre_minuscule": "m",
+              "nom_tts": "emme",
+              "son_tts": "mmm",
+              "exemple": "maison",
+              "illustration": "🏠",
+              "note": ""
+            },
+            {
+              "affiche": "L l",
+              "lettre_majuscule": "L",
+              "lettre_minuscule": "l",
+              "nom_tts": "elle",
+              "son_tts": "lll",
+              "exemple": "lune",
+              "illustration": "🌙",
+              "note": ""
+            },
+            {
+              "affiche": "R r",
+              "lettre_majuscule": "R",
+              "lettre_minuscule": "r",
+              "nom_tts": "erre",
+              "son_tts": "rrr",
+              "exemple": "rose",
+              "illustration": "🌹",
+              "note": ""
+            },
+            {
+              "affiche": "S s",
+              "lettre_majuscule": "S",
+              "lettre_minuscule": "s",
+              "nom_tts": "esse",
+              "son_tts": "sss",
+              "exemple": "soleil",
+              "illustration": "☀️",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        },
+        {
+          "id": "L3",
+          "titre": "Les sons courts : p, t, b, d",
+          "objectif": "Reconnaître p, t, b, d et leur son.",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "P p",
+              "lettre_majuscule": "P",
+              "lettre_minuscule": "p",
+              "nom_tts": "pé",
+              "son_tts": "pe",
+              "exemple": "pomme",
+              "illustration": "🍎",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "T t",
+              "lettre_majuscule": "T",
+              "lettre_minuscule": "t",
+              "nom_tts": "té",
+              "son_tts": "te",
+              "exemple": "table",
+              "illustration": "🪑",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "B b",
+              "lettre_majuscule": "B",
+              "lettre_minuscule": "b",
+              "nom_tts": "bé",
+              "son_tts": "be",
+              "exemple": "bateau",
+              "illustration": "⛵",
+              "note": "Consonne occlusive : prononcer le son court, sans ajouter de « e » (le moteur vocal doit utiliser l'audio enregistré)."
+            },
+            {
+              "affiche": "D d",
+              "lettre_majuscule": "D",
+              "lettre_minuscule": "d",
+              "nom_tts": "dé",
+              "son_tts": "de",
+              "exemple": "dauphin",
+              "illustration": "🐬",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        },
+        {
+          "id": "L4",
+          "titre": "Les sons f, v, z, j",
+          "objectif": "Reconnaître f, v, z, j et leur son.",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "F f",
+              "lettre_majuscule": "F",
+              "lettre_minuscule": "f",
+              "nom_tts": "effe",
+              "son_tts": "fff",
+              "exemple": "fleur",
+              "illustration": "🌸",
+              "note": ""
+            },
+            {
+              "affiche": "V v",
+              "lettre_majuscule": "V",
+              "lettre_minuscule": "v",
+              "nom_tts": "vé",
+              "son_tts": "vvv",
+              "exemple": "vache",
+              "illustration": "🐄",
+              "note": ""
+            },
+            {
+              "affiche": "Z z",
+              "lettre_majuscule": "Z",
+              "lettre_minuscule": "z",
+              "nom_tts": "zède",
+              "son_tts": "zzz",
+              "exemple": "zèbre",
+              "illustration": "🦓",
+              "note": ""
+            },
+            {
+              "affiche": "J j",
+              "lettre_majuscule": "J",
+              "lettre_minuscule": "j",
+              "nom_tts": "ji",
+              "son_tts": "je",
+              "exemple": "jupe",
+              "illustration": "👗",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        },
+        {
+          "id": "L5",
+          "titre": "Les sons n, c, k, g",
+          "objectif": "Reconnaître n, c, k, g et leur son (c et g durs).",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "N n",
+              "lettre_majuscule": "N",
+              "lettre_minuscule": "n",
+              "nom_tts": "enne",
+              "son_tts": "nnn",
+              "exemple": "nuage",
+              "illustration": "☁️",
+              "note": ""
+            },
+            {
+              "affiche": "C c",
+              "lettre_majuscule": "C",
+              "lettre_minuscule": "c",
+              "nom_tts": "cé",
+              "son_tts": "ke",
+              "exemple": "cube",
+              "illustration": "🧊",
+              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard."
+            },
+            {
+              "affiche": "K k",
+              "lettre_majuscule": "K",
+              "lettre_minuscule": "k",
+              "nom_tts": "ka",
+              "son_tts": "ke",
+              "exemple": "kiwi",
+              "illustration": "🥝",
+              "note": "Son [k], comme le c dur."
+            },
+            {
+              "affiche": "G g",
+              "lettre_majuscule": "G",
+              "lettre_minuscule": "g",
+              "nom_tts": "gé",
+              "son_tts": "gue",
+              "exemple": "gorille",
+              "illustration": "🦍",
+              "note": "Son dur [g] devant a, o, u (« gorille »)."
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        },
+        {
+          "id": "L6",
+          "titre": "Lettres particulières : h, q, x, y, w",
+          "objectif": "Reconnaître les lettres h, q, x, y, w et leurs particularités.",
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "items": [
+            {
+              "affiche": "H h",
+              "lettre_majuscule": "H",
+              "lettre_minuscule": "h",
+              "nom_tts": "ache",
+              "son_tts": "",
+              "exemple": "hibou",
+              "illustration": "🦉",
+              "note": "Lettre muette : aucun son. Elle s'écrit mais ne se prononce pas."
+            },
+            {
+              "affiche": "Q q",
+              "lettre_majuscule": "Q",
+              "lettre_minuscule": "q",
+              "nom_tts": "ku",
+              "son_tts": "ke",
+              "exemple": "quatre",
+              "illustration": "4️⃣",
+              "note": "Dans les premiers mots, « qu » se prononce [k]."
+            },
+            {
+              "affiche": "X x",
+              "lettre_majuscule": "X",
+              "lettre_minuscule": "x",
+              "nom_tts": "iks",
+              "son_tts": "ks",
+              "exemple": "xylophone",
+              "illustration": "🎶",
+              "note": "Son [ks] dans ce cas ; les autres sons de x sont vus plus tard."
+            },
+            {
+              "affiche": "Y y",
+              "lettre_majuscule": "Y",
+              "lettre_minuscule": "y",
+              "nom_tts": "i grec",
+              "son_tts": "i",
+              "exemple": "yaourt",
+              "illustration": "🥛",
+              "note": "Son [i] ici, comme dans « yaourt » (le son [j] viendra plus tard)."
+            },
+            {
+              "affiche": "W w",
+              "lettre_majuscule": "W",
+              "lettre_minuscule": "w",
+              "nom_tts": "double vé",
+              "son_tts": "w",
+              "exemple": "wagon",
+              "illustration": "🚃",
+              "note": "Son rare, utilisé surtout dans des mots empruntés."
+            }
+          ],
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "titre": "Les syllabes",
+      "lecons": [
+        {
+          "id": "S1",
+          "titre": "Syllabes avec m",
+          "objectif": "Assembler m avec les voyelles.",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "items": [
+            {
+              "affiche": "ma",
+              "syllabe_tts": "ma"
+            },
+            {
+              "affiche": "me",
+              "syllabe_tts": "me"
+            },
+            {
+              "affiche": "mi",
+              "syllabe_tts": "mi"
+            },
+            {
+              "affiche": "mo",
+              "syllabe_tts": "mo"
+            },
+            {
+              "affiche": "mu",
+              "syllabe_tts": "mu"
+            }
+          ],
+          "reussite": "Assembler 5 syllabes sans aide."
+        },
+        {
+          "id": "S2",
+          "titre": "Syllabes avec l et r",
+          "objectif": "Assembler l et r avec les voyelles.",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "items": [
+            {
+              "affiche": "la",
+              "syllabe_tts": "la"
+            },
+            {
+              "affiche": "le",
+              "syllabe_tts": "le"
+            },
+            {
+              "affiche": "li",
+              "syllabe_tts": "li"
+            },
+            {
+              "affiche": "lo",
+              "syllabe_tts": "lo"
+            },
+            {
+              "affiche": "lu",
+              "syllabe_tts": "lu"
+            },
+            {
+              "affiche": "ra",
+              "syllabe_tts": "ra"
+            },
+            {
+              "affiche": "re",
+              "syllabe_tts": "re"
+            },
+            {
+              "affiche": "ri",
+              "syllabe_tts": "ri"
+            },
+            {
+              "affiche": "ro",
+              "syllabe_tts": "ro"
+            },
+            {
+              "affiche": "ru",
+              "syllabe_tts": "ru"
+            }
+          ],
+          "reussite": "Assembler 5 syllabes sans aide."
+        },
+        {
+          "id": "S3",
+          "titre": "Syllabes avec p, t, b, d",
+          "objectif": "Assembler p, t, b, d avec les voyelles.",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "items": [
+            {
+              "affiche": "pa",
+              "syllabe_tts": "pa"
+            },
+            {
+              "affiche": "pe",
+              "syllabe_tts": "pe"
+            },
+            {
+              "affiche": "pi",
+              "syllabe_tts": "pi"
+            },
+            {
+              "affiche": "po",
+              "syllabe_tts": "po"
+            },
+            {
+              "affiche": "pu",
+              "syllabe_tts": "pu"
+            },
+            {
+              "affiche": "ta",
+              "syllabe_tts": "ta"
+            },
+            {
+              "affiche": "te",
+              "syllabe_tts": "te"
+            },
+            {
+              "affiche": "ti",
+              "syllabe_tts": "ti"
+            },
+            {
+              "affiche": "to",
+              "syllabe_tts": "to"
+            },
+            {
+              "affiche": "tu",
+              "syllabe_tts": "tu"
+            },
+            {
+              "affiche": "ba",
+              "syllabe_tts": "ba"
+            },
+            {
+              "affiche": "be",
+              "syllabe_tts": "be"
+            },
+            {
+              "affiche": "bi",
+              "syllabe_tts": "bi"
+            },
+            {
+              "affiche": "bo",
+              "syllabe_tts": "bo"
+            },
+            {
+              "affiche": "bu",
+              "syllabe_tts": "bu"
+            },
+            {
+              "affiche": "da",
+              "syllabe_tts": "da"
+            },
+            {
+              "affiche": "de",
+              "syllabe_tts": "de"
+            },
+            {
+              "affiche": "di",
+              "syllabe_tts": "di"
+            },
+            {
+              "affiche": "do",
+              "syllabe_tts": "do"
+            },
+            {
+              "affiche": "du",
+              "syllabe_tts": "du"
+            }
+          ],
+          "reussite": "Assembler 5 syllabes sans aide."
+        },
+        {
+          "id": "S4",
+          "titre": "Syllabes avec f, s, v, j",
+          "objectif": "Assembler f, s, v, j avec les voyelles.",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "items": [
+            {
+              "affiche": "fa",
+              "syllabe_tts": "fa"
+            },
+            {
+              "affiche": "fe",
+              "syllabe_tts": "fe"
+            },
+            {
+              "affiche": "fi",
+              "syllabe_tts": "fi"
+            },
+            {
+              "affiche": "fo",
+              "syllabe_tts": "fo"
+            },
+            {
+              "affiche": "fu",
+              "syllabe_tts": "fu"
+            },
+            {
+              "affiche": "sa",
+              "syllabe_tts": "sa"
+            },
+            {
+              "affiche": "se",
+              "syllabe_tts": "se"
+            },
+            {
+              "affiche": "si",
+              "syllabe_tts": "si"
+            },
+            {
+              "affiche": "so",
+              "syllabe_tts": "so"
+            },
+            {
+              "affiche": "su",
+              "syllabe_tts": "su"
+            },
+            {
+              "affiche": "va",
+              "syllabe_tts": "va"
+            },
+            {
+              "affiche": "ve",
+              "syllabe_tts": "ve"
+            },
+            {
+              "affiche": "vi",
+              "syllabe_tts": "vi"
+            },
+            {
+              "affiche": "vo",
+              "syllabe_tts": "vo"
+            },
+            {
+              "affiche": "vu",
+              "syllabe_tts": "vu"
+            },
+            {
+              "affiche": "ja",
+              "syllabe_tts": "ja"
+            },
+            {
+              "affiche": "je",
+              "syllabe_tts": "je"
+            },
+            {
+              "affiche": "ji",
+              "syllabe_tts": "ji"
+            },
+            {
+              "affiche": "jo",
+              "syllabe_tts": "jo"
+            },
+            {
+              "affiche": "ju",
+              "syllabe_tts": "ju"
+            }
+          ],
+          "reussite": "Assembler 5 syllabes sans aide."
+        },
+        {
+          "id": "S5",
+          "titre": "Syllabes avec n, c, g",
+          "objectif": "Assembler n, c (dur) et g (dur) avec les voyelles.",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "items": [
+            {
+              "affiche": "na",
+              "syllabe_tts": "na"
+            },
+            {
+              "affiche": "ne",
+              "syllabe_tts": "ne"
+            },
+            {
+              "affiche": "ni",
+              "syllabe_tts": "ni"
+            },
+            {
+              "affiche": "no",
+              "syllabe_tts": "no"
+            },
+            {
+              "affiche": "nu",
+              "syllabe_tts": "nu"
+            },
+            {
+              "affiche": "ca",
+              "syllabe_tts": "ca"
+            },
+            {
+              "affiche": "co",
+              "syllabe_tts": "co"
+            },
+            {
+              "affiche": "cu",
+              "syllabe_tts": "cu"
+            },
+            {
+              "affiche": "ga",
+              "syllabe_tts": "ga"
+            },
+            {
+              "affiche": "go",
+              "syllabe_tts": "go"
+            },
+            {
+              "affiche": "gu",
+              "syllabe_tts": "gu"
+            }
+          ],
+          "reussite": "Assembler 5 syllabes sans aide."
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "titre": "Les premiers mots",
+      "lecons": [
+        {
+          "id": "W1",
+          "titre": "Premiers mots avec m, l, r, s",
+          "objectif": "Associer un mot à son image.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "lama",
+              "decoupage": "la-ma",
+              "illustration": "🦙",
+              "mot_tts": "lama",
+              "note": ""
+            },
+            {
+              "mot": "mule",
+              "decoupage": "mu-le",
+              "illustration": "🫏",
+              "mot_tts": "mule",
+              "note": ""
+            },
+            {
+              "mot": "rose",
+              "decoupage": "ro-se",
+              "illustration": "🌹",
+              "mot_tts": "rose",
+              "note": ""
+            },
+            {
+              "mot": "sel",
+              "decoupage": "sel",
+              "illustration": "🧂",
+              "mot_tts": "sel",
+              "note": ""
+            },
+            {
+              "mot": "ami",
+              "decoupage": "a-mi",
+              "illustration": "👫",
+              "mot_tts": "ami",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître 4 mots sur 5."
+        },
+        {
+          "id": "W2",
+          "titre": "Premiers mots avec p, t, b, d",
+          "objectif": "Associer un mot à son image.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "papa",
+              "decoupage": "pa-pa",
+              "illustration": "👨",
+              "mot_tts": "papa",
+              "note": ""
+            },
+            {
+              "mot": "dodo",
+              "decoupage": "do-do",
+              "illustration": "🛏️",
+              "mot_tts": "dodo",
+              "note": ""
+            },
+            {
+              "mot": "moto",
+              "decoupage": "mo-to",
+              "illustration": "🏍️",
+              "mot_tts": "moto",
+              "note": ""
+            },
+            {
+              "mot": "tapis",
+              "decoupage": "ta-pis",
+              "illustration": "🧶",
+              "mot_tts": "tapis",
+              "note": ""
+            },
+            {
+              "mot": "bulle",
+              "decoupage": "bu-lle",
+              "illustration": "🫧",
+              "mot_tts": "bulle",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître 4 mots sur 5."
+        },
+        {
+          "id": "W3",
+          "titre": "Premiers mots avec f, v, z, j, n",
+          "objectif": "Associer un mot à son image.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "jupe",
+              "decoupage": "ju-pe",
+              "illustration": "👗",
+              "mot_tts": "jupe",
+              "note": ""
+            },
+            {
+              "mot": "navire",
+              "decoupage": "na-vi-re",
+              "illustration": "🚢",
+              "mot_tts": "navire",
+              "note": ""
+            },
+            {
+              "mot": "fusée",
+              "decoupage": "fu-sée",
+              "illustration": "🚀",
+              "mot_tts": "fusée",
+              "note": ""
+            },
+            {
+              "mot": "fil",
+              "decoupage": "fil",
+              "illustration": "🧵",
+              "mot_tts": "fil",
+              "note": ""
+            },
+            {
+              "mot": "nuage",
+              "decoupage": "nu-a-ge",
+              "illustration": "☁️",
+              "mot_tts": "nuage",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître 4 mots sur 5."
+        },
+        {
+          "id": "W4",
+          "titre": "Les sons ch et ou",
+          "objectif": "Reconnaître les sons ch et ou dans un mot.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "chou",
+              "decoupage": "chou",
+              "illustration": "🥬",
+              "mot_tts": "chou",
+              "note": ""
+            },
+            {
+              "mot": "chat",
+              "decoupage": "cha",
+              "illustration": "🐱",
+              "mot_tts": "cha",
+              "note": "« chat » : le t final est muet."
+            },
+            {
+              "mot": "poule",
+              "decoupage": "pou-le",
+              "illustration": "🐔",
+              "mot_tts": "poule",
+              "note": ""
+            }
+          ],
+          "reussite": "Reconnaître 4 mots sur 5."
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "titre": "Les premières phrases",
+      "lecons": [
+        {
+          "id": "P1",
+          "titre": "Premières phrases",
+          "objectif": "Lire une phrase courte et la relier à son image.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase à voix haute, puis écoute-la.",
+          "items": [
+            {
+              "phrase": "Papa rame.",
+              "illustration": "🚣",
+              "note": ""
+            },
+            {
+              "phrase": "Lili a un lama.",
+              "illustration": "🦙",
+              "note": "« un » et « une » sont des mots à apprendre tels quels."
+            }
+          ],
+          "reussite": "Lire 2 phrases sur 2 avec une aide sonore."
+        },
+        {
+          "id": "P2",
+          "titre": "Phrases avec des mots nouveaux",
+          "objectif": "Lire des phrases avec les mots déjà appris.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase à voix haute, puis écoute-la.",
+          "items": [
+            {
+              "phrase": "Maman a une moto.",
+              "illustration": "🏍️",
+              "note": "« un » et « une » sont des mots à apprendre tels quels."
+            },
+            {
+              "phrase": "Le lama dort.",
+              "illustration": "🦙",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 2 phrases sur 2 avec une aide sonore."
+        }
+      ]
+    }
+  ]
+}
