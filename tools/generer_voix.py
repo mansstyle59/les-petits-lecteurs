@@ -29,12 +29,23 @@ NOM_API = {
     "q": "kˈy", "r": "ˈɛʁ", "s": "ˈɛs", "t": "tˈe", "u": "ˈy", "v": "vˈe", "w": "dˈublə vˈe",
     "x": "ˈiks", "y": "ˈi ɡʁˈɛk", "z": "zˈɛd",
 }
+# Nom dit dans une phrase courte avec une pause (« La lettre… I. ») : vérifié avec Whisper, 26 lettres sur 26 comprises
+NOM_API = {k: "la lˈɛtʁə, " + v + "." for k, v in NOM_API.items()}
 # Son utile à la lecture (consonnes continues allongées, consonnes courtes + « e » bref)
 SON_API = {
-    "a": "ˈaː", "e": "ˈeː", "i": "ˈiː", "o": "ˈoː", "u": "ˈyː", "y": "ˈiː",
+    "a": "ˈa", "e": "ˈeː", "i": "ˈi!", "o": "ˈo", "u": "ˈy", "y": "ˈi!",
     "m": "ˈmːː", "l": "ˈlːː", "r": "ˈʁːː", "s": "ˈsːː", "f": "ˈfːː", "v": "ˈvːː", "z": "ˈzːː",
     "j": "ˈʒːː", "n": "ˈnːː", "w": "ˈvːː", "x": "kˈsːː",
     "p": "pˈə", "t": "tˈə", "b": "bˈə", "d": "dˈə", "c": "kˈə", "k": "kˈə", "q": "kˈə", "g": "ɡˈə",
+}
+# Réglages vérifiés pour que les voyelles seules soient nettes (choisis par écoute automatique)
+SON_CFG = {
+    "a": SynthesisConfig(length_scale=0.9, noise_scale=0.5, noise_w_scale=0.6),
+    "e": SynthesisConfig(length_scale=1.4, noise_scale=0.5, noise_w_scale=0.6),
+    "i": SynthesisConfig(length_scale=1.0, noise_scale=0.3, noise_w_scale=0.8),
+    "y": SynthesisConfig(length_scale=1.0, noise_scale=0.3, noise_w_scale=0.8),
+    "o": SynthesisConfig(length_scale=0.9, noise_scale=0.5, noise_w_scale=0.6),
+    "u": SynthesisConfig(length_scale=1.0, noise_scale=0.5, noise_w_scale=0.6),
 }
 CONS = {"m": "m", "l": "l", "r": "ʁ", "s": "s", "f": "f", "v": "v", "z": "z", "j": "ʒ", "n": "n",
         "p": "p", "t": "t", "b": "b", "d": "d", "c": "k", "g": "ɡ"}
@@ -67,6 +78,7 @@ UI = {
     "courage": "Tu y es presque, continue !", "genial": "Génial !", "champion": "Quel champion !",
     "pause": "C'est fini pour aujourd'hui. Bravo pour ton travail ! On se retrouve demain.",
     "presque-fini": "Encore une petite leçon, et c'est la pause !",
+    "comme-dans": "comme dans",
     "inscription": "Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge.",
     "inscription-ecrit": "Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal.",
     "compris": "J'ai compris ! C'est bien ça ?",
@@ -79,9 +91,9 @@ UI = {
 }
 PRENOMS = {"maelo": "Maëlo,"}
 
-def to_wav(phonemes, path_wav):
+def to_wav(phonemes, path_wav, cfg=None):
     ids = v.phonemes_to_ids(list(phonemes))
-    audio = v.phoneme_ids_to_audio(ids, CFG)
+    audio = v.phoneme_ids_to_audio(ids, cfg or CFG)
     import numpy as np
     pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
     with wave.open(str(path_wav), "wb") as w:
@@ -94,14 +106,14 @@ def text_phonemes(text):
     return "".join(out)
 
 AUDIT = []
-def synth(path, text=None, api=None):
+def synth(path, text=None, api=None, cfg=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     ph = api if api is not None else text_phonemes(text)
     AUDIT.append((str(path.relative_to(OUT)), text or "", ph, api is not None))
     if path.exists() and not TOUT:
         return
     with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
-        to_wav(ph, tmp.name)
+        to_wav(ph, tmp.name, cfg)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp.name, "-af",
                         "adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5", "-ac", "1", "-ar", "24000", "-b:a", "48k", str(path)], check=True)
 
@@ -119,7 +131,7 @@ for m in cours["modules"]:
                 if L == "h":
                     synth(OUT / "lettres" / "son-h.mp3", "La lettre H ne fait pas de son.")
                 else:
-                    synth(OUT / "lettres" / f"son-{L}.mp3", f"[son de la lettre {L}]", SON_API[L])
+                    synth(OUT / "lettres" / f"son-{L}.mp3", f"[son de la lettre {L}]", SON_API[L], SON_CFG.get(L))
                 ex = it["exemple"]
                 synth(OUT / "mots" / f"{ex}.mp3", ex.capitalize() + ".", MOTS_API.get(ex))
             elif "syllabe_tts" in it:
@@ -129,6 +141,36 @@ for m in cours["modules"]:
                 synth(OUT / "mots" / f"{it['mot']}.mp3", it["mot"].capitalize() + ".", MOTS_API.get(it["mot"]))
             else:
                 synth(OUT / "phrases" / f"{l['id']}-{i + 1}.mp3", it["phrase"], PHRASES_API.get(it["phrase"]))
+
+# Voyelles seules : découpées dans « La lettre… i » (voyelle naturelle, en contexte), légèrement allongées.
+def voyelle_naturelle(L, core, out):
+    import numpy as np
+    sr = v.config.sample_rate
+    a = np.clip(v.phoneme_ids_to_audio(v.phonemes_to_ids(list("la lˈɛtʁə, " + core + ".")), CFG), -1, 1)
+    win = int(sr * 0.01)
+    e = np.array([np.sqrt(np.mean(a[i:i + win] ** 2)) for i in range(0, len(a) - win, win)])
+    quiet = e < max(e) * 0.04
+    best, i = (0, 0), 0
+    while i < len(quiet):
+        if quiet[i]:
+            j = i
+            while j < len(quiet) and quiet[j]: j += 1
+            if i > 5 and j < len(quiet) and (j - i) > best[1] - best[0]: best = (i, j)
+            i = j
+        else:
+            i += 1
+    seg = a[max(0, best[1] * win - int(sr * 0.02)):]
+    nz = np.where(np.abs(seg) > max(np.abs(seg)) * 0.02)[0]
+    if len(nz): seg = seg[:nz[-1] + int(sr * 0.05)]
+    f = int(sr * 0.015); seg[:f] *= np.linspace(0, 1, f); seg[-f:] *= np.linspace(1, 0, f)
+    with tempfile.NamedTemporaryFile(suffix=".wav") as t:
+        with wave.open(t.name, "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((seg * 32767).astype("<i2").tobytes())
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", t.name, "-af", "atempo=0.8,adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5",
+                        "-ac", "1", "-ar", "24000", "-b:a", "48k", str(out)], check=True)
+for L, core in [("a", "ˈa"), ("e", "ˈe"), ("i", "ˈi"), ("o", "ˈo"), ("u", "ˈy"), ("y", "ˈi")]:
+    if TOUT or True:
+        voyelle_naturelle(L, core, OUT / "lettres" / f"son-{L}.mp3")
 
 # Rapport de prononciation (relecture humaine)
 lines = ["# Audit de prononciation", "", "Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.",

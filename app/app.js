@@ -234,13 +234,13 @@
     return null;
   }
   function itemAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/nom-" + it.lettre_minuscule + ".mp3", "lettres/son-" + it.lettre_minuscule + ".mp3", "mots/" + it.exemple + ".mp3"];
+    if (it.lettre_minuscule) return ["lettres/nom-" + it.lettre_minuscule + ".mp3", "lettres/son-" + it.lettre_minuscule + ".mp3", "ui/comme-dans.mp3", "mots/" + it.exemple + ".mp3"];
     if (it.syllabe_tts) return ["syllabes/" + it.syllabe_tts + ".mp3"];
     if (it.mot) return ["mots/" + it.mot + ".mp3"];
     return ["phrases/" + (it._lid || lessonId) + "-" + ((it._idx !== undefined ? it._idx : idx) + 1) + ".mp3"];
   }
   function questionAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/son-" + it.lettre_minuscule + ".mp3"];
+    if (it.lettre_minuscule) return ["lettres/son-" + it.lettre_minuscule + ".mp3", "ui/comme-dans.mp3", "mots/" + it.exemple + ".mp3"];
     return itemAudio(it, lessonId, idx);
   }
   function itemKey(it) { return it.lettre_minuscule || it.syllabe_tts || it.mot || it.phrase; }
