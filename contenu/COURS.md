@@ -12,7 +12,7 @@
 
 - **A a** : nom « a », son « a » — avion ✈️
 - **E e** : nom « e », son « e » — éléphant 🐘 · _Son [e] comme dans « éléphant ». Le e muet de « le » n'est pas enseigné ici._
-- **I i** : nom « i », son « i » — île 🏝️
+- **I i** : nom « i », son « i » — image 🖼️
 - **O o** : nom « o », son « o » — olive 🫒
 - **U u** : nom « u », son « u » — usine 🏭
 

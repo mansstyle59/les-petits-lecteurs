@@ -33,16 +33,15 @@ jobs:
       - name: Copier l'application web dans l'APK
         run: |
           mkdir -p android/app/src/main/assets/www
-          cp -r index.html app contenu audio apple-touch-icon.png icon-192.png android/app/src/main/assets/www/
+          cp -r index.html app contenu audio apple-touch-icon.png icon-192.png icon-512.png android/app/src/main/assets/www/
 
-      - name: Compiler les APK mobile et TV
-        run: gradle -p android assembleMobileDebug assembleTvDebug --no-daemon --stacktrace
+      - name: Compiler l'APK (téléphone et TV)
+        run: gradle -p android assembleDebug --no-daemon --stacktrace
 
       - name: Renommer les APK
         run: |
           mkdir -p dist
-          cp android/app/build/outputs/apk/mobile/debug/*.apk dist/les-petits-lecteurs-mobile.apk
-          cp android/app/build/outputs/apk/tv/debug/*.apk dist/les-petits-lecteurs-tv.apk
+          cp android/app/build/outputs/apk/debug/*.apk dist/les-petits-lecteurs.apk
           ls -la dist
 
       - name: Conserver les APK
@@ -56,7 +55,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete essai --yes --cleanup-tag || true
-          gh release create essai dist/les-petits-lecteurs-mobile.apk dist/les-petits-lecteurs-tv.apk \
+          gh release create essai dist/les-petits-lecteurs.apk \
             --target "${GITHUB_SHA}" --prerelease \
             --title "Version d'essai" \
-            --notes "APK de test (signature de développement). Mobile et tablette : les-petits-lecteurs-mobile.apk. Android TV : les-petits-lecteurs-tv.apk. Pour une mise à jour, désinstaller d'abord l'ancienne version."
+            --notes "Une seule application pour téléphone, tablette et Android TV : les-petits-lecteurs.apk. Elle se met à jour toute seule depuis Internet : inutile de la réinstaller pour les nouvelles leçons ou corrections."

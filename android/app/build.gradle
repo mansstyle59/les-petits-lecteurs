@@ -10,8 +10,8 @@ android {
         applicationId "fr.lespetitslecteurs"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "0.1-essai"
+        versionCode 2
+        versionName "0.2-essai"
     }
 
     buildFeatures { buildConfig true }
