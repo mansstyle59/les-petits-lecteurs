@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1769d2">
+  <meta name="description" content="Les Petits Lecteurs : apprendre les lettres, les sons, les syllabes et les premiers mots en s'amusant. Pour les enfants de 5 à 6 ans.">
+  <title>Les Petits Lecteurs — Apprendre en s'amusant</title>
+  <style>
+    :root{--ink:#17345f;--blue:#1769d2;--sky:#eaf6ff;--yellow:#ffd94d;--pink:#ff6eaa;--green:#48c98b;--purple:#8d70e8}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#e8f6ff 0%,#fff9e8 100%);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+    a{color:inherit}
+    .wrap{width:min(1100px,92%);margin:auto}
+    header{padding:18px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.15rem}
+    .brand-mark{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:var(--yellow);font-size:1.7rem;box-shadow:0 5px 0 #e6b82e}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:38px 0 58px}
+    .pill{display:inline-block;background:#fff;border:2px solid #d7eaff;border-radius:999px;padding:8px 14px;font-weight:800;color:var(--blue)}
+    h1{font-size:clamp(2.6rem,7vw,5.4rem);line-height:.98;margin:18px 0;color:#1556ad;letter-spacing:-.05em}
+    h1 span{color:#f2a900}
+    .lead{font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.6;max-width:620px}
+    .age{display:inline-block;background:#ffe7f1;color:#a62f69;border-radius:14px;padding:9px 14px;font-weight:900;margin:8px 0 18px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:13px 18px;border-radius:15px;font-weight:900;background:var(--blue);color:white;box-shadow:0 5px 0 #0c4697}
+    .btn.secondary{background:white;color:var(--blue);box-shadow:0 5px 0 #d5e7fa}
+    .scene{position:relative;min-height:330px;border-radius:34px;background:linear-gradient(145deg,#73d1ff,#d9f7ff 58%,#a7e9b6);display:grid;place-items:center;overflow:hidden;box-shadow:0 18px 40px #2869a329;border:6px solid white}
+    .book{font-size:8rem;filter:drop-shadow(0 10px 4px #245d8a33);z-index:1}
+    .letter{position:absolute;display:grid;place-items:center;width:76px;height:76px;border-radius:22px;background:#fff;font-size:2.5rem;font-weight:1000;box-shadow:0 7px 0 #d4e6f5}
+    .l1{top:24px;left:25px;color:#f15b67;transform:rotate(-9deg)}.l2{right:28px;top:55px;color:#278bdf;transform:rotate(8deg)}.l3{bottom:30px;left:38px;color:#29ad75;transform:rotate(7deg)}.l4{right:35px;bottom:28px;color:#9866df;transform:rotate(-8deg)}
+    section{padding:32px 0}
+    h2{font-size:clamp(1.8rem,4vw,2.7rem);margin:0 0 10px;text-align:center}
+    .sub{text-align:center;line-height:1.6;margin:0 auto 24px;max-width:680px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:white;border:2px solid #e2efff;border-radius:22px;padding:20px;box-shadow:0 8px 22px #225b8b0d}
+    .icon{font-size:2.3rem}.card h3{margin:8px 0 5px}.card p{margin:0;line-height:1.55}
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .step{background:#fff;border-radius:18px;padding:16px 12px;text-align:center;border:2px solid #e2efff}
+    .num{display:grid;place-items:center;margin:0 auto 8px;width:38px;height:38px;border-radius:50%;background:var(--yellow);font-weight:1000}
+    .platforms{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .platform{background:#173d76;color:#fff;border-radius:24px;padding:22px}
+    .platform p{line-height:1.6;color:#e4f1ff}
+    .notice{background:#fff7d8;border:2px solid #ffe28a;border-radius:18px;padding:16px;line-height:1.6;margin-top:22px}
+    footer{padding:30px 0 40px;text-align:center;color:#54708f;font-size:.95rem}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:20px}.scene{min-height:260px}.book{font-size:6rem}.grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.platforms{grid-template-columns:1fr}}
+    @media(max-width:430px){.grid{grid-template-columns:1fr}.letter{width:58px;height:58px;font-size:1.9rem}.scene{min-height:230px}}
+  </style>
+</head>
+<body>
+  <header class="wrap"><div class="brand"><span class="brand-mark">📚</span><span>Les Petits Lecteurs</span></div></header>
+  <main>
+    <div class="wrap hero">
+      <div>
+        <span class="pill">Une aventure pour apprendre</span>
+        <h1>Lire devient <span>un jeu&nbsp;!</span></h1>
+        <p class="lead">Découvrir les lettres, écouter les sons, assembler les syllabes et lire ses premiers mots… à travers des jeux, des images et des encouragements.</p>
+        <div class="age">🌟 Spécial enfants de 5 à 6 ans</div>
+        <div class="actions"><a class="btn" href="#activites">Découvrir les activités</a><a class="btn secondary" href="#projet">Voir le projet</a></div>
+      </div>
+      <div class="scene" aria-label="Illustration d'un livre et de lettres colorées"><span class="letter l1">A</span><span class="letter l2">B</span><span class="book">📖</span><span class="letter l3">C</span><span class="letter l4">M</span></div>
+    </div>
+    <section id="activites" class="wrap">
+      <h2>J'apprends en jouant</h2>
+      <p class="sub">Des activités courtes, simples et progressives pour prendre confiance et avancer à son rythme.</p>
+      <div class="grid">
+        <article class="card"><div class="icon">🔤</div><h3>Les lettres</h3><p>Reconnaître les lettres, les majuscules et les minuscules.</p></article>
+        <article class="card"><div class="icon">🔊</div><h3>Les sons</h3><p>Écouter, réécouter et reconnaître les sons utiles à la lecture.</p></article>
+        <article class="card"><div class="icon">🧩</div><h3>Les syllabes</h3><p>Assembler les sons pour découvrir des syllabes comme MA, ME ou MI.</p></article>
+        <article class="card"><div class="icon">📖</div><h3>Les premiers mots</h3><p>Associer des mots familiers à des images et les lire pas à pas.</p></article>
+        <article class="card"><div class="icon">🎮</div><h3>Les mini-jeux</h3><p>Jouer à écouter, associer, choisir et construire des mots.</p></article>
+        <article class="card"><div class="icon">⭐</div><h3>Mes progrès</h3><p>Gagner des étoiles et retrouver ses activités, sans compétition.</p></article>
+      </div>
+    </section>
+    <section id="projet" class="wrap">
+      <h2>Sur téléphone et sur télévision</h2>
+      <p class="sub">Deux expériences adaptées à chaque écran, avec les mêmes objectifs d'apprentissage.</p>
+      <div class="platforms">
+        <article class="platform"><h3>📱 Android mobile et tablette</h3><p>Une interface tactile, des boutons faciles à utiliser, des illustrations claires et des consignes audio.</p></article>
+        <article class="platform"><h3>📺 Android TV</h3><p>Une interface grand écran, des lettres géantes et une navigation pensée pour la télécommande.</p></article>
+      </div>
+      <div class="notice"><strong>Projet en construction.</strong> Cette page présente le projet et ses objectifs. L'application, ses leçons audio et ses fichiers APK sont encore en développement et ne sont pas disponibles au téléchargement.</div>
+    </section>
+    <section class="wrap">
+      <h2>Le parcours d'apprentissage</h2>
+      <p class="sub">On avance progressivement, en valorisant chaque petite réussite.</p>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><strong>Découvrir les lettres</strong></div>
+        <div class="step"><span class="num">2</span><strong>Écouter les sons</strong></div>
+        <div class="step"><span class="num">3</span><strong>Former des syllabes</strong></div>
+        <div class="step"><span class="num">4</span><strong>Lire des mots</strong></div>
+        <div class="step"><span class="num">5</span><strong>Lire ses premières phrases</strong></div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap">Les Petits Lecteurs · Apprendre à lire en s'amusant · Projet éducatif en développement</div></footer>
+</body>
+</html>
