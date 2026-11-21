@@ -67,6 +67,15 @@ UI = {
     "courage": "Tu y es presque, continue !", "genial": "Génial !", "champion": "Quel champion !",
     "pause": "C'est fini pour aujourd'hui. Bravo pour ton travail ! On se retrouve demain.",
     "presque-fini": "Encore une petite leçon, et c'est la pause !",
+    "inscription": "Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge.",
+    "inscription-ecrit": "Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal.",
+    "compris": "J'ai compris ! C'est bien ça ?",
+    "pas-compris": "Je n'ai pas bien compris. Tu peux répéter, ou demander à un adulte de l'écrire.",
+    "animal": "Maintenant, choisis ton animal.",
+    "cadeau": "Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman !",
+    "cadeaux": "Voici tes cadeaux. Gagne des étoiles pour les débloquer !",
+    "revision": "On révise les petites erreurs. C'est comme ça qu'on devient fort !",
+    "revision-fin": "Super ! Tes erreurs sont corrigées.",
 }
 PRENOMS = {"maelo": "Maëlo,"}
 

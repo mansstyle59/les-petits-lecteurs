@@ -33,11 +33,23 @@
   var SYNC_URL = "https://vfxblubjsxwseacmslnu.supabase.co/rest/v1/rpc/";
   var SYNC_KEY = "sb_publishable_HojETqgwpBMQ_cjDzMNaAg_WGCFMaED";
 
+  // Cadeaux proposés par défaut (modifiables dans l'Espace parents)
+  var DEFAULT_REWARDS = [
+    { id: "histoire", ico: "📚", titre: "Choisir l'histoire du soir", cout: 6 },
+    { id: "jeu", ico: "🎲", titre: "Un jeu de société avec papa ou maman", cout: 12 },
+    { id: "dessert", ico: "🍦", titre: "Choisir le dessert", cout: 18 },
+    { id: "parc", ico: "🛝", titre: "Une sortie au parc", cout: 30 }
+  ];
+  var LIMITS = [0, 10, 20, 30, 45];
+
   // ================= Stockage local =================
   var STORE_KEY = "lpl.v1";
   var memoryStore = null;
   function normProfile(p) {
     p.stars = p.stars || {}; p.trophies = p.trophies || {}; p.days = Array.isArray(p.days) ? p.days : [];
+    p.errs = p.errs || {}; p.usage = p.usage || {}; p.claimed = Array.isArray(p.claimed) ? p.claimed : [];
+    if (!Array.isArray(p.rewards)) p.rewards = DEFAULT_REWARDS.map(function (r) { return { id: r.id, titre: r.titre, ico: r.ico, cout: r.cout }; });
+    if (typeof p.limit !== "number") p.limit = 20;
     p.updated = p.updated || 1;
     return p;
   }
@@ -167,6 +179,20 @@
     if (p.days.indexOf(t) < 0) { p.days.push(t); p.days = p.days.slice(-60); }
   }
 
+  // ================= Temps de jeu par jour =================
+  var PLAY_SCREENS = { discover: 1, game: 1, speak: 1 };
+  function usedToday(p) { return (p.usage[today()] || 0); }
+  function timeLeft(p) { return p.limit ? Math.max(0, p.limit * 60 - usedToday(p)) : Infinity; }
+  function timeUp(p) { return p.limit > 0 && timeLeft(p) <= 0; }
+  setInterval(function () {
+    var top = stack[stack.length - 1], p = profile();
+    if (!p || !top || !PLAY_SCREENS[top.screen] || document.visibilityState !== "visible") return;
+    var t = today();
+    p.usage[t] = (p.usage[t] || 0) + 10;
+    var keys = Object.keys(p.usage).sort(); while (keys.length > 14) delete p.usage[keys.shift()];
+    persist();
+  }, 10000);
+
   // ================= Confettis =================
   function confetti(amount) {
     if (reducedMotion) return;
@@ -211,7 +237,7 @@
     if (it.lettre_minuscule) return ["lettres/nom-" + it.lettre_minuscule + ".mp3", "lettres/son-" + it.lettre_minuscule + ".mp3", "mots/" + it.exemple + ".mp3"];
     if (it.syllabe_tts) return ["syllabes/" + it.syllabe_tts + ".mp3"];
     if (it.mot) return ["mots/" + it.mot + ".mp3"];
-    return ["phrases/" + lessonId + "-" + (idx + 1) + ".mp3"];
+    return ["phrases/" + (it._lid || lessonId) + "-" + ((it._idx !== undefined ? it._idx : idx) + 1) + ".mp3"];
   }
   function questionAudio(it, lessonId, idx) {
     if (it.lettre_minuscule) return ["lettres/son-" + it.lettre_minuscule + ".mp3"];
@@ -235,6 +261,35 @@
   }
   function lessonIcon(l) {
     return { son_vers_lettre: "🔤", assemblage_syllabe: "🧩", image_vers_mot: "📖", lecture_phrase: "💬" }[l.type_jeu] || "⭐";
+  }
+
+  // ================= Révisions et cadeaux =================
+  function starsLeft(p) {
+    var spent = 0; p.claimed.forEach(function (c) { spent += c.cout || 0; });
+    return Math.max(0, totalStars(p) - spent);
+  }
+  function findItem(key) {
+    for (var i = 0; i < allLessons.length; i++) {
+      var l = lessonIndex[allLessons[i]];
+      for (var j = 0; j < l.items.length; j++) if (itemKey(l.items[j]) === key) return l.items[j];
+    }
+    return null;
+  }
+  // Leçon virtuelle de révision : les erreurs du type le plus fréquent
+  function reviewLesson(p) {
+    var groups = {};
+    Object.keys(p.errs).forEach(function (k) {
+      var it = findItem(k); if (!it) { delete p.errs[k]; return; }
+      var l = lessonIndex[it._lid];
+      (groups[l.type_jeu] = groups[l.type_jeu] || { l: l, items: [] }).items.push(it);
+    });
+    var best = null;
+    Object.keys(groups).forEach(function (t) { if (!best || groups[t].items.length > best.items.length) best = groups[t]; });
+    if (!best) return null;
+    var pool = [];
+    allLessons.forEach(function (id) { var l = lessonIndex[id]; if (l.type_jeu === best.l.type_jeu) pool = pool.concat(l.items); });
+    lessonIndex.REV = { id: "REV", titre: "Révisions", type_jeu: best.l.type_jeu, consigne: best.l.consigne, items: best.items, pool: pool, objectif: "Revoir les erreurs." };
+    return lessonIndex.REV;
   }
 
   // ================= Trophées =================
@@ -353,39 +408,88 @@
     play(list.length ? "ui/qui-joue.mp3" : "ui/bienvenue.mp3");
   };
 
+  // Inscription avec un adulte : à la voix (« Je m'appelle Maëlo, j'ai 6 ans ») ou au clavier
+  var AGE_WORDS = { trois: 3, quatre: 4, cinq: 5, six: 6, sept: 7, huit: 8 };
+  var KNOWN_NAMES = { maelo: "Maëlo", mailo: "Maëlo", maylo: "Maëlo", mayelo: "Maëlo", maelos: "Maëlo", maeloh: "Maëlo" };
+  function parseIntro(text) {
+    var t = String(text).trim(), res = { name: null, age: null };
+    var mAge = t.match(/(\d{1,2})\s*ans?/i) || t.match(/\b(\d)\b/);
+    if (mAge) res.age = +mAge[1];
+    else { var w = plain(t).split(" "); for (var i = 0; i < w.length; i++) if (AGE_WORDS[w[i]]) res.age = AGE_WORDS[w[i]]; }
+    var mName = t.match(/(?:je m'?\s?appelle|moi c'?est|mon prénom c'?est|mon prenom c'?est|c'?est)\s+([A-Za-zÀ-ÿ'-]+)/i);
+    var name = mName ? mName[1] : null;
+    if (!name) {
+      var words = t.replace(/[0-9]+.*$/, "").split(/[\s,.]+/).filter(function (x) { return x && !/^(je|m|appelle|j|ai|ans?|et|moi|c|est|bonjour|salut)$/i.test(x.replace(/'/g, "")); });
+      name = words[0] || null;
+    }
+    if (name) {
+      var k = slug(name);
+      name = KNOWN_NAMES[k] || (name.charAt(0).toUpperCase() + name.slice(1).toLowerCase());
+    }
+    res.name = name;
+    if (res.age && (res.age < 3 || res.age > 12)) res.age = null;
+    return res;
+  }
   SCREENS.newProfile = function () {
     setTop("Inscription", true);
-    var chosen = AVATARS[0], age = 6;
-    var html = '<form class="form card-panel" id="pf" autocomplete="off" novalidate>' + bubble("Comment tu t'appelles ?", "happy") +
-      '<label for="pname">Prénom</label><input id="pname" type="text" maxlength="20" autocapitalize="words" spellcheck="false" class="focusable" placeholder="Par exemple : Maëlo">' +
-      '<span class="label">Âge</span><div class="ages" role="group" aria-label="Âge">';
-    AGES.forEach(function (a) { html += '<button type="button" class="pick age-choice focusable" aria-pressed="' + (a === age) + '" data-age="' + a + '">' + a + " ans</button>"; });
-    html += '</div><span class="label">Choisis ton animal</span><div class="avatars" role="group" aria-label="Animal">';
-    AVATARS.forEach(function (a, i) { html += '<button type="button" class="pick avatar-choice focusable" aria-pressed="' + (i === 0) + '" data-a="' + a + '" aria-label="Animal ' + (i + 1) + '">' + a + "</button>"; });
-    html += '</div><button class="btn big wide focusable" type="submit">C\'est parti !</button></form>';
-    app.innerHTML = html;
-    app.querySelectorAll(".avatar-choice").forEach(function (b) {
-      b.addEventListener("click", function () {
-        chosen = b.dataset.a;
-        app.querySelectorAll(".avatar-choice").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    var chosen = AVATARS[0], age = 6, step = 1;
+    var micOK = !!SR && !isApp && !isTV;
+    function draw() {
+      var html = '<div class="adult-note"><span aria-hidden="true">👨‍👩‍👦</span> À faire avec un adulte</div>' +
+        '<form class="form card-panel" id="pf" autocomplete="off" novalidate>';
+      html += bubble(micOK ? "Appuie sur le micro et dis : « Je m'appelle…, j'ai … ans »" : "Comment tu t'appelles ? Quel âge as-tu ?", "happy");
+      if (micOK) html += '<div class="intro-mic"><button class="mic focusable" type="button" id="intro-mic" aria-label="Dire mon prénom et mon âge"><span aria-hidden="true">🎤</span></button><p class="hint" id="intro-hint">Appuie, puis parle.</p></div>';
+      html += '<label for="pname">Prénom</label><input id="pname" type="text" maxlength="20" autocapitalize="words" spellcheck="false" class="focusable" placeholder="Par exemple : Maëlo">' +
+        '<span class="label">Âge</span><div class="ages" role="group" aria-label="Âge">';
+      AGES.forEach(function (a) { html += '<button type="button" class="pick age-choice focusable" aria-pressed="' + (a === age) + '" data-age="' + a + '">' + a + " ans</button>"; });
+      html += '</div><span class="label">Choisis ton animal</span><div class="avatars" role="group" aria-label="Animal">';
+      AVATARS.forEach(function (a) { html += '<button type="button" class="pick avatar-choice focusable" aria-pressed="' + (a === chosen) + '" data-a="' + a + '" aria-label="Animal ' + a + '">' + a + "</button>"; });
+      html += '</div><button class="btn big wide focusable" type="submit">C\'est parti !</button></form>';
+      app.innerHTML = html;
+      app.querySelectorAll(".avatar-choice").forEach(function (b) {
+        b.addEventListener("click", function () { chosen = b.dataset.a; app.querySelectorAll(".avatar-choice").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); });
       });
-    });
-    app.querySelectorAll(".age-choice").forEach(function (b) {
-      b.addEventListener("click", function () {
-        age = +b.dataset.age;
-        app.querySelectorAll(".age-choice").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      app.querySelectorAll(".age-choice").forEach(function (b) {
+        b.addEventListener("click", function () { setAge(+b.dataset.age); if (step === 1) { step = 2; play("ui/animal.mp3"); } });
       });
-    });
-    document.getElementById("pf").addEventListener("submit", function (e) {
+      var mic = document.getElementById("intro-mic");
+      if (mic) mic.addEventListener("click", listenIntro);
+      document.getElementById("pf").addEventListener("submit", submit);
+    }
+    function setAge(a) { age = a; app.querySelectorAll(".age-choice").forEach(function (x) { x.setAttribute("aria-pressed", String(+x.dataset.age === a)); }); }
+    var rec = null;
+    leaveHook = function () { try { if (rec) { rec.onresult = rec.onerror = rec.onend = null; rec.abort(); } } catch (e) {} };
+    function listenIntro() {
+      stopAudio();
+      var mic = document.getElementById("intro-mic"), hint = document.getElementById("intro-hint");
+      try {
+        rec = new SR(); rec.lang = "fr-FR"; rec.interimResults = false; rec.maxAlternatives = 3;
+        var got = false;
+        rec.onresult = function (e) {
+          got = true; mic.classList.remove("listening");
+          var r = parseIntro(e.results[0][0].transcript);
+          if (r.name) document.getElementById("pname").value = r.name;
+          if (r.age) setAge(r.age);
+          if (r.name) { hint.textContent = "J'ai compris : " + r.name + (r.age ? ", " + r.age + " ans" : "") + ". Un adulte vérifie, puis choisis ton animal."; play(["ui/compris.mp3", "ui/animal.mp3"]); }
+          else { hint.textContent = "Je n'ai pas bien compris. Réessaie, ou un adulte écrit le prénom."; play("ui/pas-compris.mp3"); }
+        };
+        rec.onerror = function () { got = true; mic.classList.remove("listening"); hint.textContent = "Le micro n'est pas disponible : un adulte peut écrire le prénom."; play("ui/pas-compris.mp3"); };
+        rec.onend = function () { mic.classList.remove("listening"); if (!got) { hint.textContent = "Je n'ai rien entendu. Appuie et parle bien fort."; } };
+        rec.start(); mic.classList.add("listening"); hint.textContent = "Je t'écoute…";
+      } catch (e) { hint.textContent = "Le micro n'est pas disponible : un adulte peut écrire le prénom."; }
+    }
+    function submit(e) {
       e.preventDefault();
-      var name = document.getElementById("pname").value.trim().replace(/\s+/g, " ");
+      var name = document.getElementById("pname").value.trim().replace(/\s+/g, " ").slice(0, 20);
       if (!name) { toast("Écris d'abord le prénom."); document.getElementById("pname").focus(); return; }
+      var k = slug(name); if (KNOWN_NAMES[k]) name = KNOWN_NAMES[k];
       var p = normProfile({ id: "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: name, age: age, avatar: chosen });
       state.profiles.push(p); state.current = p.id; saveState(p);
       confetti(80);
       resetTo("home");
-    });
-    play("ui/ajoute-profil.mp3");
+    }
+    draw();
+    play(micOK ? ["ui/inscription.mp3"] : ["ui/inscription-ecrit.mp3"]);
   };
 
   SCREENS.home = function () {
@@ -395,10 +499,15 @@
     var nextId = nextLessonFor(p), nextL = findLesson(nextId);
     var resuming = !!(p.resume && p.resume.id === nextId);
     var nbTro = Object.keys(p.trophies).length;
+    var nbErr = Object.keys(p.errs).length;
     var html = '<section class="hero-continue">' + bubble(resuming ? "On reprend où tu t'es arrêté ?" : "Prêt pour la suite, " + p.name + " ?", "happy") +
       '<button class="btn big wide pulse focusable" type="button" id="continue">▶ ' + (resuming ? "Continuer" : "Jouer") +
       '<span class="btn-sub">' + esc(nextL.titre) + '</span></button>' +
-      '<button class="btn secondary wide focusable" type="button" id="trophies">🏆 Mes trophées <span class="badge">' + nbTro + " / " + TROPHIES.length + "</span></button></section>";
+      '<div class="home-tiles">' +
+      '<button class="tile focusable" type="button" id="trophies"><span class="tile-ico" aria-hidden="true">🏆</span><span>Trophées</span><span class="badge">' + nbTro + "/" + TROPHIES.length + '</span></button>' +
+      '<button class="tile focusable" type="button" id="gifts"><span class="tile-ico" aria-hidden="true">🎁</span><span>Cadeaux</span><span class="badge">' + starsLeft(p) + ' ★</span></button>' +
+      (nbErr ? '<button class="tile focusable" type="button" id="review"><span class="tile-ico" aria-hidden="true">🔁</span><span>Révisions</span><span class="badge">' + nbErr + "</span></button>" : "") +
+      "</div>" + (p.limit ? '<div class="time-left" aria-live="polite">⏱ ' + (timeUp(p) ? "Temps de jeu terminé pour aujourd'hui" : "Encore " + Math.ceil(timeLeft(p) / 60) + " min de jeu aujourd'hui") + "</div>" : "") + "</section>";
     html += '<div class="path">';
     var n = 0;
     cours.modules.forEach(function (m, mi) {
@@ -422,16 +531,24 @@
     app.innerHTML = html;
     document.getElementById("continue").addEventListener("click", function () { openLesson(nextId); });
     document.getElementById("trophies").addEventListener("click", function () { go("trophies"); });
+    document.getElementById("gifts").addEventListener("click", function () { go("gifts"); });
+    var rv = document.getElementById("review");
+    if (rv) rv.addEventListener("click", function () { if (timeUp(p)) return go("pause"); var r = reviewLesson(p); if (r) go("game", { id: "REV", review: true }); });
     app.querySelectorAll(".node").forEach(function (b) {
       b.addEventListener("click", function () {
         if (b.classList.contains("locked")) { toast("Finis d'abord la leçon d'avant !"); return; }
         openLesson(b.dataset.l);
       });
     });
-    play(["ui/bonjour.mp3"].concat(nameAudio(p)).concat(["ui/choisis-lecon.mp3"]));
+    var homeVoice = ["ui/bonjour.mp3"].concat(nameAudio(p));
+    if (timeUp(p)) homeVoice.push("ui/pause.mp3");
+    else if (p.limit && timeLeft(p) < 4 * 60) homeVoice.push("ui/presque-fini.mp3");
+    else homeVoice.push("ui/choisis-lecon.mp3");
+    play(homeVoice);
   };
   function openLesson(id) {
     var p = profile();
+    if (timeUp(p)) return go("pause");
     if (p.resume && p.resume.id === id && p.resume.phase === "game") go("game", { id: id, resume: true });
     else go("discover", { id: id });
   }
@@ -489,13 +606,16 @@
     return '<button class="choice focusable" type="button" data-key="' + key + '" aria-label="Image"><span class="emoji" aria-hidden="true">' + it.illustration + "</span></button>";
   }
   function poolFor(l) {
+    if (l.pool) return l.pool;
     var pool = l.items.slice();
     if (pool.length < 3) moduleOf(l.id).lecons.forEach(function (x) { if (x !== l) pool = pool.concat(x.items); });
     return pool;
   }
 
   SCREENS.game = function (a) {
-    var l = findLesson(a.id), p = profile();
+    var p = profile();
+    var l = a.review ? (lessonIndex.REV || reviewLesson(p)) : findLesson(a.id);
+    if (!l) return back();
     setTop(l.titre, true);
     var pool = poolFor(l);
     var order, step = 0, errors = 0, locked = false;
@@ -509,6 +629,7 @@
       order = order.slice(0, Math.min(order.length, 6));
     }
     function saveResume() {
+      if (a.review) { saveState(p); return; }
       p.resume = { id: l.id, phase: "game", order: order, step: step, errors: errors, t: Date.now() };
       saveState(p);
     }
@@ -539,6 +660,7 @@
           var fb = document.getElementById("fb");
           if (b.dataset.key === itemKey(it)) {
             locked = true;
+            if (a.review && p.errs[itemKey(it)]) { delete p.errs[itemKey(it)]; }
             b.classList.add("good");
             fb.className = "footer-feedback show good";
             fb.innerHTML = "<strong>Bravo " + esc(p.name) + " !</strong>";
@@ -548,6 +670,7 @@
             });
           } else {
             errors++;
+            p.errs[itemKey(it)] = (p.errs[itemKey(it)] || 0) + 1;
             b.classList.add("bad"); b.disabled = true;
             fb.className = "footer-feedback show bad"; fb.innerHTML = "<strong>Essaie encore !</strong>";
             var nextChoice = app.querySelector(".choice:not([disabled])");
@@ -558,10 +681,20 @@
         });
       });
       if (isTV) focusFirst(".choice");
-      play(step === 0 ? nameAudio(p).concat(["consignes/" + l.id + ".mp3"]).concat(qa) : qa);
+      var intro = a.review ? ["ui/revision.mp3"] : ["consignes/" + l.id + ".mp3"];
+      play(step === 0 ? nameAudio(p).concat(intro).concat(qa) : qa);
     }
 
     function finishGame() {
+      if (a.review) {
+        markToday(p); saveState(p); confetti(120);
+        app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Révisions terminées !</h1><p class='hint'>" +
+          (Object.keys(p.errs).length ? "Il reste " + Object.keys(p.errs).length + " petite(s) erreur(s) à revoir une autre fois." : "Toutes tes erreurs sont corrigées. Bravo !") +
+          '</p><div class="actions column"><button class="btn big wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+        document.getElementById("menu").addEventListener("click", back);
+        if (isTV) focusFirst();
+        return play(nameAudio(p).concat(["ui/revision-fin.mp3"]));
+      }
       var stars = errors === 0 ? 3 : errors <= 2 ? 2 : 1;
       p.stars[l.id] = Math.max(p.stars[l.id] || 0, stars);
       p.resume = null;
@@ -617,6 +750,7 @@
     return false;
   }
   window.__lplMatch = matchesItem; // pour les tests automatiques
+  window.__lplIntro = function (t) { return parseIntro(t); };
   function speakPrompt(it) {
     if (it.lettre_minuscule) return "ui/q-lettre-nom.mp3";
     if (it.syllabe_tts) return "ui/q-syllabe.mp3";
@@ -788,8 +922,56 @@
     confetti(fresh.length ? 200 : 140);
     var voice = ["ui/super-prenom.mp3"].concat(nameAudio(p)).concat(["ui/fin.mp3", "ui/etoile.mp3"]);
     if (fresh.length) voice.push("ui/trophee.mp3");
-    if (next) voice.push("ui/prochaine.mp3");
+    if (timeUp(p)) {
+      voice.push("ui/pause.mp3");
+      var nb = document.getElementById("next"); if (nb) nb.outerHTML = '<div class="time-left">⏱ Temps de jeu terminé pour aujourd\'hui. À demain !</div>';
+    } else if (next) voice.push("ui/prochaine.mp3");
     play(voice);
+  };
+
+  // ---- Cadeaux choisis par les parents ----
+  SCREENS.gifts = function () {
+    var p = profile();
+    setTop("Mes cadeaux", true);
+    var left = starsLeft(p);
+    var html = bubble("Tu as " + left + " étoile" + (left > 1 ? "s" : "") + " à dépenser !", "happy") + '<div class="gifts">';
+    p.rewards.forEach(function (r) {
+      var ok = left >= r.cout;
+      html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-id="' + esc(r.id) + '"' + (ok ? "" : ' aria-disabled="true"') + '>' +
+        '<span class="gift-ico" aria-hidden="true">' + esc(r.ico || "🎁") + '</span><strong>' + esc(r.titre) + '</strong>' +
+        '<span class="gift-cost"><span class="star-ico" aria-hidden="true">★</span> ' + r.cout + "</span>" +
+        '<span class="gift-bar"><span style="width:' + Math.min(100, left / r.cout * 100) + '%"></span></span></button>';
+    });
+    html += "</div>";
+    if (p.claimed.length) {
+      html += "<h2>Déjà gagnés</h2><ul class='claimed'>";
+      p.claimed.slice(-8).reverse().forEach(function (c) { html += "<li>" + esc(c.ico || "🎁") + " " + esc(c.titre) + "</li>"; });
+      html += "</ul>";
+    }
+    if (!p.rewards.length) html += "<p class='hint'>Demande à papa ou maman d'ajouter des cadeaux dans l'Espace parents.</p>";
+    app.innerHTML = html;
+    app.querySelectorAll(".gift").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var r = p.rewards.filter(function (x) { return x.id === b.dataset.id; })[0];
+        if (!r) return;
+        if (starsLeft(p) < r.cout) { toast("Encore " + (r.cout - starsLeft(p)) + " étoile(s) à gagner !"); return; }
+        if (!confirmTwice(b, "Touche encore pour le prendre")) return;
+        p.claimed.push({ id: r.id, titre: r.titre, ico: r.ico, cout: r.cout, t: Date.now() });
+        saveState(p); confetti(200);
+        render(); play(nameAudio(p).concat(["ui/cadeau.mp3"]));
+      });
+    });
+    play("ui/cadeaux.mp3");
+  };
+
+  SCREENS.pause = function () {
+    var p = profile();
+    setTop("C'est la pause", true);
+    app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Bravo " + esc(p.name) + " !</h1><p class='hint'>Tu as bien travaillé aujourd'hui. On se retrouve demain pour la suite !</p>" +
+      '<div class="actions column"><button class="btn secondary wide focusable" type="button" id="gifts2">🎁 Voir mes cadeaux</button><button class="btn secondary wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+    document.getElementById("gifts2").addEventListener("click", function () { go("gifts", {}, true); });
+    document.getElementById("menu").addEventListener("click", back);
+    play(nameAudio(p).concat(["ui/pause.mp3"]));
   };
 
   // ---- Espace parents ----
@@ -828,7 +1010,15 @@
     list.forEach(function (pp) {
       var cur = pp.resume && findLesson(pp.resume.id);
       html += '<section class="card-panel"><h3>' + pp.avatar + " " + esc(pp.name) + (pp.age ? " · " + pp.age + " ans" : "") + "</h3>" +
-        "<p class='hint'>★ " + totalStars(pp) + " étoiles · 🏆 " + Object.keys(pp.trophies).length + " trophées · 🔥 " + streak(pp) + " jour(s) de suite" + (cur ? " · Leçon en cours : " + esc(cur.titre) : "") + "</p>" +
+        "<p class='hint'>★ " + totalStars(pp) + " étoiles · 🏆 " + Object.keys(pp.trophies).length + " trophées · 🔥 " + streak(pp) + " jour(s) de suite · ⏱ " + Math.round(usedToday(pp) / 60) + " min aujourd'hui" + (cur ? " · Leçon en cours : " + esc(cur.titre) : "") + "</p>" +
+        '<span class="label">Temps de jeu par jour</span><div class="ages" role="group" aria-label="Temps de jeu par jour">' +
+        LIMITS.map(function (m) { return '<button type="button" class="pick focusable" data-limit="' + m + '" data-pid="' + esc(pp.id) + '" aria-pressed="' + (pp.limit === m) + '">' + (m ? m + " min" : "Illimité") + "</button>"; }).join("") + "</div>" +
+        (timeUp(pp) ? '<div class="actions"><button class="btn secondary focusable" type="button" data-extra="' + esc(pp.id) + '">+10 minutes aujourd\'hui</button></div>' : "") +
+        '<span class="label">Cadeaux (coût en étoiles)</span><ul class="reward-list">' +
+        pp.rewards.map(function (r) { return "<li><span>" + esc(r.ico || "🎁") + " " + esc(r.titre) + " · ★ " + r.cout + '</span><button class="btn ghost focusable" type="button" data-delrw="' + esc(r.id) + '" data-pid="' + esc(pp.id) + '">Retirer</button></li>'; }).join("") +
+        '</ul><form class="form reward-form" data-pid="' + esc(pp.id) + '" autocomplete="off"><input type="text" class="focusable" maxlength="50" placeholder="Nouveau cadeau, ex. : choisir le film" aria-label="Nouveau cadeau">' +
+        '<div class="ages">' + [5, 10, 20, 30].map(function (c, i) { return '<button type="button" class="pick focusable rw-cost" data-cost="' + c + '" aria-pressed="' + (i === 1) + '">★ ' + c + "</button>"; }).join("") +
+        '</div><button class="btn secondary focusable" type="submit">Ajouter le cadeau</button></form>' +
         '<div class="table-wrap"><table class="parent-table"><thead><tr><th>Leçon</th><th>Étoiles</th></tr></thead><tbody>';
       allLessons.forEach(function (id) { html += "<tr><td>" + id + " · " + esc(findLesson(id).titre) + "</td><td>" + starsText(pp.stars[id] || 0, 3) + "</td></tr>"; });
       html += '</tbody></table></div><div class="actions"><button class="btn secondary focusable" type="button" data-reset="' + esc(pp.id) + '">Remettre à zéro</button><button class="btn danger focusable" type="button" data-del="' + esc(pp.id) + '">Supprimer le profil</button></div></section>';
@@ -862,6 +1052,27 @@
     if (ul) ul.addEventListener("click", function () {
       if (!confirmTwice(ul, "Confirmer : délier")) return;
       state.code = null; persist(); toast("Appareil délié."); render();
+    });
+    function pById(id) { return state.profiles.filter(function (x) { return x.id === id; })[0]; }
+    app.querySelectorAll("[data-limit]").forEach(function (b) {
+      b.addEventListener("click", function () { var pp = pById(b.dataset.pid); pp.limit = +b.dataset.limit; saveState(pp); render(); });
+    });
+    app.querySelectorAll("[data-extra]").forEach(function (b) {
+      b.addEventListener("click", function () { var pp = pById(b.dataset.extra); pp.usage[today()] = Math.max(0, usedToday(pp) - 600); saveState(pp); toast("10 minutes ajoutées."); render(); });
+    });
+    app.querySelectorAll("[data-delrw]").forEach(function (b) {
+      b.addEventListener("click", function () { var pp = pById(b.dataset.pid); pp.rewards = pp.rewards.filter(function (r) { return r.id !== b.dataset.delrw; }); saveState(pp); render(); });
+    });
+    app.querySelectorAll(".reward-form").forEach(function (f) {
+      f.querySelectorAll(".rw-cost").forEach(function (b) { b.addEventListener("click", function () { f.querySelectorAll(".rw-cost").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); }); });
+      f.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var t = f.querySelector("input").value.trim().slice(0, 50);
+        if (!t) { toast("Écrivez le cadeau."); return; }
+        var c = +(f.querySelector('.rw-cost[aria-pressed="true"]') || {}).dataset.cost || 10;
+        var pp = pById(f.dataset.pid);
+        pp.rewards.push({ id: "r" + Date.now().toString(36), titre: t, ico: "🎁", cout: c }); saveState(pp); toast("Cadeau ajouté."); render();
+      });
     });
     app.querySelectorAll("[data-reset]").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -916,6 +1127,11 @@
       });
       [l, r].forEach(function (s) { s.days.forEach(function (d) { days[d] = 1; }); });
       l.name = newer.name; l.age = newer.age; l.avatar = newer.avatar;
+      l.limit = newer.limit; l.rewards = newer.rewards; l.errs = newer.errs || {};
+      var claimed = {}; [l, r].forEach(function (s) { s.claimed.forEach(function (c) { claimed[c.id + "@" + c.t] = c; }); });
+      l.claimed = Object.keys(claimed).map(function (k) { return claimed[k]; }).sort(function (x, y) { return x.t - y.t; });
+      var usage = {}; [l, r].forEach(function (s) { for (var d in s.usage) usage[d] = Math.max(usage[d] || 0, s.usage[d]); });
+      l.usage = usage;
       l.deleted = !!(l.deleted || r.deleted);
       l.spoke = !!(l.spoke || r.spoke);
       l.resume = newer.resume || null;
@@ -1004,13 +1220,17 @@
   function start() {
     fetch("../contenu/cours.json").then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (data) {
       cours = data;
-      cours.modules.forEach(function (m) { m.lecons.forEach(function (l) { lessonIndex[l.id] = l; allLessons.push(l.id); }); });
+      cours.modules.forEach(function (m) { m.lecons.forEach(function (l) {
+        lessonIndex[l.id] = l; allLessons.push(l.id);
+        l.items.forEach(function (it, i) { it._lid = l.id; it._idx = i; });
+      }); });
       stack = [{ screen: "profiles", args: {} }];
       if (profile()) stack.push({ screen: "home", args: {} });
       render();
       pullAndRefresh();
     }).catch(function () {
-      app.innerHTML = bubble("Oups ! Les leçons n'ont pas pu être chargées.", "think") + "<div class='actions center'><button class='btn focusable' type='button' onclick='location.reload()'>Réessayer</button></div>";
+      app.innerHTML = bubble("Oups ! Les leçons n'ont pas pu être chargées.", "think") + "<div class='actions center'><button class='btn focusable' type='button' id='reload'>Réessayer</button></div>";
+      document.getElementById("reload").addEventListener("click", function () { location.reload(); });
     });
   }
   if ("serviceWorker" in navigator && location.protocol === "https:" && location.hostname !== "appassets.androidplatform.net") {

@@ -37,6 +37,15 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/champion.mp3 | Quel champion ! | kɛl ʃɑ̃pjˈɔ̃! | dictionnaire |
 | ui/pause.mp3 | C'est fini pour aujourd'hui. Bravo pour ton travail ! On se retrouve demain. | sɛ finˈi puʁ oʒuʁdyˈi.bʁavˈo puʁ tɔ̃ tʁavˈaj!ɔ̃ sə- ʁətʁˈuv dəmˈɛ̃. | dictionnaire |
 | ui/presque-fini.mp3 | Encore une petite leçon, et c'est la pause ! | ɑ̃kˌɔʁ yn pətˈit ləsˈɔ̃, e sɛ la- pˈoz! | dictionnaire |
+| ui/inscription.mp3 | Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge. | avˌɛk papˈa, mamˈɑ̃, u œ̃n adˈylt: apyˈi syʁ lə- mikʁˈo, e dˈi tɔ̃ pʁenˈɔ̃ e tɔ̃n ˈaːʒ. | dictionnaire |
+| ui/inscription-ecrit.mp3 | Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal. | avˌɛk œ̃n adˈylt, ekʁˈi tɔ̃ pʁenˈɔ̃, pyˈi ʃwazˈi tɔ̃n ˈaːʒ e tɔ̃n animˈal. | dictionnaire |
+| ui/compris.mp3 | J'ai compris ! C'est bien ça ? | ʒe kɔ̃pʁˈi!sɛ bjˈɛ̃ sˈa? | dictionnaire |
+| ui/pas-compris.mp3 | Je n'ai pas bien compris. Tu peux répéter, ou demander à un adulte de l'écrire. | ʒə- ne pa bjˈɛ̃ kɔ̃pʁˈi.ty pˈø ʁepetˈe, u dəmɑ̃dˈe a œ̃n adˈylt də- lekʁˈiʁ. | dictionnaire |
+| ui/animal.mp3 | Maintenant, choisis ton animal. | mɛ̃tnˈɑ̃, ʃwazˈi tɔ̃n animˈal. | dictionnaire |
+| ui/cadeau.mp3 | Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman ! | bʁavˈo!ty a ɡanjˈe œ̃ kadˈo.mˈɔ̃tʁlə- a papˈa u mamˈɑ̃! | dictionnaire |
+| ui/cadeaux.mp3 | Voici tes cadeaux. Gagne des étoiles pour les débloquer ! | vwasˌi te- kadˈo.ɡˈaɲ de-z etwˈal puʁ le- deblokˈe! | dictionnaire |
+| ui/revision.mp3 | On révise les petites erreurs. C'est comme ça qu'on devient fort ! | ɔ̃ ʁevˈiz le- pətˈitz ɛʁˈœʁ.sɛ kɔm sa kɔ̃ dəvjˈɛ̃ fˈɔʁ! | dictionnaire |
+| ui/revision-fin.mp3 | Super ! Tes erreurs sont corrigées. | sypˈɛʁ!te-z ɛʁˈœʁ sˈɔ̃ koʁiʒˈe. | dictionnaire |
 | prenoms/maelo.mp3 | Maëlo, | maelˈo, | imposée |
 | titres/M1.mp3 | Les lettres. | le- lˈɛtʁ. | dictionnaire |
 | titres/L1.mp3 | Les voyelles. | le- vwajˈɛl. | dictionnaire |
