@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Icône Les Petits Lecteurs : fond vert plein (opaque), livre-mascotte souriant -->
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ee02a"/><stop offset="1" stop-color="#58cc02"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#fond)"/>
+  <circle cx="512" cy="560" r="360" fill="#ffffff" opacity=".12"/>
+  <ellipse cx="512" cy="860" rx="270" ry="34" fill="#3d8f00" opacity=".35"/>
+  <!-- livre -->
+  <path d="M190 300 Q512 210 834 300 L834 760 Q512 670 190 760 Z" fill="#ffffff"/>
+  <path d="M190 760 Q512 670 834 760 L834 812 Q512 722 190 812 Z" fill="#d9f5c3"/>
+  <path d="M512 250 L512 720" stroke="#c8ecb0" stroke-width="22" stroke-linecap="round"/>
+  <!-- yeux -->
+  <circle cx="390" cy="440" r="70" fill="#3c3c3c"/><circle cx="634" cy="440" r="70" fill="#3c3c3c"/>
+  <circle cx="412" cy="414" r="24" fill="#fff"/><circle cx="656" cy="414" r="24" fill="#fff"/>
+  <!-- joues et sourire -->
+  <circle cx="300" cy="560" r="42" fill="#ff9aa2"/><circle cx="724" cy="560" r="42" fill="#ff9aa2"/>
+  <path d="M410 560 Q512 660 614 560" stroke="#3c3c3c" stroke-width="34" fill="none" stroke-linecap="round"/>
+  <!-- lettre A -->
+  <g transform="translate(700 150) rotate(12)">
+    <rect x="-95" y="-95" width="190" height="190" rx="46" fill="#ffc800"/>
+    <rect x="-95" y="-95" width="190" height="178" rx="46" fill="#ffd84a"/>
+    <path d="M-48 52 L0 -58 L48 52 M-28 12 H28" stroke="#3c3c3c" stroke-width="26" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

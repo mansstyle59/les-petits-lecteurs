@@ -54,8 +54,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete essai --yes --cleanup-tag || true
-          gh release create essai dist/les-petits-lecteurs.apk \
-            --target "${GITHUB_SHA}" --prerelease \
-            --title "Version d'essai" \
-            --notes "Une seule application pour téléphone, tablette et Android TV : les-petits-lecteurs.apk. Elle se met à jour toute seule depuis Internet : inutile de la réinstaller pour les nouvelles leçons ou corrections."
+          gh release view essai >/dev/null 2>&1 || gh release create essai --prerelease --title "Version d'essai" --notes "Applications Les Petits Lecteurs."
+          gh release upload essai dist/les-petits-lecteurs.apk --clobber

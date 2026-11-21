@@ -1,0 +1,58 @@
+name: Construire l'IPA iOS
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "ios"
+  cancel-in-progress: true
+
+jobs:
+  ipa:
+    runs-on: macos-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer XcodeGen
+        run: brew install xcodegen
+
+      - name: Copier l'application web dans l'IPA
+        run: |
+          mkdir -p ios/www
+          cp -R index.html app contenu audio apple-touch-icon.png icon-192.png icon-512.png ios/www/
+
+      - name: Générer le projet Xcode
+        run: cd ios && xcodegen generate
+
+      - name: Compiler (sans signature, pour ESign / KSign / AltStore)
+        run: |
+          cd ios
+          xcodebuild -project PetitsLecteurs.xcodeproj -scheme PetitsLecteurs -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SYMROOT="$PWD/build" build | tail -40
+
+      - name: Créer l'IPA
+        run: |
+          mkdir -p dist/Payload
+          cp -R ios/build/Release-iphoneos/PetitsLecteurs.app dist/Payload/
+          cd dist && zip -qry les-petits-lecteurs.ipa Payload && ls -la
+
+      - name: Conserver l'IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa-les-petits-lecteurs
+          path: dist/les-petits-lecteurs.ipa
+
+      - name: Publier dans la version d'essai
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view essai >/dev/null 2>&1 || gh release create essai --prerelease --title "Version d'essai" --notes "Applications Les Petits Lecteurs."
+          gh release upload essai dist/les-petits-lecteurs.ipa --clobber

@@ -1,0 +1,40 @@
+name: PetitsLecteurs
+options:
+  bundleIdPrefix: fr.lespetitslecteurs
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  PetitsLecteurs:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Resources/Assets.xcassets
+      - path: www
+        type: folder
+        buildPhase: resources
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: Petits Lecteurs
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen:
+          UIColorName: LaunchBg
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIStatusBarStyle: UIStatusBarStyleDarkContent
+        UIViewControllerBasedStatusBarAppearance: false
+        NSMicrophoneUsageDescription: "Le micro sert à l'exercice de parole : ton enfant répète les sons et les mots. Sa voix n'est jamais envoyée ni conservée."
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fr.lespetitslecteurs.app
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CURRENT_PROJECT_VERSION: "1"
+        CODE_SIGNING_ALLOWED: "NO"
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_IDENTITY: ""

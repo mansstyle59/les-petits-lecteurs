@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <!-- Bannière Android TV (16:9) -->
+  <rect width="1280" height="720" fill="#58cc02"/>
+  <rect y="640" width="1280" height="80" fill="#58a700"/>
+  <g id="m" transform="translate(80 110) scale(.48)">
+    <path d="M190 300 Q512 210 834 300 L834 760 Q512 670 190 760 Z" fill="#ffffff"/>
+    <path d="M512 250 L512 720" stroke="#c8ecb0" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="390" cy="440" r="70" fill="#3c3c3c"/><circle cx="634" cy="440" r="70" fill="#3c3c3c"/>
+    <circle cx="412" cy="414" r="24" fill="#fff"/><circle cx="656" cy="414" r="24" fill="#fff"/>
+    <circle cx="300" cy="560" r="42" fill="#ff9aa2"/><circle cx="724" cy="560" r="42" fill="#ff9aa2"/>
+    <path d="M410 560 Q512 660 614 560" stroke="#3c3c3c" stroke-width="34" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="590" y="330" font-family="Nunito, Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" font-size="118" fill="#ffffff">Les Petits</text>
+  <text x="590" y="470" font-family="Nunito, Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" font-size="118" fill="#ffffff">Lecteurs</text>
+  <text x="594" y="560" font-family="Nunito, Arial, sans-serif" font-weight="800" font-size="46" fill="#eaffd9">J'apprends à lire en jouant</text>
+</svg>
