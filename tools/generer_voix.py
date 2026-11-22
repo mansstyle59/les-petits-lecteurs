@@ -73,7 +73,7 @@ PHRASES_API = {
 PRENOMS_API = {"maelo": "maelˈo,"}
 
 UI = {
-    "bravo": "Bravo !", "super": "Super, tu as trouvé !", "encore": "Essaie encore.", "etoile": "Tu as gagné des étoiles !",
+    "bravo": "Bravo !", "super": "Super, tu as trouvé !", "encore": "Allez, essaie encore !", "etoile": "Tu as gagné des étoiles !",
     "fin": "Bravo ! Tu as fini la leçon.", "choisis-lecon": "Choisis une leçon.", "qui-joue": "Qui joue aujourd'hui ?",
     "decouvre": "Touche une carte pour écouter.", "jouer": "À toi de jouer !", "ecoute": "Écoute bien.",
     "bienvenue": "Bienvenue chez les Petits Lecteurs !", "ajoute-profil": "Écris ton prénom, puis choisis ton animal.",
@@ -98,6 +98,8 @@ UI = {
     "cadeau": "Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman !",
     "cadeaux": "Voici tes cadeaux. Gagne des étoiles pour les débloquer !",
     "revision": "On révise les petites erreurs. C'est comme ça qu'on devient fort !",
+    "memory-intro": "Retourne deux cartes. Trouve chaque lettre avec son image !",
+    "serpent-intro": "Tu es le serpent ! Avec les flèches, va manger la lettre qui fait ce son.",
     "revision-fin": "Super ! Tes erreurs sont corrigées.",
 }
 PRENOMS = {"maelo": "Maëlo,"}

@@ -238,7 +238,7 @@
   }
 
   // ================= Temps de jeu par jour =================
-  var PLAY_SCREENS = { discover: 1, game: 1, speak: 1 };
+  var PLAY_SCREENS = { discover: 1, game: 1, speak: 1, memory: 1, snake: 1 };
   function usedToday(p) { return (p.usage[today()] || 0); }
   function timeLeft(p) { return p.limit ? Math.max(0, p.limit * 60 - usedToday(p)) : Infinity; }
   // Une phrase « répétitive » (pause, presque fini…) n'est dite qu'une fois par jour et par enfant
@@ -817,16 +817,10 @@
     if (cls) { hero.classList.remove("hop", "ouch"); void hero.offsetWidth; hero.classList.add(cls); }
   }
 
-  // ================= Mode jeu : véhicules =================
+  // ================= Mode jeu : le jeu des paires et le serpent des lettres =================
   var ARCADE = {
-    train: { ico: "🚂", titre: "Le train des lettres", desc: "Trouve la lettre qui fait le son.", kind: "lettre", consigneId: "L1",
-      theme: { nom: "Le train", deco: [], but: "🚉", cls: "ferme" } },
-    voiture: { ico: "🚗", titre: "La course des syllabes", desc: "Trouve la syllabe que tu entends.", kind: "syllabe", consigneId: "S1",
-      theme: { nom: "La route", deco: [], but: "🏁", cls: "village" } },
-    fusee: { ico: "🚀", titre: "La fusée des mots", desc: "Trouve l'image du mot.", kind: "mot", consigneId: "W1",
-      theme: { nom: "L'espace", deco: [], but: "🪐", cls: "espace" } },
-    bateau: { ico: "⛵", titre: "Le bateau des sons", desc: "ou, on, an, in, oi, ch…", kind: "son", consigneId: "C1",
-      theme: { nom: "La mer", deco: [], but: "🏝️", cls: "plage" } }
+    memory: { ico: "🃏", titre: "Le jeu des paires", desc: "Retourne les cartes : trouve la lettre et son image.", kind: "lettre" },
+    snake: { ico: "🐍", titre: "Le serpent des lettres", desc: "Avec les flèches, mange la lettre qui fait le son.", kind: "lettre" }
   };
   function arcadePool(p, kind) {
     var seen = {}, out = [];
@@ -845,6 +839,37 @@
     lessonIndex.ARC = { id: "ARC", titre: g.titre, type_jeu: src.type_jeu, consigne: src.consigne, consigneId: g.consigneId, items: pool, pool: pool, theme: g.theme, hero: g.ico };
     go("game", { id: "ARC", arcade: key }, replace);
   }
+  function startArcade(key) { go(key === "snake" ? "snake" : "memory", { arcade: key, level: (profile().gameLevels || {})[key] || 1 }); }
+  // Récompense d'un niveau de jeu : étoiles bonus, 5 niveaux récompensés par jour
+  function gameReward(p, gain) {
+    var dayKey = today(), nb = Object.keys(p.bonus).filter(function (k) { return k.indexOf("jeu-" + dayKey) === 0; }).length;
+    if (nb >= 5) gain = 0;
+    if (gain) p.bonus["jeu-" + dayKey + "-" + Date.now()] = gain;
+    checkTrophies(p); saveState(p);
+    return { gain: gain, capped: nb >= 5 };
+  }
+  function gameLevelDone(p, key, level, gain, capped, detail) {
+    p.gameLevels = p.gameLevels || {};
+    p.gameLevels[key] = Math.max(p.gameLevels[key] || 1, Math.min(level + 1, 8));
+    saveState(p);
+    var bigS = '<div class="big-stars" aria-label="' + gain + ' étoiles bonus">' + [0, 1, 2].map(function (i) { return '<span class="bstar' + (i < gain ? " on" : "") + '" style="animation-delay:' + (i * .25) + 's">★</span>'; }).join("") + "</div>";
+    app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Niveau " + level + " réussi !</h1>" + bigS +
+      "<p class='hint'>" + detail + " " + (gain ? "Tu gagnes " + gain + " étoile" + (gain > 1 ? "s" : "") + " bonus !" : capped ? "Tu as déjà gagné beaucoup d'étoiles en jouant aujourd'hui." : "") + "</p>" +
+      '<div class="actions column"><button class="btn big wide focusable" type="button" id="lvl-next">Niveau ' + (level + 1) + " ▶</button>" +
+      '<button class="btn secondary wide focusable" type="button" id="lvl-again">↻ Rejouer ce niveau</button>' +
+      '<button class="btn secondary wide focusable" type="button" id="lvl-menu">Les jeux</button></div></div>';
+    document.getElementById("lvl-next").addEventListener("click", function () { go(key, { arcade: key, level: level + 1 }, true); });
+    document.getElementById("lvl-again").addEventListener("click", function () { go(key, { arcade: key, level: level }, true); });
+    document.getElementById("lvl-menu").addEventListener("click", back);
+    confetti(gain ? 180 : 90);
+    play(gain ? ["ui/super-prenom.mp3"].concat(nameAudio(p)).concat(["ui/etoile.mp3"]) : ["ui/bravo.mp3"]);
+    focusFirst("#lvl-next");
+  }
+  function pickDistinct(list, n, keyFn) {
+    var seen = {}, out = [];
+    shuffle(list.slice()).forEach(function (it) { var k = keyFn(it); if (!seen[k] && out.length < n) { seen[k] = 1; out.push(it); } });
+    return out;
+  }
   SCREENS.arcade = function () {
     var p = profile();
     setTop("Jeux", true);
@@ -854,19 +879,150 @@
       document.getElementById("menu").addEventListener("click", back);
       return focusFirst("#menu");
     }
+    var lv = p.gameLevels || {};
     var html = bubble("À quoi on joue, " + esc(p.name) + " ?", "happy") + '<div class="gifts arcade">';
     Object.keys(ARCADE).forEach(function (k) {
-      var g = ARCADE[k], n = arcadePool(p, g.kind).length, ok = n >= 4;
-      html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-k="' + k + '"' + (ok ? "" : ' aria-disabled="true"') + '><span class="gift-ico" aria-hidden="true">' + g.ico + "</span><strong>" + g.titre + "</strong><span class='hint'>" + (ok ? g.desc : "🔒 Avance sur ton chemin pour l'ouvrir") + "</span></button>";
+      var g = ARCADE[k];
+      html += '<button class="gift ready focusable" type="button" data-k="' + k + '"><span class="gift-ico" aria-hidden="true">' + g.ico + "</span><strong>" + g.titre + "</strong><span class='hint'>" + g.desc + "</span><span class='gift-tag'>Niveau " + (lv[k] || 1) + "</span></button>";
     });
-    app.innerHTML = html + "</div><p class='hint center'>" + (p.gameLimit ? "🎮 Encore " + Math.ceil(gameLeft(p) / 60) + " min de jeux aujourd'hui. " : "") + "Chaque partie sans faute rapporte 3 étoiles bonus (5 parties récompensées par jour).</p>";
-    app.querySelectorAll(".gift").forEach(function (b) {
+    app.innerHTML = html + "</div><p class='hint center'>" + (p.gameLimit ? "🎮 Encore " + Math.ceil(gameLeft(p) / 60) + " min de jeux aujourd'hui. " : "") + "Chaque niveau réussi rapporte des étoiles bonus.</p>";
+    app.querySelectorAll(".gift").forEach(function (b) { b.addEventListener("click", function () { startArcade(b.dataset.k); }); });
+    if (isTV) focusFirst(".gift");
+  };
+
+  // ---- Le jeu des paires (memory) : la lettre et son image, puis le mot et son image ----
+  SCREENS.memory = function (a) {
+    var p = profile(), level = a.level || 1;
+    setTop("Le jeu des paires · niveau " + level, true);
+    var nPairs = [3, 4, 5, 6, 6, 8, 8, 8][Math.min(level, 8) - 1];
+    var mots = arcadePool(p, "mot").filter(function (it) { return it.illustration; });
+    var useWords = level >= 4 && mots.length >= nPairs;
+    var src = useWords ? mots : arcadePool(p, "lettre").filter(function (it) { return it.illustration; });
+    var items = pickDistinct(src, nPairs, function (it) { return it.illustration; });
+    nPairs = items.length;
+    var cards = [];
+    items.forEach(function (it, i) {
+      cards.push({ i: i, face: useWords ? esc(it.mot) : esc(it.lettre_majuscule + " " + it.lettre_minuscule), kind: "txt" });
+      cards.push({ i: i, face: it.illustration, kind: "img" });
+    });
+    cards = shuffle(cards);
+    var cols = cards.length <= 6 ? 3 : 4;
+    var html = '<p class="hint center">' + (useWords ? "Trouve chaque mot avec son image." : "Trouve chaque lettre avec son image.") + ' <span id="mem-count">0 / ' + nPairs + ' paires</span></p><div class="memory" style="--cols:' + cols + '">';
+    cards.forEach(function (c, k) {
+      html += '<button class="mem-card focusable" type="button" data-k="' + k + '" data-p="' + c.i + '" aria-label="Carte cachée"><span class="mem-back" aria-hidden="true">❓</span><span class="mem-face ' + c.kind + '" aria-hidden="true">' + c.face + "</span></button>";
+    });
+    app.innerHTML = html + "</div>";
+    var open = [], found = 0, tries = 0, wait = false;
+    app.querySelectorAll(".mem-card").forEach(function (b) {
       b.addEventListener("click", function () {
-        if (b.getAttribute("aria-disabled")) { toast("Avance encore un peu sur ton chemin !"); return; }
-        startArcade(b.dataset.k);
+        var c = cards[+b.dataset.k];
+        if (wait || b.classList.contains("shown") || b.classList.contains("found")) return;
+        b.classList.add("shown"); b.setAttribute("aria-label", c.kind === "txt" ? "Carte " + (useWords ? items[c.i].mot : items[c.i].lettre_majuscule) : "Image");
+        var it = items[c.i];
+        if (c.kind === "txt") play(useWords ? ["mots/" + it.mot + ".mp3"] : ["lettres/question-" + it.lettre_minuscule + ".mp3"]);
+        else if (useWords) play(["mots/" + it.mot + ".mp3"]);
+        open.push(b);
+        if (open.length < 2) return;
+        tries++;
+        var c1 = cards[+open[0].dataset.k], c2 = cards[+open[1].dataset.k];
+        if (c1.i === c2.i && c1.kind !== c2.kind) {
+          open.forEach(function (x) { x.classList.add("found"); });
+          open = []; found++;
+          document.getElementById("mem-count").textContent = found + " / " + nPairs + " paires";
+          confetti(40);
+          play(useWords ? ["ui/bravo.mp3", "mots/" + it.mot + ".mp3"] : ["ui/bravo.mp3", "lettres/phrase-" + items[c1.i].lettre_minuscule + ".mp3"], function () {
+            if (found === nPairs) {
+              var gain = tries <= nPairs + 1 ? 3 : tries <= nPairs * 2 ? 2 : 1, r = gameReward(p, gain);
+              gameLevelDone(p, "memory", level, r.gain, r.capped, "Tu as trouvé les " + nPairs + " paires en " + tries + " essais.");
+            }
+          });
+        } else {
+          wait = true;
+          setTimeout(function () { open.forEach(function (x) { x.classList.remove("shown"); x.setAttribute("aria-label", "Carte cachée"); }); open = []; wait = false; }, 1300);
+        }
       });
     });
-    if (isTV) focusFirst(".gift.ready");
+    play(["ui/memory-intro.mp3"]);
+    focusFirst(".mem-card");
+  };
+
+  // ---- Le serpent des lettres : il se déplace case par case avec les flèches ----
+  SCREENS.snake = function (a) {
+    var p = profile(), level = a.level || 1;
+    setTop("Le serpent · niveau " + level, true);
+    var size = [5, 5, 6, 6, 7, 7, 8, 8][Math.min(level, 8) - 1], need = 5, onBoard = [3, 3, 4, 4, 4, 5, 5, 5][Math.min(level, 8) - 1];
+    var syl = arcadePool(p, "syllabe");
+    var useSyl = level >= 5 && syl.length >= 8;
+    var pool = useSyl ? syl : arcadePool(p, "lettre").filter(function (it) { return it.lettre_minuscule !== "h"; });
+    function key(it) { return useSyl ? it.syllabe_tts : (it.son_tts || it.lettre_minuscule); }
+    function label(it) { return useSyl ? esc(it.affiche || it.syllabe_tts) : esc(it.lettre_minuscule); }
+    function audio(it) { return useSyl ? ["syllabes/" + it.syllabe_tts + ".mp3"] : ["lettres/question-" + it.lettre_minuscule + ".mp3"]; }
+    var mid = Math.floor(size / 2), snake = [{ x: 0, y: mid }], tiles = [], target = null, eaten = 0, errors = 0, done = false;
+    function free(x, y) { return !snake.some(function (c) { return c.x === x && c.y === y; }) && !tiles.some(function (t) { return t.x === x && t.y === y; }); }
+    function spawn(it) {
+      var cells = [];
+      for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) if (free(x, y) && Math.abs(x - snake[0].x) + Math.abs(y - snake[0].y) > 1) cells.push({ x: x, y: y });
+      if (!cells.length) return;
+      var c = cells[Math.floor(Math.random() * cells.length)]; tiles.push({ x: c.x, y: c.y, it: it });
+    }
+    function fill() {
+      var have = {}; tiles.forEach(function (t) { have[key(t.it)] = 1; });
+      pickDistinct(pool.filter(function (it) { return !have[key(it)]; }), onBoard - tiles.length, key).forEach(spawn);
+    }
+    function newTarget() { target = tiles[Math.floor(Math.random() * tiles.length)].it; }
+    fill(); newTarget();
+    function draw() {
+      var h = '<div class="snake-top"><button class="listen focusable small-listen" type="button" id="snk-listen" data-t="' + esc(label(target)) + '" aria-label="Réécouter">🔊</button><span class="snake-score">🍎 ' + eaten + " / " + need + "</span></div>" +
+        '<div class="snake-grid" style="--n:' + size + '">';
+      for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) {
+        var si = -1; snake.forEach(function (c, i) { if (c.x === x && c.y === y) si = i; });
+        var t = tiles.filter(function (q) { return q.x === x && q.y === y; })[0];
+        h += '<span class="snk-cell' + (si === 0 ? " head" : si > 0 ? " body" : "") + '">' + (si === 0 ? "🐍" : t ? '<b class="snk-tile">' + label(t.it) + "</b>" : "") + "</span>";
+      }
+      h += '</div><p class="snake-tv-hint">Utilise les flèches de la télécommande pour guider le serpent.</p><div class="snake-pad" aria-label="Flèches"><button class="pad focusable" type="button" data-d="ArrowUp" aria-label="Haut">⬆️</button>' +
+        '<button class="pad focusable" type="button" data-d="ArrowLeft" aria-label="Gauche">⬅️</button><button class="pad focusable" type="button" data-d="ArrowDown" aria-label="Bas">⬇️</button>' +
+        '<button class="pad focusable" type="button" data-d="ArrowRight" aria-label="Droite">➡️</button></div>';
+      app.innerHTML = h;
+      document.getElementById("snk-listen").addEventListener("click", function () { play(audio(target)); });
+      app.querySelectorAll(".pad").forEach(function (b) { b.addEventListener("click", function () { move(b.dataset.d); }); });
+    }
+    function move(d) {
+      if (done) return;
+      var hd = snake[0], nx = hd.x + (d === "ArrowLeft" ? -1 : d === "ArrowRight" ? 1 : 0), ny = hd.y + (d === "ArrowUp" ? -1 : d === "ArrowDown" ? 1 : 0);
+      if (nx < 0 || ny < 0 || nx >= size || ny >= size) return;
+      if (snake.slice(0, -1).some(function (c) { return c.x === nx && c.y === ny; })) return;
+      snake.unshift({ x: nx, y: ny });
+      var t = tiles.filter(function (q) { return q.x === nx && q.y === ny; })[0];
+      if (t && key(t.it) === key(target)) {
+        tiles.splice(tiles.indexOf(t), 1); eaten++;
+        if (eaten >= need) {
+          done = true; draw(); setLeave(null);
+          var r = gameReward(p, bonusFor(errors));
+          return setTimeout(function () { gameLevelDone(p, "snake", level, r.gain, r.capped, "Ton serpent a mangé " + need + " bonnes réponses" + (errors ? ", avec " + errors + " erreur" + (errors > 1 ? "s" : "") + "." : " sans erreur !")); }, 600);
+        }
+        fill(); newTarget(); draw(); confetti(30);
+        play(["ui/bravo.mp3"].concat(audio(target)));
+      } else {
+        snake.pop();
+        if (t) { errors++; tiles.splice(tiles.indexOf(t), 1); spawn(t.it); draw(); play(["ui/encore.mp3"].concat(audio(target))); }
+        else draw();
+      }
+      var hb = document.querySelector(isTV ? "#snk-listen" : '.pad[data-d="' + d + '"]'); if (hb && isTV) hb.focus({ preventScroll: true });
+    }
+    function setLeave(fn) { window.__lplArrow = fn; }
+    setLeave(move);
+    leaveHook = function () { setLeave(null); };
+    var sx = 0, sy = 0;
+    app.addEventListener("touchstart", function (e) { if (!e.target.closest(".snake-grid")) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    app.addEventListener("touchend", function (e) {
+      if (!e.target.closest(".snake-grid") || done || stack[stack.length - 1].screen !== "snake") return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+      move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "ArrowRight" : "ArrowLeft") : (dy > 0 ? "ArrowDown" : "ArrowUp"));
+    }, { passive: true });
+    draw();
+    play(["ui/serpent-intro.mp3"].concat(audio(target)));
+    if (isTV) focusFirst("#snk-listen");
   };
 
   SCREENS.game = function (a) {
@@ -1625,6 +1781,7 @@
       [l, r].forEach(function (s) { s.days.forEach(function (d) { days[d] = 1; }); });
       l.name = newer.name; l.age = newer.age; l.avatar = newer.avatar;
       l.limit = newer.limit; l.gameLimit = newer.gameLimit;
+      var gl = {}; [l, r].forEach(function (s) { for (var g in (s.gameLevels || {})) gl[g] = Math.max(gl[g] || 0, s.gameLevels[g]); }); l.gameLevels = gl;
       var gu = {}; [l, r].forEach(function (s) { for (var d in (s.gameUsage || {})) gu[d] = Math.max(gu[d] || 0, s.gameUsage[d]); }); l.gameUsage = gu; l.rewards = newer.rewards; l.errs = newer.errs || {};
       var claimed = {}; [l, r].forEach(function (s) { s.claimed.forEach(function (c) { claimed[c.id + "@" + c.t] = c; }); });
       l.claimed = Object.keys(claimed).map(function (k) { return claimed[k]; }).sort(function (x, y) { return x.t - y.t; });
@@ -1709,6 +1866,7 @@
   document.addEventListener("keydown", function (e) {
     var k = e.key, typing = document.activeElement && document.activeElement.tagName === "INPUT";
     if (busy && (k === "Enter" || k === " ") && app.contains(document.activeElement)) { e.preventDefault(); return; }
+    if (/^Arrow/.test(k) && window.__lplArrow && stack[stack.length - 1] && stack[stack.length - 1].screen === "snake") { e.preventDefault(); window.__lplArrow(k); return; }
     if (/^Arrow/.test(k)) {
       if (typing && (k === "ArrowLeft" || k === "ArrowRight")) return;
       e.preventDefault(); moveFocus(k);

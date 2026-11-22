@@ -580,3 +580,43 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12
 .arcade .gift .hint{font-size:.85rem;margin:2px 0 0}
 .mode-tv .arcade{grid-template-columns:repeat(4,minmax(0,1fr))}
 .center{text-align:center}
+
+/* ---------- Jeu des paires ---------- */
+.memory{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:10px;max-width:560px;margin:8px auto 0}
+.mem-card{position:relative;aspect-ratio:3/4;border-radius:18px;border:2px solid var(--line);border-bottom-width:6px;background:var(--blue);color:#fff;font:inherit;cursor:pointer;display:grid;place-items:center;padding:4px;transition:background .2s,transform .15s}
+.mem-card .mem-back{font-size:clamp(26px,8vw,44px)}
+.mem-card .mem-face{display:none;color:var(--ink);font-weight:900;line-height:1.1;text-align:center;overflow-wrap:anywhere}
+.mem-face.img{font-size:clamp(34px,11vw,60px)}
+.mem-face.txt{font-size:clamp(22px,7vw,38px)}
+.mem-card.shown,.mem-card.found{background:#fff;border-color:var(--line)}
+.mem-card.shown .mem-back,.mem-card.found .mem-back{display:none}
+.mem-card.shown .mem-face,.mem-card.found .mem-face{display:block}
+.mem-card.found{background:#d7ffb8;border-color:var(--green)}
+.mem-card:focus-visible{outline:4px solid var(--yellow-deep);outline-offset:3px}
+.mode-tv .memory{max-width:none;grid-template-columns:repeat(calc(var(--cols) * 2),minmax(0,1fr));gap:1.2vw}
+.mode-tv .mem-card{aspect-ratio:auto;height:24vh}
+.mode-tv .mem-face.img{font-size:9vh}.mode-tv .mem-face.txt{font-size:6vh}.mode-tv .mem-back{font-size:7vh}
+
+/* ---------- Serpent des lettres ---------- */
+.snake-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.small-listen{width:56px;height:56px;font-size:1.6rem}
+.snake-score{font-weight:900;font-size:1.2rem}
+.snake-grid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px;width:min(100%,460px);margin:0 auto;padding:6px;border-radius:18px;background:#d7f5c0;border:2px solid #a8dc84;touch-action:none}
+.snk-cell{aspect-ratio:1;border-radius:10px;background:#effbe6;display:grid;place-items:center;font-size:clamp(18px,6vw,30px)}
+.snk-cell.body{background:var(--green);box-shadow:inset 0 -4px 0 rgba(0,0,0,.15)}
+.snk-cell.head{background:#7ad83a}
+.snk-tile{font-weight:900;color:var(--ink);font-size:clamp(20px,6.5vw,34px)}
+.snake-pad{display:grid;grid-template-columns:repeat(3,72px);grid-template-rows:repeat(2,64px);gap:8px;justify-content:center;margin-top:12px}
+.snake-pad .pad{font-size:1.8rem;border-radius:16px;border:2px solid var(--line);border-bottom-width:5px;background:#fff;cursor:pointer}
+.snake-pad .pad[data-d="ArrowUp"]{grid-column:2;grid-row:1}
+.snake-pad .pad[data-d="ArrowLeft"]{grid-column:1;grid-row:2}
+.snake-pad .pad[data-d="ArrowDown"]{grid-column:2;grid-row:2}
+.snake-pad .pad[data-d="ArrowRight"]{grid-column:3;grid-row:2}
+.mode-tv .snake-grid{width:min(62vh,100%)}
+.mode-tv .snk-tile{font-size:4.5vh}.mode-tv .snk-cell{font-size:4vh}
+.mode-tv .snake-pad{grid-template-columns:repeat(3,9vh);grid-template-rows:repeat(2,8vh)}
+.mode-tv .snake-pad{display:none}
+.mode-tv .snake-top{margin-top:1vh}
+.mode-tv .snake-grid{width:min(70vh,100%)}
+.snake-tv-hint{display:none;text-align:center;font-weight:800;color:var(--ink-soft);margin-top:1vh}
+.mode-tv .snake-tv-hint{display:block}

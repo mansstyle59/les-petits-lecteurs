@@ -550,5 +550,13 @@
   "entendu": "Un cheveux",
   "score": 1.0,
   "fichier_verifie": true
+ },
+ "ui/encore": {
+  "api": "esˈɛ ɑ̃kˈɔʁ.",
+  "ls": 1.0,
+  "source": "Essaie encore.",
+  "entendu": "Et c'est encore.",
+  "score": 0.88,
+  "fichier_verifie": true
  }
 }

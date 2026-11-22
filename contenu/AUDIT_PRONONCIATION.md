@@ -51,6 +51,8 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/cadeau.mp3 | Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman ! | bʁavˈo!ty a ɡanjˈe œ̃ kadˈo.mˈɔ̃tʁlə- a papˈa u mamˈɑ̃! | dictionnaire |
 | ui/cadeaux.mp3 | Voici tes cadeaux. Gagne des étoiles pour les débloquer ! | vwasˌi te- kadˈo.ɡˈaɲ de-z etwˈal puʁ le- deblokˈe! | dictionnaire |
 | ui/revision.mp3 | On révise les petites erreurs. C'est comme ça qu'on devient fort ! | ɔ̃ ʁevˈiz le- pətˈitz ɛʁˈœʁ.sɛ kɔm sa kɔ̃ dəvjˈɛ̃ fˈɔʁ! | dictionnaire |
+| ui/memory-intro.mp3 | Retourne deux cartes. Trouve chaque lettre avec son image ! | ʁətˈuʁn dˈø kˈaʁt.tʁˈuv ʃak lˈɛtʁ avˌɛk sɔ̃n imˈaʒ! | dictionnaire |
+| ui/serpent-intro.mp3 | Tu es le serpent ! Avec les flèches, va manger la lettre qui fait ce son. | ty ɛ lə- sɛʁpˈɑ̃!avˌɛk le- flˈɛʃ, vˈa mɑ̃ʒˈe la- lˈɛtʁ ki fˈɛ sə- sˈɔ̃. | dictionnaire |
 | ui/revision-fin.mp3 | Super ! Tes erreurs sont corrigées. | sypˈɛʁ!te-z ɛʁˈœʁ sˈɔ̃ koʁiʒˈe. | dictionnaire |
 | prenoms/maelo.mp3 | Maëlo, | maelˈo, | imposée |
 | titres/M1.mp3 | Les lettres. | le- lˈɛtʁ. | dictionnaire |
