@@ -67,7 +67,8 @@
   "ls": 1.0,
   "source": "Le loup a vu un mouton.",
   "entendu": "Le loup a vu un mouton.",
-  "score": 1.0
+  "score": 1.0,
+  "fichier_verifie": true
  },
  "syllabes/son": {
   "api": "sˈɔ̃.",
@@ -370,10 +371,10 @@
   "fichier_verifie": true
  },
  "mots/feu": {
-  "api": "œ̃ fˈø.",
-  "ls": 1.0,
-  "source": "Un feu.",
-  "entendu": "un feu",
+  "api": "lə- fˈø.",
+  "ls": 1.15,
+  "source": "Le feu.",
+  "entendu": "Le feu.",
   "score": 1.0,
   "fichier_verifie": true
  },
@@ -909,6 +910,37 @@
   "source": "La poule et l'œuf d'or.",
   "entendu": "La poule est l'oeuf d'or.",
   "score": 0.9,
+  "fichier_verifie": true
+ },
+ "mots/papa": {
+  "api": "papˈa!",
+  "ls": 1.0,
+  "source": "Papa !",
+  "entendu": "Papa.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/moto": {
+  "api": "yn motˈo.",
+  "ls": 1.0,
+  "source": "Une moto.",
+  "entendu": "Une moto",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "ui/q-mot": {
+  "api": "lˈi sə- mˈo.",
+  "ls": 1.15,
+  "source": "Lis ce mot.",
+  "entendu": "Lis-s-mous",
+  "score": 0.73
+ },
+ "ui/comme-dans": {
+  "api": "kɔm dˈɑ̃: ",
+  "ls": 1.0,
+  "source": "Comme dans :",
+  "entendu": "Comme dans.",
+  "score": 1.0,
   "fichier_verifie": true
  }
 }
