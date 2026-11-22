@@ -45,11 +45,14 @@ jobs:
       - name: Contrôler les fichiers audio générés
         run: python tools/auditer_voix_duo.py
 
-      - name: Enregistrer les audios et rapports sur la branche
+      - name: Régénérer la version et le cache hors connexion
+        run: python tools/build_sw.py
+
+      - name: Enregistrer les audios, rapports et cache sur la branche
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audio/ui contenu/AUDIT_VOIX_DUO.md contenu/AUDIT_RECONNAISSANCE_VOIX_DUO.md
+          git add audio/ui contenu/AUDIT_VOIX_DUO.md contenu/AUDIT_RECONNAISSANCE_VOIX_DUO.md app/index.html version.json sw.js
           if git diff --cached --quiet; then
             echo "Aucun changement audio à enregistrer."
           else
