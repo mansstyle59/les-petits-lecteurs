@@ -566,3 +566,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12
 .chip.sync.ok{color:var(--green-deep,#58a700)}.chip.sync.err{color:#d33}
 .mode-tv .question .hint{margin-top:2.5vh}
 .step-row{grid-template-columns:minmax(0,1fr) auto}.step-name{grid-column:1/-1;white-space:normal}
+
+.map-tile.now{background:#fff;outline:3px dashed var(--blue);outline-offset:-3px}
+.map-syl{font-size:clamp(11px,2.8vw,18px);font-weight:900;color:var(--ink)}
+.mode-tv .map-syl{font-size:3vh}

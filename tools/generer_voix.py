@@ -73,7 +73,7 @@ PHRASES_API = {
 PRENOMS_API = {"maelo": "maelˈo,"}
 
 UI = {
-    "bravo": "Bravo !", "super": "Super, tu as trouvé !", "encore": "Essaie encore.", "etoile": "Tu as gagné une étoile !",
+    "bravo": "Bravo !", "super": "Super, tu as trouvé !", "encore": "Essaie encore.", "etoile": "Tu as gagné des étoiles !",
     "fin": "Bravo ! Tu as fini la leçon.", "choisis-lecon": "Choisis une leçon.", "qui-joue": "Qui joue aujourd'hui ?",
     "decouvre": "Touche une carte pour écouter.", "jouer": "À toi de jouer !", "ecoute": "Écoute bien.",
     "bienvenue": "Bienvenue chez les Petits Lecteurs !", "ajoute-profil": "Écris ton prénom, puis choisis ton animal.",
@@ -89,7 +89,7 @@ UI = {
     "comme-dans": "comme dans",
     "jai-entendu": "J'ai entendu :", "ecoute-bien": "Écoute bien, on dit :", "reessaie": "À toi, essaie encore !",
     "repete": "À toi, répète !",
-    "rate": "Oh, il y a eu des erreurs. Ce n'est pas encore bien : tu n'as pas gagné d'étoile cette fois. Écoute bien, et recommence pour les gagner !",
+    "rate": "Oh, il y a eu trop d'erreurs. Pas d'étoile cette fois. Écoute bien, et recommence !",
     "inscription": "Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge.",
     "inscription-ecrit": "Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal.",
     "compris": "J'ai compris ! C'est bien ça ?",
@@ -141,7 +141,9 @@ for k, t in PRENOMS.items(): synth(OUT / "prenoms" / f"{k}.mp3", t, PRENOMS_API.
 for m in cours["modules"]:
     synth(OUT / "titres" / f"{m['id']}.mp3", m["titre"] + ".")
     for l in m["lecons"]:
-        synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"].replace(":", ",").replace(" h, q", " ache, ku").replace(" x, y, w", " ixe, i grec, double vé") + ".")
+        TITRE_API = {"C3": "le sˈɔ̃, ˈɑ̃, ˈɛ̃, e wˈa.", "C4": "mˈo avˈɛk ˈɑ̃, ˈɛ̃, e wˈa.", "D3": "le sˈɔ̃, ɲə, ijə, e fə."}
+        if l["id"] in TITRE_API: synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"], TITRE_API[l["id"]])
+        else: synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"].replace(":", ",").replace(" h, q", " ache, ku").replace(" x, y, w", " ixe, i grec, double vé") + ".")
         synth(OUT / "consignes" / f"{l['id']}.mp3", l["consigne"])
         for i, it in enumerate(l["items"]):
             if "lettre_minuscule" in it:

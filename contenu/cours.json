@@ -653,10 +653,6 @@
             {
               "affiche": "go",
               "syllabe_tts": "go"
-            },
-            {
-              "affiche": "gu",
-              "syllabe_tts": "gu"
             }
           ],
           "reussite": "Assembler 5 syllabes sans aide.",

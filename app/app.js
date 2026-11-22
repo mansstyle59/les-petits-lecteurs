@@ -299,15 +299,15 @@
   }
   function itemKey(it) { return it.lettre_minuscule || it.syllabe_tts || it.mot || it.phrase; }
   function nextLessonFor(p) {
-    if (p.resume && lessonIndex[p.resume.id]) return p.resume.id;
-    for (var i = 0; i < allLessons.length; i++) if ((p.stars[allLessons[i]] || 0) < 3) return allLessons[i];
-    return allLessons[0];
+    // « Jouer » mène toujours à la leçon la plus avancée pas encore réussie (jamais à une leçon déjà faite)
+    for (var i = 0; i < allLessons.length; i++) if (!(p.stars[allLessons[i]] > 0)) return allLessons[i];
+    return allLessons[allLessons.length - 1];
   }
   function isUnlocked(p, id) {
     var i = allLessons.indexOf(id);
     if (i <= 0) return true;
     if (p.stars[id] || (p.resume && p.resume.id === id)) return true;
-    return (p.stars[allLessons[i - 1]] || 0) >= 3;
+    return (p.stars[allLessons[i - 1]] || 0) >= 1;
   }
   function nextLesson(id) {
     var i = allLessons.indexOf(id);
@@ -347,10 +347,13 @@
   }
 
   // ================= Trophées =================
+  // Barème : 0 faute = 3 étoiles · 1 ou 2 fautes = 2 étoiles · 3 ou 4 fautes = 1 étoile · 5 fautes ou plus = 0 (on recommence).
+  // Une leçon est réussie (et ouvre la suivante) dès 1 étoile.
+  function starsFor(errors) { return errors === 0 ? 3 : errors <= 2 ? 2 : errors <= 4 ? 1 : 0; }
   function doneCount(p) { return Object.keys(p.stars).filter(function (k) { return p.stars[k] > 0; }).length; }
   function moduleDone(p, mid) {
     var m = cours.modules.filter(function (x) { return x.id === mid; })[0];
-    return m && m.lecons.every(function (l) { return (p.stars[l.id] || 0) >= 3; });
+    return m && m.lecons.every(function (l) { return (p.stars[l.id] || 0) >= 1; });
   }
   var TROPHIES = [
     { id: "premiere", ico: "🥇", titre: "Première leçon", desc: "Tu as fini ta première leçon.", test: function (p) { return doneCount(p) >= 1; } },
@@ -750,10 +753,17 @@
     for (var i = 0; i < cours.modules.length; i++) if (cours.modules[i].lecons.some(function (x) { return x.id === l.id; })) return MAP_THEMES[i % MAP_THEMES.length];
     return MAP_THEMES[0];
   }
-  function mapHTML(th, steps, pos, avatar) {
+  // Chaque case = une question : vide (?) tant qu'elle n'est pas trouvée, puis l'image (ou la syllabe) de la bonne réponse
+  function tileFace(it) {
+    if (!it) return "";
+    if (it.illustration) return it.illustration;
+    return '<b class="map-syl">' + esc(it.syllabe || it.syllabe_tts || itemKey(it)) + "</b>";
+  }
+  function mapHTML(th, steps, pos, avatar, faces, answered) {
     var h = '<div class="advmap map-' + th.cls + '" role="img" aria-label="' + esc(th.nom) + " : case " + pos + " sur " + steps + '"><div class="map-track">';
     for (var i = 0; i <= steps; i++) {
-      h += '<span class="map-tile' + (i < pos ? " passed" : "") + (i === steps ? " goal" : "") + '"><span class="map-deco" aria-hidden="true">' + (i === steps ? th.but : th.deco[i % th.deco.length]) + "</span></span>";
+      var face = i === steps ? th.but : i < answered ? faces[i] : i === answered ? "❓" : "";
+      h += '<span class="map-tile' + (i < pos ? " passed" : "") + (i === answered ? " now" : "") + (i === steps ? " goal" : "") + '"><span class="map-deco" aria-hidden="true">' + face + "</span></span>";
     }
     return h + '</div><span class="map-hero" aria-hidden="true" style="--pos:' + pos + ";--steps:" + steps + '">' + avatar + "</span></div>";
   }
@@ -805,7 +815,8 @@
       }).slice(0, 3);
       var opts = shuffle([it].concat(others));
       var showText = l.type_jeu === "image_vers_mot" ? esc(it.mot) : l.type_jeu === "lecture_phrase" ? esc(it.phrase) : "";
-      var html = '<div class="game">' + mapHTML(mapTheme(l), order.length, Math.max(0, step - errors), p.avatar) +
+      var faces = order.map(function (k) { return tileFace(l.items[k]); });
+      var html = '<div class="game">' + mapHTML(mapTheme(l), order.length, Math.max(0, step - errors), p.avatar, faces, step) +
         '<div class="question">' + mascot("think") + (showText ? '<div class="target">' + showText + "</div>" : "") +
         '<button class="listen focusable" type="button" id="listen" aria-label="Réécouter">🔊</button><p class="hint">' + esc(l.consigne) + "</p></div>" +
         '<div class="choices">';
@@ -822,6 +833,7 @@
             locked = true;
             if (a.review && p.errs[itemKey(it)]) { delete p.errs[itemKey(it)]; }
             b.classList.add("good");
+            var nowT = app.querySelector(".map-tile.now .map-deco"); if (nowT) nowT.innerHTML = tileFace(it);
             moveHero(Math.max(0, step + 1 - errors), "hop");
             fb.className = "footer-feedback show good";
             fb.innerHTML = "<strong>Bravo " + esc(p.name) + " !</strong>";
@@ -857,7 +869,7 @@
         if (isTV) focusFirst();
         return play(nameAudio(p).concat(["ui/revision-fin.mp3"]));
       }
-      var stars = errors === 0 ? 3 : 0;   // les étoiles se gagnent avec un sans-faute
+      var stars = starsFor(errors);
       p.stars[l.id] = Math.max(p.stars[l.id] || 0, stars);
       p.resume = null;
       markToday(p);
@@ -1133,7 +1145,7 @@
   SCREENS.result = function (a) {
     var l = findLesson(a.id), p = profile();
     setTop(l.titre, true);
-    var reussi = a.stars >= 3;
+    var reussi = a.stars >= 1;
     var fresh = reussi ? checkTrophies(p) : [];
     if (fresh.length) saveState(p);
     var next = nextLesson(l.id), nextL = next && findLesson(next);
@@ -1142,7 +1154,8 @@
     var html;
     if (reussi) {
       html = '<div class="result">' + mascot("happy") + "<h1>Super " + esc(p.name) + " !</h1>" + starsHtml +
-        "<p class='hint'>Sans aucune faute : tu gagnes les 3 étoiles !</p>";
+        "<p class='hint'>" + (a.stars === 3 ? "Sans aucune faute : tu gagnes les 3 étoiles !" :
+          "Tu as fait " + a.errors + " erreur" + (a.errors > 1 ? "s" : "") + " : tu gagnes " + a.stars + " étoile" + (a.stars > 1 ? "s" : "") + " et tu passes à la suite. Rejoue sans faute pour avoir les 3 étoiles !") + "</p>";
       fresh.forEach(function (t) {
         html += '<div class="trophy-won"><span class="trophy-ico" aria-hidden="true">' + t.ico + '</span><div><strong>Nouveau trophée : ' + esc(t.titre) + "</strong><span>" + esc(t.desc) + "</span></div></div>";
       });
@@ -1152,8 +1165,8 @@
     } else {
       // Des erreurs : pas d'étoile. On le dit clairement, puis on encourage à recommencer.
       html = '<div class="result">' + mascot("think") + "<h1>Pas encore, " + esc(p.name) + " !</h1>" + starsHtml +
-        "<p class='hint'>Tu as fait " + a.errors + " erreur" + (a.errors > 1 ? "s" : "") + ". Ce n'est pas encore bien : tu n'as pas gagné d'étoile cette fois. " +
-        "Pour gagner les 3 étoiles et passer à la suite, il faut tout bon. Écoute bien et recommence !</p>" +
+        "<p class='hint'>Tu as fait " + a.errors + " erreurs. C'est un peu trop : pas d'étoile cette fois. " +
+        "Pour passer à la suite, il faut 4 erreurs au maximum. Écoute bien et recommence !</p>" +
         '<div class="actions column"><button class="btn big wide focusable" type="button" id="again">↻ Recommencer</button>' +
         '<button class="btn secondary wide focusable" type="button" id="review-lesson">Revoir les cartes</button>' +
         '<button class="btn secondary wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
@@ -1185,9 +1198,9 @@
   SCREENS.progress = function () {
     var p = profile();
     setTop("Mes progrès", true);
-    var reussies = allLessons.filter(function (id) { return (p.stars[id] || 0) >= 3; }).length;
+    var reussies = allLessons.filter(function (id) { return (p.stars[id] || 0) >= 1; }).length;
     var lettres = 0;
-    allLessons.forEach(function (id) { var l = lessonIndex[id]; if ((p.stars[id] || 0) >= 3) lettres += l.items.filter(function (x) { return x.lettre_minuscule; }).length; });
+    allLessons.forEach(function (id) { var l = lessonIndex[id]; if ((p.stars[id] || 0) >= 1) lettres += l.items.filter(function (x) { return x.lettre_minuscule; }).length; });
     var jours = p.days.length, serie = streak(p), aReviser = Object.keys(p.errs).length;
     var html = bubble(reussies ? "Regarde tout ce que tu as appris !" : "Fais ta première leçon pour voir tes progrès !", "happy") +
       '<div class="stats">' +
@@ -1198,7 +1211,7 @@
       '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">📅</span><strong>' + jours + "</strong><span>jour" + (jours > 1 ? "s" : "") + " de lecture</span></div>" +
       '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">🔁</span><strong>' + aReviser + "</strong><span>à réviser</span></div></div><h2>Mes étapes</h2><div class='steps-progress'>";
     cours.modules.forEach(function (m, mi) {
-      var ok = m.lecons.filter(function (l) { return (p.stars[l.id] || 0) >= 3; }).length;
+      var ok = m.lecons.filter(function (l) { return (p.stars[l.id] || 0) >= 1; }).length;
       html += '<div tabindex="0" class="step-row focusable unit-' + (mi % 4) + '"><span class="step-name">Étape ' + (mi + 1) + " · " + esc(m.titre) + '</span><span class="step-bar"><span style="width:' + (ok / m.lecons.length * 100) + '%"></span></span><span class="step-count">' + ok + "/" + m.lecons.length + "</span></div>";
     });
     app.innerHTML = html + "</div>";

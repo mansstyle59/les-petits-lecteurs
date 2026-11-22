@@ -8,7 +8,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/bravo.mp3 | Bravo ! | bʁavˈo! | dictionnaire |
 | ui/super.mp3 | Super, tu as trouvé ! | sypˈɛʁ, ty a tʁuvˈe! | dictionnaire |
 | ui/encore.mp3 | Essaie encore. | esˈɛ ɑ̃kˈɔʁ. | dictionnaire |
-| ui/etoile.mp3 | Tu as gagné une étoile ! | ty a ɡanjˈe yn etwˈal! | dictionnaire |
+| ui/etoile.mp3 | Tu as gagné des étoiles ! | ty a ɡanjˈe de-z etwˈal! | dictionnaire |
 | ui/fin.mp3 | Bravo ! Tu as fini la leçon. | bʁavˈo!ty a finˈi la- ləsˈɔ̃. | dictionnaire |
 | ui/choisis-lecon.mp3 | Choisis une leçon. | ʃwazˈiʲ yn ləsˈɔ̃. | dictionnaire |
 | ui/qui-joue.mp3 | Qui joue aujourd'hui ? | ki ʒˈu oʒuʁdyˈi? | dictionnaire |
@@ -42,7 +42,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/ecoute-bien.mp3 | Écoute bien, on dit : | ekˈut bjˈɛ̃, ɔ̃ dˈi:  | dictionnaire |
 | ui/reessaie.mp3 | À toi, essaie encore ! | a twˈa, esˈɛ ɑ̃kˈɔʁ! | dictionnaire |
 | ui/repete.mp3 | À toi, répète ! | a twˈa, ʁepˈɛt! | dictionnaire |
-| ui/rate.mp3 | Oh, il y a eu des erreurs. Ce n'est pas encore bien : tu n'as pas gagné d'étoile cette fois. Écoute bien, et recommence pour les gagner ! | ˈɔ, il iʲ a y de-z ɛʁˈœʁ.sə- nɛ paz ɑ̃kˌɔʁ bjˈɛ̃: ty na pa ɡanjˈe detwˈal sɛt fwˈa.ekˈut bjˈɛ̃, e ʁəkɔmˈɑ̃s puʁ le- ɡanjˈe! | dictionnaire |
+| ui/rate.mp3 | Oh, il y a eu trop d'erreurs. Pas d'étoile cette fois. Écoute bien, et recommence ! | ˈɔ, il iʲ a y tʁo dɛʁˈœʁ.pa detwˈal sɛt fwˈa.ekˈut bjˈɛ̃, e ʁəkɔmˈɑ̃s! | dictionnaire |
 | ui/inscription.mp3 | Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge. | avˌɛk papˈa, mamˈɑ̃, u œ̃n adˈylt: apyˈi syʁ lə- mikʁˈo, e dˈi tɔ̃ pʁenˈɔ̃ e tɔ̃n ˈaːʒ. | dictionnaire |
 | ui/inscription-ecrit.mp3 | Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal. | avˌɛk œ̃n adˈylt, ekʁˈi tɔ̃ pʁenˈɔ̃, pyˈi ʃwazˈi tɔ̃n ˈaːʒ e tɔ̃n animˈal. | dictionnaire |
 | ui/compris.mp3 | J'ai compris ! C'est bien ça ? | ʒe kɔ̃pʁˈi!sɛ bjˈɛ̃ sˈa? | dictionnaire |
@@ -121,80 +121,14 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | titres/M2.mp3 | Les syllabes. | le- silˈab. | dictionnaire |
 | titres/S1.mp3 | Syllabes avec m. | silˈab avˌɛk ˈɛm. | dictionnaire |
 | consignes/S1.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| syllabes/ma.mp3 | [syllabe ma] | mˈaː | imposée |
-| syllabes/me.mp3 | [syllabe me] | mˈəː | imposée |
-| syllabes/mi.mp3 | [syllabe mi] | mˈiː | imposée |
-| syllabes/mo.mp3 | [syllabe mo] | mˈoː | imposée |
-| syllabes/mu.mp3 | [syllabe mu] | mˈyː | imposée |
 | titres/S2.mp3 | Syllabes avec l et r. | silˈab avˌɛk ˈɛl e ˈɛʁ. | dictionnaire |
 | consignes/S2.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| syllabes/la.mp3 | [syllabe la] | lˈaː | imposée |
-| syllabes/le.mp3 | [syllabe le] | lˈəː | imposée |
-| syllabes/li.mp3 | [syllabe li] | lˈiː | imposée |
-| syllabes/lo.mp3 | [syllabe lo] | lˈoː | imposée |
-| syllabes/lu.mp3 | [syllabe lu] | lˈyː | imposée |
-| syllabes/ra.mp3 | [syllabe ra] | ʁˈaː | imposée |
-| syllabes/re.mp3 | [syllabe re] | ʁˈəː | imposée |
-| syllabes/ri.mp3 | [syllabe ri] | ʁˈiː | imposée |
-| syllabes/ro.mp3 | [syllabe ro] | ʁˈoː | imposée |
-| syllabes/ru.mp3 | [syllabe ru] | ʁˈyː | imposée |
 | titres/S3.mp3 | Syllabes avec p, t, b, d. | silˈab avˌɛk pˈe, tˈe, bˈe, dˈe. | dictionnaire |
 | consignes/S3.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| syllabes/pa.mp3 | [syllabe pa] | pˈaː | imposée |
-| syllabes/pe.mp3 | [syllabe pe] | pˈəː | imposée |
-| syllabes/pi.mp3 | [syllabe pi] | pˈiː | imposée |
-| syllabes/po.mp3 | [syllabe po] | pˈoː | imposée |
-| syllabes/pu.mp3 | [syllabe pu] | pˈyː | imposée |
-| syllabes/ta.mp3 | [syllabe ta] | tˈaː | imposée |
-| syllabes/te.mp3 | [syllabe te] | tˈəː | imposée |
-| syllabes/ti.mp3 | [syllabe ti] | tˈiː | imposée |
-| syllabes/to.mp3 | [syllabe to] | tˈoː | imposée |
-| syllabes/tu.mp3 | [syllabe tu] | tˈyː | imposée |
-| syllabes/ba.mp3 | [syllabe ba] | bˈaː | imposée |
-| syllabes/be.mp3 | [syllabe be] | bˈəː | imposée |
-| syllabes/bi.mp3 | [syllabe bi] | bˈiː | imposée |
-| syllabes/bo.mp3 | [syllabe bo] | bˈoː | imposée |
-| syllabes/bu.mp3 | [syllabe bu] | bˈyː | imposée |
-| syllabes/da.mp3 | [syllabe da] | dˈaː | imposée |
-| syllabes/de.mp3 | [syllabe de] | dˈəː | imposée |
-| syllabes/di.mp3 | [syllabe di] | dˈiː | imposée |
-| syllabes/do.mp3 | [syllabe do] | dˈoː | imposée |
-| syllabes/du.mp3 | [syllabe du] | dˈyː | imposée |
 | titres/S4.mp3 | Syllabes avec f, s, v, j. | silˈab avˌɛk ˈɛf, ˈɛs, vˈe, ʒˈi. | dictionnaire |
 | consignes/S4.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| syllabes/fa.mp3 | [syllabe fa] | fˈaː | imposée |
-| syllabes/fe.mp3 | [syllabe fe] | fˈəː | imposée |
-| syllabes/fi.mp3 | [syllabe fi] | fˈiː | imposée |
-| syllabes/fo.mp3 | [syllabe fo] | fˈoː | imposée |
-| syllabes/fu.mp3 | [syllabe fu] | fˈyː | imposée |
-| syllabes/sa.mp3 | [syllabe sa] | sˈaː | imposée |
-| syllabes/se.mp3 | [syllabe se] | sˈəː | imposée |
-| syllabes/si.mp3 | [syllabe si] | sˈiː | imposée |
-| syllabes/so.mp3 | [syllabe so] | sˈoː | imposée |
-| syllabes/su.mp3 | [syllabe su] | sˈyː | imposée |
-| syllabes/va.mp3 | [syllabe va] | vˈaː | imposée |
-| syllabes/ve.mp3 | [syllabe ve] | vˈəː | imposée |
-| syllabes/vi.mp3 | [syllabe vi] | vˈiː | imposée |
-| syllabes/vo.mp3 | [syllabe vo] | vˈoː | imposée |
-| syllabes/vu.mp3 | [syllabe vu] | vˈyː | imposée |
-| syllabes/ja.mp3 | [syllabe ja] | ʒˈaː | imposée |
-| syllabes/je.mp3 | [syllabe je] | ʒˈəː | imposée |
-| syllabes/ji.mp3 | [syllabe ji] | ʒˈiː | imposée |
-| syllabes/jo.mp3 | [syllabe jo] | ʒˈoː | imposée |
-| syllabes/ju.mp3 | [syllabe ju] | ʒˈyː | imposée |
 | titres/S5.mp3 | Syllabes avec n, c, g. | silˈab avˌɛk ˈɛn, sˈe, ʒˈe. | dictionnaire |
 | consignes/S5.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| syllabes/na.mp3 | [syllabe na] | nˈaː | imposée |
-| syllabes/ne.mp3 | [syllabe ne] | nˈəː | imposée |
-| syllabes/ni.mp3 | [syllabe ni] | nˈiː | imposée |
-| syllabes/no.mp3 | [syllabe no] | nˈoː | imposée |
-| syllabes/nu.mp3 | [syllabe nu] | nˈyː | imposée |
-| syllabes/ca.mp3 | [syllabe ca] | kˈaː | imposée |
-| syllabes/co.mp3 | [syllabe co] | kˈoː | imposée |
-| syllabes/cu.mp3 | [syllabe cu] | kˈyː | imposée |
-| syllabes/ga.mp3 | [syllabe ga] | ɡˈaː | imposée |
-| syllabes/go.mp3 | [syllabe go] | ɡˈoː | imposée |
-| syllabes/gu.mp3 | [syllabe gu] | ɡˈyː | imposée |
 | titres/M3.mp3 | Les premiers mots. | le- pʁəmjˈe mˈo. | dictionnaire |
 | titres/W1.mp3 | Premiers mots avec m, l, r, s. | pʁəmjˈe mˈo avˌɛk ˈɛm, ˈɛl, ˈɛʁ, ˈɛs. | dictionnaire |
 | consignes/W1.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
@@ -234,14 +168,6 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | titres/M5.mp3 | Les sons magiques. | le- sˈɔ̃ maʒˈik. | dictionnaire |
 | titres/C1.mp3 | Les sons ou et on. | le- sˈɔ̃ u e ˈɔ̃. | dictionnaire |
 | consignes/C1.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
-| syllabes/ou.mp3 | [syllabe ou] | ˈu | imposée |
-| syllabes/on.mp3 | [syllabe on] | ˈɔ̃ | imposée |
-| syllabes/mou.mp3 | [syllabe mou] | mˈu | imposée |
-| syllabes/lou.mp3 | [syllabe lou] | lˈu | imposée |
-| syllabes/pou.mp3 | [syllabe pou] | pˈu | imposée |
-| syllabes/son.mp3 | [syllabe son] | sˈɔ̃. | imposée |
-| syllabes/bon.mp3 | [syllabe bon] | bˈɔ̃ | imposée |
-| syllabes/non.mp3 | [syllabe non] | nˈɔ̃. | imposée |
 | titres/C2.mp3 | Mots avec ou et on. | mˈo avˌɛk u e ˈɔ̃. | dictionnaire |
 | consignes/C2.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/loup.mp3 | Loup. | lə- lˈu. | imposée |
@@ -250,15 +176,9 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/ballon.mp3 | Ballon. | balˈɔ̃. | dictionnaire |
 | mots/bonbon.mp3 | Bonbon. | œ̃ bɔ̃bˈɔ̃. | imposée |
 | mots/pont.mp3 | Pont. | œ̃ pˈɔ̃. | imposée |
-| titres/C3.mp3 | Les sons an, in et oi. | le- sˈɔ̃z ˈɑ̃, ɪn e wˈa. | dictionnaire |
+| titres/C3.mp3 | Les sons an, in et oi | le sˈɔ̃, ˈɑ̃, ˈɛ̃, e wˈa. | imposée |
 | consignes/C3.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
-| syllabes/an.mp3 | [syllabe an] | ˈɑ̃ | imposée |
-| syllabes/in.mp3 | [syllabe in] | ˈɛ̃ | imposée |
-| syllabes/oi.mp3 | [syllabe oi] | wˈa | imposée |
-| syllabes/fin.mp3 | [syllabe fin] | fˈɛ̃. | imposée |
-| syllabes/moi.mp3 | [syllabe moi] | mwˈa | imposée |
-| syllabes/toi.mp3 | [syllabe toi] | twˈa | imposée |
-| titres/C4.mp3 | Mots avec an, in et oi. | mˈo avˌɛk ˈɑ̃, ɪn e wˈa. | dictionnaire |
+| titres/C4.mp3 | Mots avec an, in et oi | mˈo avˈɛk ˈɑ̃, ˈɛ̃, e wˈa. | imposée |
 | consignes/C4.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/lapin.mp3 | Lapin. | œ̃ lapˈɛ̃. | imposée |
 | mots/sapin.mp3 | Sapin. | sapˈɛ̃. | dictionnaire |
@@ -268,13 +188,6 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/maman.mp3 | Maman. | mamˈɑ̃. | dictionnaire |
 | titres/C5.mp3 | Les sons ch, eau et ai. | le- sˈɔ̃ sˌeˈaʃ, ˈo e ˈe. | dictionnaire |
 | consignes/C5.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
-| syllabes/cha.mp3 | [syllabe cha] | ʃˈa | imposée |
-| syllabes/chi.mp3 | [syllabe chi] | ʃˈi | imposée |
-| syllabes/cho.mp3 | [syllabe cho] | ʃˈo | imposée |
-| syllabes/eau.mp3 | [syllabe eau] | ˈo | imposée |
-| syllabes/ai.mp3 | [syllabe ai] | ˈɛ | imposée |
-| syllabes/lai.mp3 | [syllabe lai] | lˈɛ | imposée |
-| syllabes/mai.mp3 | [syllabe mai] | mˈɛ | imposée |
 | titres/C6.mp3 | Mots avec ch, eau et ai. | mˈo avˌɛk sˌeˈaʃ, ˈo e ˈe. | dictionnaire |
 | consignes/C6.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/château.mp3 | Château. | ʃatˈo. | imposée |
@@ -316,7 +229,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/cœur.mp3 | Cœur. | œ̃ kˈœʁ. | imposée |
 | mots/neuf.mp3 | Neuf. | lə- nˈœf. | imposée |
 | mots/jeu.mp3 | Jeu. | œ̃ ʒˈø. | imposée |
-| titres/D3.mp3 | Les sons gn, ill et ph. | le- sˈɔ̃ ʒˌeˈɛn, ˈɪl e pˌeˈaʃ. | dictionnaire |
+| titres/D3.mp3 | Les sons gn, ill et ph | le sˈɔ̃, ɲə, ijə, e fə. | imposée |
 | consignes/D3.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/montagne.mp3 | Montagne. | yn mɔ̃tˈaɲ. | imposée |
 | mots/champignon.mp3 | Champignon. | œ̃ ʃɑ̃pinjˈɔ̃. | imposée |
