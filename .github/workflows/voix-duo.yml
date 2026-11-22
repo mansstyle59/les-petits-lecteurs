@@ -34,13 +34,26 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install piper-tts numpy faster-whisper
 
-      - name: Télécharger les deux voix Piper françaises
+      - name: Télécharger et vérifier les deux voix Piper françaises
         run: |
-          mkdir -p /tmp/voices
-          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx -o /tmp/voices/fr_FR-siwis-medium.onnx
-          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json -o /tmp/voices/fr_FR-siwis-medium.onnx.json
-          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx -o /tmp/voices/fr_FR-upmc-medium.onnx
-          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx.json -o /tmp/voices/fr_FR-upmc-medium.onnx.json
+          python - <<'PY'
+          from huggingface_hub import hf_hub_download
+          from pathlib import Path
+          import shutil
+          out = Path("/tmp/voices")
+          out.mkdir(parents=True, exist_ok=True)
+          files = [
+              "fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx",
+              "fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json",
+              "fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx",
+              "fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx.json",
+          ]
+          for name in files:
+              source = hf_hub_download(repo_id="rhasspy/piper-voices", filename=name)
+              destination = out / Path(name).name
+              shutil.copy2(source, destination)
+              print(f"Downloaded {destination.name}: {destination.stat().st_size} bytes")
+          PY
           echo "20e876e8c839e9b11a26085858f2300c  /tmp/voices/fr_FR-siwis-medium.onnx" | md5sum -c -
           echo "6837ede9408c7e1b39fa4a126af9e865  /tmp/voices/fr_FR-upmc-medium.onnx" | md5sum -c -
 
