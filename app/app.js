@@ -318,6 +318,12 @@
     var said = it && it.lettre_minuscule ? ["lettres/nom-" + it.lettre_minuscule + ".mp3"] : it && it.syllabe_tts ? ["syllabes/" + it.syllabe_tts + ".mp3"] : it && it.mot ? ["mots/" + it.mot + ".mp3"] : null;
     return said ? ["ui/touche.mp3"].concat(said, ["ui/pas-bon.mp3"], again) : ["ui/encore.mp3"].concat(again);
   }
+  var SOUND_ALIAS = { y: "i", c: "k", q: "k", w: "v" };
+  function sameSound(a, b) {
+    if (!a.lettre_minuscule || !b.lettre_minuscule) return false;
+    var x = SOUND_ALIAS[a.lettre_minuscule] || a.lettre_minuscule, y = SOUND_ALIAS[b.lettre_minuscule] || b.lettre_minuscule;
+    return x === y;
+  }
   function itemKey(it) { return it.lettre_minuscule || it.syllabe_tts || it.mot || it.phrase; }
   function nextLessonFor(p) {
     // « Jouer » mène toujours à la leçon la plus avancée pas encore réussie (jamais à une leçon déjà faite)
@@ -367,7 +373,13 @@
     if (!best) return null;
     var pool = [];
     allLessons.forEach(function (id) { var l = lessonIndex[id]; if (l.type_jeu === best.l.type_jeu) pool = pool.concat(l.items); });
-    lessonIndex.REV = { id: "REV", titre: "Révisions", type_jeu: best.l.type_jeu, consigne: best.l.consigne, items: best.items, pool: pool, objectif: "Revoir les erreurs." };
+    // Les erreurs d'abord, puis d'autres éléments déjà vus du même type pour faire une vraie partie (6 questions différentes)
+    var items = best.items.slice(), have = {};
+    items.forEach(function (it) { have[itemKey(it)] = 1; });
+    shuffle(pool.filter(function (it) { return isUnlocked(p, it._lid) && !have[itemKey(it)]; })).forEach(function (it) {
+      if (items.length < 6 && !have[itemKey(it)]) { have[itemKey(it)] = 1; items.push(it); }
+    });
+    lessonIndex.REV = { id: "REV", titre: "Révisions", type_jeu: best.l.type_jeu, consigne: best.l.consigne, items: items, pool: pool, objectif: "Revoir les erreurs." };
     return lessonIndex.REV;
   }
 
@@ -1124,13 +1136,12 @@
     var pool = poolFor(l);
     var order, step = 0, errors = 0, locked = false;
     if (a.resume && p.resume && p.resume.id === l.id && Array.isArray(p.resume.order) && p.resume.order.length) {
-      order = p.resume.order.filter(function (i) { return i < l.items.length; });
+      order = p.resume.order.filter(function (i, k, arr) { return i < l.items.length && arr.indexOf(i) === k; });   // sans doublon
       step = Math.min(p.resume.step || 0, order.length - 1); errors = p.resume.errors || 0;
     } else {
       var idxs = l.items.map(function (_, i) { return i; });
       // Chaque question est différente (pas de répétition) ; 8 questions au plus
-      order = shuffle(idxs).slice(0, 8);
-      if (order.length < 5) order = order.concat(shuffle(idxs)).slice(0, 5);
+      order = shuffle(idxs).slice(0, 8);   // jamais deux fois la même question dans une partie
     }
     function saveResume() {
       if (a.review || a.arcade) { saveState(p); return; }
@@ -1146,6 +1157,8 @@
       var cands = pool.filter(function (x) {
         if (itemKey(x) === itemKey(it)) return false;
         if (it.son_tts !== undefined && x.son_tts === it.son_tts) return false; // c, k et q font tous « ke »
+        if (sameSound(x, it)) return false;                                   // i/y, c/k/q, v/w : même son, donc pas de piège
+        if (it.illustration && x.illustration === it.illustration) return false; // deux réponses avec la même image : ambigu
         return true;
       });
       var tk = String(itemKey(it));
