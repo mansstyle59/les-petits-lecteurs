@@ -239,6 +239,12 @@
   var PLAY_SCREENS = { discover: 1, game: 1, speak: 1 };
   function usedToday(p) { return (p.usage[today()] || 0); }
   function timeLeft(p) { return p.limit ? Math.max(0, p.limit * 60 - usedToday(p)) : Infinity; }
+  // Une phrase « répétitive » (pause, presque fini…) n'est dite qu'une fois par jour et par enfant
+  function onceToday(p, what) {
+    var k = "lpl.dit." + p.id + "." + what, d = today();
+    try { if (localStorage.getItem(k) === d) return false; localStorage.setItem(k, d); return true; }
+    catch (e) { if (window[k] === d) return false; window[k] = d; return true; }
+  }
   function timeUp(p) { return p.limit > 0 && timeLeft(p) <= 0; }
   setInterval(function () {
     var top = stack[stack.length - 1], p = profile();
@@ -643,8 +649,8 @@
       });
     });
     var homeVoice = ["ui/bonjour.mp3"].concat(nameAudio(p));
-    if (timeUp(p)) homeVoice.push("ui/pause.mp3");
-    else if (p.limit && timeLeft(p) < 4 * 60) homeVoice.push("ui/presque-fini.mp3");
+    if (timeUp(p)) { if (onceToday(p, "pause")) homeVoice.push("ui/pause.mp3"); }
+    else if (p.limit && timeLeft(p) < 4 * 60) { if (onceToday(p, "presque")) homeVoice.push("ui/presque-fini.mp3"); }
     else homeVoice.push("ui/choisis-lecon.mp3");
     var helloKey = "lpl.hello." + p.id, saidToday = false;
     try { saidToday = localStorage.getItem(helloKey) === today(); } catch (e) { saidToday = !!window["__lplSaid" + p.id]; }
@@ -652,7 +658,7 @@
       window["__lplSaid" + p.id] = true;
       try { localStorage.setItem(helloKey, today()); } catch (e) {}
       play(homeVoice);
-    } else if (timeUp(p)) play(["ui/pause.mp3"]);   // au retour sur l'accueil : pas de nouveau « bonjour »
+    } else if (timeUp(p) && onceToday(p, "pause")) play(["ui/pause.mp3"]);   // au retour sur l'accueil : rien n'est répété
   };
   // Route qui serpente d'une leçon à l'autre (dessinée d'après la position réelle des leçons)
   function drawRoad() {
@@ -1268,12 +1274,12 @@
       voice = ["ui/super-prenom.mp3"].concat(nameAudio(p)).concat(["ui/fin.mp3", "ui/etoile.mp3"]);
       if (fresh.length) voice.push("ui/trophee.mp3");
       if (timeUp(p)) {
-        voice.push("ui/pause.mp3");
+        if (onceToday(p, "pause")) voice.push("ui/pause.mp3");
         var nb = document.getElementById("next"); if (nb) nb.outerHTML = '<div class="time-left">⏱ Temps de jeu terminé pour aujourd\'hui. À demain !</div>';
       } else if (next) voice.push("ui/prochaine.mp3");
     } else {
       voice = nameAudio(p).concat(["ui/rate.mp3"]);
-      if (timeUp(p)) voice.push("ui/pause.mp3");
+      if (timeUp(p) && onceToday(p, "pause")) voice.push("ui/pause.mp3");
     }
     play(voice);
   };
@@ -1431,7 +1437,7 @@
     document.getElementById("gifts2").addEventListener("click", function () { go("gifts", {}, true); });
     var r2 = document.getElementById("rev2"); if (r2) r2.addEventListener("click", function () { if (reviewLesson(p)) go("game", { id: "REV", review: true }, true); });
     document.getElementById("menu").addEventListener("click", back);
-    play(nameAudio(p).concat(["ui/pause.mp3"]));
+    if (onceToday(p, "pause")) play(nameAudio(p).concat(["ui/pause.mp3"]));
   };
 
   // ---- Espace parents ----
