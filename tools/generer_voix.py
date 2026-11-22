@@ -119,7 +119,7 @@ def to_wav(phonemes, path_wav, cfg=None, voice=None, speaker_id=None):
     import numpy as np
     pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
     with wave.open(str(path_wav), "wb") as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(v.config.sample_rate); w.writeframes(pcm)
+        w.setnchannels(1); w.setsampwidth(2); w.setframerate(voice.config.sample_rate); w.writeframes(pcm)
 
 def text_phonemes(text):
     out = []
