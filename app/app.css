@@ -65,8 +65,6 @@ button{font:inherit;color:inherit}
 .splash-dots span{width:10px;height:10px;border-radius:50%;background:#fff;animation:dot 1s ease-in-out infinite}
 .splash-dots span:nth-child(2){animation-delay:.15s}.splash-dots span:nth-child(3){animation-delay:.3s}
 @keyframes dot{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
-.mode-tv .splash-logo{width:200px;height:200px}
-.mode-tv .splash-title{font-size:3rem}
 
 /* ---------- Barre du haut : opaque, sous la zone de sécurité ---------- */
 .topbar{
@@ -217,6 +215,14 @@ button{font:inherit;color:inherit}
 .node-label{font-weight:800;font-size:.9rem;color:var(--ink);line-height:1.2;margin-top:6px}
 .node-stars{color:var(--yellow);font-size:.95rem;letter-spacing:.1em}
 
+/* ---------- Route entre les leçons ---------- */
+.path{position:relative}
+.road{position:absolute;left:0;top:0;pointer-events:none;z-index:0;overflow:visible}
+.road .road-bed{fill:none;stroke:#e9ecef;stroke-linecap:round;stroke-linejoin:round}
+.road .road-line{fill:none;stroke:#fff;stroke-linecap:round;stroke-dasharray:.1px 18px}
+.road .road-done{fill:none;stroke:#ffe08a;stroke-linecap:round;stroke-linejoin:round}
+.unit-head,.node-wrap{position:relative;z-index:1}
+
 /* ---------- Trophées ---------- */
 .trophies{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:var(--gap)}
 .trophy{
@@ -239,16 +245,16 @@ button{font:inherit;color:inherit}
 /* ---------- Découverte ---------- */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:var(--gap)}
 .card{
-  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;
-  min-height:172px;padding:16px 10px;background:var(--bg);border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg);
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;
+  min-height:138px;padding:16px 10px;background:var(--bg);border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg);
 }
 .card:active{border-bottom-width:2px;transform:translateY(3px)}
 .card.playing{border-color:var(--blue);background:var(--blue-bg)}
 .card.heard::after{content:"✓";position:absolute;top:8px;left:10px;color:var(--green);font-weight:900}
-.card .glyph{font-size:2.9rem;font-weight:900;line-height:1.05;color:var(--ink);letter-spacing:.02em}
+.card .glyph{font-size:2.4rem;font-weight:900;line-height:1.05;color:var(--ink);letter-spacing:.02em}
 .card .glyph.word{font-size:2rem}
 .card .glyph.phrase{font-size:clamp(1.5rem,5vw,2rem);text-align:center}
-.card .emoji{font-size:2.5rem;line-height:1}
+.card .emoji{font-size:2.1rem;line-height:1}
 .card .caption{font-weight:800;color:var(--ink-soft);text-align:center;overflow-wrap:anywhere}
 .card .play-ico{position:absolute;top:8px;right:10px;font-size:1rem;opacity:.55}
 .card.wide{grid-column:1/-1;min-height:130px}
@@ -269,7 +275,7 @@ button{font:inherit;color:inherit}
 .listen:active{transform:translateY(5px);box-shadow:0 1px 0 var(--blue-deep)}
 .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);width:100%;max-width:640px}
 .choice{
-  min-height:118px;padding:10px;cursor:pointer;display:grid;place-items:center;
+  min-height:96px;padding:8px;cursor:pointer;display:grid;place-items:center;
   background:var(--bg);border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg);
   font-size:clamp(1.8rem,8vw,2.8rem);font-weight:900;color:var(--ink);overflow-wrap:anywhere;
 }
@@ -370,9 +376,6 @@ button{font:inherit;color:inherit}
 .reward-list{list-style:none;padding:0;margin:6px 0 10px;display:grid;gap:6px}
 .reward-list li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border:2px solid var(--line);border-radius:var(--radius);font-weight:800}
 .reward-form{margin-top:4px}
-.mode-tv .gifts{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:260px;overflow-x:auto;padding:16px 12px 24px}
-.mode-tv .home-tiles{grid-template-columns:repeat(3,200px)}
-.mode-tv .hero-continue{grid-template-columns:auto;justify-items:start}
 
 @media (max-width:420px){
   .choices{gap:8px}
@@ -391,7 +394,7 @@ button{font:inherit;color:inherit}
   body:not(.mode-tv) .screen-home .hero-continue{grid-column:2;grid-row:1;position:sticky;top:calc(var(--topbar-h) + 24px);
     border:2px solid var(--line);border-radius:var(--radius-lg);padding:18px}
   body:not(.mode-tv) .screen-home .path{grid-column:1;grid-row:1;margin-top:0}
-  body:not(.mode-tv) .screen-discover .cards{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  body:not(.mode-tv) .screen-discover .cards{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
   body:not(.mode-tv) .btn:hover{filter:brightness(1.06)}
   body:not(.mode-tv) .card:hover,
   body:not(.mode-tv) .choice:hover,
@@ -402,58 +405,84 @@ button{font:inherit;color:inherit}
 }
 
 /* =========================================================
-   TÉLÉVISION : grand écran 16:9, navigation à la télécommande
+   TÉLÉVISION : tailles proportionnelles à l'écran (s'adapte à toute TV),
+   accueil en deux colonnes + route verticale, navigation à la télécommande
    ========================================================= */
-body.mode-tv{font-size:1.45rem}
-.mode-tv .topbar{--topbar-h:84px;padding-inline:48px}
-.mode-tv .topbar-title{font-size:1.6rem}
-.mode-tv .chip{font-size:1.4rem}
-.mode-tv .screen{width:100%;max-width:none;padding:28px 56px 56px}
-.mode-tv .screen h1{font-size:2.6rem}
-.mode-tv .mascot{width:120px;height:120px}
-.mode-tv .speech-bubble{font-size:1.6rem}
+body.mode-tv{font-size:clamp(13px,1.35vw,26px)}
+.mode-tv .topbar{--topbar-h:9vh;min-height:9vh;padding:0 4vw;gap:1.4em}
+.mode-tv .topbar-title{font-size:1.35em;padding-left:.2em}
+.mode-tv .topbar-back{font-size:1em;min-height:6vh;padding:.3em 1em}
+.mode-tv .chip{font-size:1.2em}
+.mode-tv .screen{width:100%;max-width:none;padding:3vh 4vw 6vh}
+.mode-tv .screen h1{font-size:2em;margin:.2em 0 .5em}
+.mode-tv .mascot{width:10vh;height:10vh}
+.mode-tv .speech{margin:0 0 2vh}
+.mode-tv .speech-bubble{font-size:1.15em;padding:.7em 1em}
+.mode-tv .btn{font-size:1em;min-height:7.5vh;padding:.4em 1.4em}
+.mode-tv .btn.big{font-size:1.15em;min-height:9vh}
+.mode-tv .btn.wide{width:100%}
+.mode-tv .hint{font-size:1em}
+
+/* Sélection à la télécommande : anneau bleu bien visible, sans déborder sur les voisins */
 .mode-tv :focus{outline:none}
-.mode-tv .focusable:focus,
-.mode-tv button:focus{
-  outline:none;position:relative;z-index:2;
-  box-shadow:0 0 0 6px var(--bg),0 0 0 12px var(--focus)!important;
-  transform:scale(1.06);
-}
-.mode-tv .btn{font-size:1.5rem;min-height:76px;padding:16px 36px}
-.mode-tv .btn.wide{width:auto;min-width:520px}
-.mode-tv .hero-continue{grid-template-columns:auto auto;justify-content:start;align-items:center;gap:22px}
-.mode-tv .hero-continue .speech{grid-column:1/-1;margin:0}
-.mode-tv .profiles,.mode-tv .cards,.mode-tv .trophies{grid-auto-flow:column;grid-template-columns:none;overflow-x:auto;padding:16px 12px 24px;scroll-padding:24px}
-.mode-tv .profiles{grid-auto-columns:240px}
-.mode-tv .profile{min-height:240px}
-.mode-tv .profile .avatar{font-size:5rem}
-.mode-tv .cards{grid-auto-columns:280px}
-.mode-tv .card{min-height:280px}
-.mode-tv .card .glyph{font-size:4.6rem}
-.mode-tv .card .glyph.word{font-size:3rem}
-.mode-tv .card .emoji{font-size:3.8rem}
-.mode-tv .card.wide{grid-column:auto;min-width:560px}
-.mode-tv .trophies{grid-auto-columns:240px}
-/* Chemin horizontal sur TV */
-.mode-tv .path{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;gap:40px;padding:12px 12px 24px}
-.mode-tv .nodes{grid-auto-flow:column;grid-auto-columns:200px;align-items:start}
-.mode-tv .node-wrap{transform:none;max-width:200px}
-.mode-tv .node{width:110px;height:100px}
-.mode-tv .node-ico{font-size:2.8rem}
-.mode-tv .node-label{font-size:1.1rem}
-.mode-tv .game,.mode-tv .speak{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);align-items:center;text-align:center;justify-items:stretch;gap:48px}
+.mode-tv .focusable:focus,.mode-tv button:focus{outline:none;box-shadow:0 0 0 .22em var(--bg),0 0 0 .45em var(--focus)!important;position:relative;z-index:3}
+.mode-tv .card:focus,.mode-tv .choice:focus,.mode-tv .profile:focus,.mode-tv .tile:focus,.mode-tv .gift:focus,.mode-tv .trophy:focus{transform:translateY(-.25vh)}
+.mode-tv .topbar-back:focus{transform:none}
+
+/* Profils */
+.mode-tv .profiles{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:14vw;overflow-x:auto;gap:1.5vw;padding:1.5vh .8vw 3vh}
+.mode-tv .profile{min-height:26vh}
+.mode-tv .profile .avatar{font-size:10vh}
+.mode-tv .profile .pname{font-size:1.25em}
+
+/* Accueil : panneau à gauche (fixe), route qui descend à droite */
+.mode-tv .screen-home{display:grid;grid-template-columns:minmax(0,36vw) minmax(0,1fr);gap:4vw;align-items:start}
+.mode-tv .screen-home .hero-continue{position:sticky;top:calc(9vh + 3vh);display:grid;gap:2vh}
+.mode-tv .screen-home .hero-continue .speech{margin:0}
+.mode-tv .home-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2vw}
+.mode-tv .tile{padding:1.4vh .6vw;font-size:1em}
+.mode-tv .tile-ico{font-size:2.2em}
+.mode-tv .time-left{font-size:.95em}
+.mode-tv .path{margin-top:0;gap:5vh}
+.mode-tv .unit-head{padding:1.6vh 1.4vw}
+.mode-tv .unit-head h2{font-size:1.3em}
+.mode-tv .nodes{gap:3.5vh;padding:3vh 0}
+.mode-tv .node-wrap{max-width:24vw}
+.mode-tv .node{width:11vh;height:10vh}
+.mode-tv .node-ico{font-size:5vh}
+.mode-tv .node-label{font-size:.95em}
+
+/* Découverte : cartes en ligne, dimensionnées sur la hauteur de l'écran */
+.mode-tv .cards{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:15vw;overflow-x:auto;gap:1.4vw;padding:1.5vh .8vw 2.5vh}
+.mode-tv .card{min-height:30vh;padding:1.5vh .6vw}
+.mode-tv .card .glyph{font-size:7.5vh}
+.mode-tv .card .glyph.word{font-size:4.5vh}
+.mode-tv .card .emoji{font-size:7vh}
+.mode-tv .card.wide{grid-column:auto;min-width:34vw}
+.mode-tv .card .glyph.phrase{font-size:4vh}
+.mode-tv .sticky-actions{position:static;background:none;padding:1vh 0;margin:0}
+.mode-tv .screen-discover .actions .btn{width:auto;min-width:30vw}
+
+/* Jeu */
+.mode-tv .game,.mode-tv .speak{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);align-items:center;gap:3vw;padding-bottom:12vh}
 .mode-tv .game .progressbar{grid-column:1/-1}
-.mode-tv .question .mascot{width:110px;height:110px}
-.mode-tv .target{font-size:4rem}
-.mode-tv .listen{width:140px;height:140px;font-size:3.6rem;border-radius:32px}
-.mode-tv .choices{max-width:none}
-.mode-tv .choice{min-height:230px;font-size:4.2rem}
-.mode-tv .choice .emoji{font-size:5.4rem}
-.mode-tv .footer-feedback{font-size:2rem;padding:26px}
-.mode-tv .result .mascot{width:180px;height:180px}
-.mode-tv .big-stars{font-size:6rem}
+.mode-tv .question .mascot{width:9vh;height:9vh}
+.mode-tv .target{font-size:7vh}
+.mode-tv .listen{width:13vh;height:13vh;font-size:6vh;border-radius:3vh}
+.mode-tv .choices{max-width:none;gap:1.4vw}
+.mode-tv .choice{min-height:24vh;font-size:7.5vh}
+.mode-tv .choice .emoji{font-size:10vh}
+.mode-tv .footer-feedback{font-size:1.5em;padding:2.5vh}
+
+/* Résultat, trophées, cadeaux */
+.mode-tv .result .mascot{width:16vh;height:16vh}
+.mode-tv .big-stars{font-size:10vh}
 .mode-tv .actions.column{flex-direction:row;justify-content:center}
-.mode-tv .actions.column .btn.wide{min-width:0}
+.mode-tv .actions.column .btn.wide{width:auto;min-width:0}
+.mode-tv .trophies,.mode-tv .gifts{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:16vw;overflow-x:auto;padding:1.5vh .8vw 3vh}
+.mode-tv .splash-logo{width:24vh;height:24vh}
+.mode-tv .splash-title{font-size:2.4em}
+
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}

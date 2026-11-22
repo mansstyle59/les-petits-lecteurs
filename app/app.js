@@ -516,7 +516,7 @@
     var resuming = !!(p.resume && p.resume.id === nextId);
     var nbTro = Object.keys(p.trophies).length;
     var nbErr = Object.keys(p.errs).length;
-    var html = '<section class="hero-continue">' + bubble(resuming ? "On reprend où tu t'es arrêté ?" : "Prêt pour la suite, " + p.name + " ?", "happy") +
+    var html = '<section class="hero-continue">' + bubble(resuming ? "On reprend où tu t'es arrêté ?" : "Prêt, " + p.name + " ?", "happy") +
       '<button class="btn big wide pulse focusable" type="button" id="continue">▶ ' + (resuming ? "Continuer" : "Jouer") +
       '<span class="btn-sub">' + esc(nextL.titre) + '</span></button>' +
       '<div class="home-tiles">' +
@@ -545,6 +545,7 @@
     });
     html += "</div>";
     app.innerHTML = html;
+    drawRoad(); setTimeout(drawRoad, 250);
     document.getElementById("continue").addEventListener("click", function () { openLesson(nextId); });
     document.getElementById("trophies").addEventListener("click", function () { go("trophies"); });
     document.getElementById("gifts").addEventListener("click", function () { go("gifts"); });
@@ -562,6 +563,40 @@
     else homeVoice.push("ui/choisis-lecon.mp3");
     play(homeVoice);
   };
+  // Route qui serpente d'une leçon à l'autre (dessinée d'après la position réelle des leçons)
+  function drawRoad() {
+    var path = app.querySelector(".path");
+    if (!path) return;
+    var old = path.querySelector(".road"); if (old) old.remove();
+    var pr = path.getBoundingClientRect();
+    var nodes = Array.prototype.slice.call(path.querySelectorAll(".node"));
+    if (nodes.length < 2) return;
+    var pts = nodes.map(function (n) { var r = n.getBoundingClientRect(); return [r.left - pr.left + r.width / 2, r.top - pr.top + r.height / 2]; });
+    var w = Math.max(8, Math.round(nodes[0].getBoundingClientRect().width * 0.42));
+    function d(list) {
+      var s = "M" + list[0][0] + " " + list[0][1];
+      for (var i = 1; i < list.length; i++) {
+        var a = list[i - 1], b = list[i], my = (b[1] - a[1]) / 2;
+        s += " C" + a[0] + " " + (a[1] + my) + " " + b[0] + " " + (b[1] - my) + " " + b[0] + " " + b[1];
+      }
+      return s;
+    }
+    var cur = nodes.findIndex ? nodes.findIndex(function (n) { return n.classList.contains("current"); }) : -1;
+    var ns = "http://www.w3.org/2000/svg", svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("class", "road"); svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("width", path.offsetWidth); svg.setAttribute("height", path.scrollHeight);
+    function add(cls, list, width) {
+      var p = document.createElementNS(ns, "path"); p.setAttribute("class", cls); p.setAttribute("d", d(list)); p.setAttribute("stroke-width", width); svg.appendChild(p);
+    }
+    add("road-bed", pts, w);
+    if (cur > 0) add("road-done", pts.slice(0, cur + 1), w);
+    add("road-line", pts, Math.max(3, w / 7));
+    path.insertBefore(svg, path.firstChild);
+  }
+  var roadTimer = null;
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { drawRoad(); });
+  window.addEventListener("resize", function () { clearTimeout(roadTimer); roadTimer = setTimeout(drawRoad, 150); });
+
   function openLesson(id) {
     var p = profile();
     if (timeUp(p)) return go("pause");
