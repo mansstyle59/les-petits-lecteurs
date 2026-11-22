@@ -58,13 +58,13 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | lettres/nom-a.mp3 | [nom de la lettre a] | la lˈɛtʁə, ˈa. | imposée |
 | mots/avion.mp3 | Avion. | avjˈɔ̃. | dictionnaire |
 | lettres/nom-e.mp3 | [nom de la lettre e] | la lˈɛtʁə, ˈə. | imposée |
-| mots/éléphant.mp3 | Éléphant. | elefˈɑ̃. | dictionnaire |
+| mots/renard.mp3 | Renard. | œ̃ ʁənˈaʁ. | imposée |
 | lettres/nom-i.mp3 | [nom de la lettre i] | la lˈɛtʁə, ˈiː. | imposée |
 | mots/image.mp3 | Image. | imˈaʒ. | imposée |
 | lettres/nom-o.mp3 | [nom de la lettre o] | la lˈɛtʁə, ˈo. | imposée |
-| mots/olive.mp3 | Olive. | ɔlˈiv. | imposée |
+| mots/orange.mp3 | Orange. | yn oʁˈɑ̃ʒ. | imposée |
 | lettres/nom-u.mp3 | [nom de la lettre u] | la lˈɛtʁə, ˈy. | imposée |
-| mots/usine.mp3 | Usine. | yzˈin. | dictionnaire |
+| mots/tortue.mp3 | Tortue. | yn tɔʁtˈy. | imposée |
 | titres/L2.mp3 | Les sons continus , m, l, r, s. | le- sˈɔ̃ kɔ̃tinˈy, ˈɛm, ˈɛl, ˈɛʁ, ˈɛs. | dictionnaire |
 | consignes/L2.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-m.mp3 | [nom de la lettre m] | la lˈɛtʁə, ˈɛm. | imposée |
@@ -114,7 +114,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | lettres/nom-x.mp3 | [nom de la lettre x] | la lˈɛtʁə, ˈiks. | imposée |
 | mots/xylophone.mp3 | Xylophone. | ksilɔfˈɔn. | imposée |
 | lettres/nom-y.mp3 | [nom de la lettre y] | la lˈɛtʁə, ˈi ɡʁˈɛk. | imposée |
-| mots/yaourt.mp3 | Yaourt. | jaˈuʁt. | dictionnaire |
+| mots/stylo.mp3 | Stylo. | œ̃ stilˈo. | imposée |
 | lettres/nom-w.mp3 | [nom de la lettre w] | la lˈɛtʁə, dˈublə vˈe. | imposée |
 | mots/wagon.mp3 | Wagon. | vaɡˈɔ̃. | dictionnaire |
 | titres/M2.mp3 | Les syllabes. | le- silˈab. | dictionnaire |

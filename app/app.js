@@ -239,13 +239,13 @@
     return null;
   }
   function itemAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/nom-" + it.lettre_minuscule + ".mp3", "lettres/son-" + it.lettre_minuscule + ".mp3", "ui/comme-dans.mp3", "mots/" + it.exemple + ".mp3"];
+    if (it.lettre_minuscule) return ["lettres/phrase-" + it.lettre_minuscule + ".mp3"];   // « La lettre A fait le son a, comme dans avion. »
     if (it.syllabe_tts) return ["syllabes/" + it.syllabe_tts + ".mp3"];
     if (it.mot) return ["mots/" + it.mot + ".mp3"];
     return ["phrases/" + (it._lid || lessonId) + "-" + ((it._idx !== undefined ? it._idx : idx) + 1) + ".mp3"];
   }
   function questionAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/son-" + it.lettre_minuscule + ".mp3", "ui/comme-dans.mp3", "mots/" + it.exemple + ".mp3"];
+    if (it.lettre_minuscule) return ["lettres/question-" + it.lettre_minuscule + ".mp3"];  // « Écoute le son : a, comme dans avion. »
     return itemAudio(it, lessonId, idx);
   }
   function itemKey(it) { return it.lettre_minuscule || it.syllabe_tts || it.mot || it.phrase; }
@@ -820,7 +820,7 @@
     return out;
   }
   function audioForCandidate(text, it) {
-    if (it.lettre_minuscule) { var L = text.toLowerCase(); return ["lettres/nom-" + L + ".mp3"]; }
+    if (it.lettre_minuscule) { var L = text.toLowerCase(); return ["lettres/phrase-" + L + ".mp3"]; }
     if (it.syllabe_tts) { var sy = allItems(function (x) { return x.affiche === text; })[0]; return sy ? ["syllabes/" + sy.syllabe_tts + ".mp3"] : ["tts:" + text]; }
     if (it.mot) { var w = allItems(function (x) { return x.mot === text; })[0]; return w ? ["mots/" + w.mot + ".mp3"] : ["tts:" + text]; }
     var ph = allItems(function (x) { return x.phrase && x.phrase.replace(/[.!?]$/, "") === text; })[0];
@@ -925,7 +925,7 @@
       var b = actions('<button class="btn secondary focusable" type="button" id="me">🔁 Ma voix</button><button class="btn focusable" type="button" id="adult">✓ Un adulte valide</button>');
       document.getElementById("me").addEventListener("click", function () { voice().then(function (V) { V.playBack(audio); }); });
       document.getElementById("adult").addEventListener("click", function () { success(it, idx, null); });
-      play(["ui/jai-entendu.mp3"].concat(audioForCandidate(heard, it)).concat(["ui/ecoute-bien.mp3"]).concat(it.lettre_minuscule ? ["lettres/nom-" + it.lettre_minuscule + ".mp3"] : itemAudio(it, l.id, idx)).concat(["ui/reessaie.mp3"]));
+      play(["ui/jai-entendu.mp3"].concat(audioForCandidate(heard, it)).concat(["ui/ecoute-bien.mp3"]).concat(itemAudio(it, l.id, idx)).concat(["ui/reessaie.mp3"]));
     }
     function notSure(it, idx, audio) {
       if (!alive) return;
@@ -939,7 +939,7 @@
     // Son de la lettre : l'enfant répète, se réécoute à côté du modèle, un adulte valide.
     function soundStep(it, idx) {
       if (!alive) return;
-      var son = ["lettres/son-" + it.lettre_minuscule + ".mp3"];
+      var son = ["lettres/question-" + it.lettre_minuscule + ".mp3"];
       setState("idle", "Maintenant le son : écoute, puis répète.");
       fb("info", "<strong>Et le son de la lettre ?</strong>");
       var b = actions('<button class="btn secondary focusable" type="button" id="hear-son">🔊 Le son</button>');
@@ -962,7 +962,7 @@
           });
         }).catch(function () { setState("idle", "Le micro n'est pas autorisé."); });
       });
-      play(["ui/q-lettre-son.mp3"].concat(son).concat(["ui/repete.mp3"]));
+      play(son.concat(["ui/repete.mp3"]));
     }
 
     app.innerHTML = '<div class="speak intro">' + bubble("Maintenant, à toi de parler !", "happy") +

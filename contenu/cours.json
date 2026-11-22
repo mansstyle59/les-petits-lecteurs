@@ -33,10 +33,10 @@
               "lettre_majuscule": "E",
               "lettre_minuscule": "e",
               "nom_tts": "e",
-              "son_tts": "e",
-              "exemple": "éléphant",
-              "illustration": "🐘",
-              "note": "Son [e] comme dans « éléphant ». Le e muet de « le » n'est pas enseigné ici."
+              "son_tts": "eu",
+              "exemple": "renard",
+              "illustration": "🦊",
+              "note": "Le e sans accent fait le son « e », comme dans re-nard, le, pe-tit. Le é (avec accent) fait « é »."
             },
             {
               "affiche": "I i",
@@ -54,9 +54,9 @@
               "lettre_minuscule": "o",
               "nom_tts": "o",
               "son_tts": "o",
-              "exemple": "olive",
-              "illustration": "🫒",
-              "note": ""
+              "exemple": "orange",
+              "illustration": "🍊",
+              "note": "Le o fait le son « o », comme dans o-range."
             },
             {
               "affiche": "U u",
@@ -64,8 +64,8 @@
               "lettre_minuscule": "u",
               "nom_tts": "u",
               "son_tts": "u",
-              "exemple": "usine",
-              "illustration": "🏭",
+              "exemple": "tortue",
+              "illustration": "🐢",
               "note": ""
             }
           ],
@@ -319,9 +319,9 @@
               "lettre_minuscule": "y",
               "nom_tts": "i grec",
               "son_tts": "i",
-              "exemple": "yaourt",
-              "illustration": "🥛",
-              "note": "Son [i] ici, comme dans « yaourt » (le son [j] viendra plus tard)."
+              "exemple": "stylo",
+              "illustration": "🖊️",
+              "note": "Le y fait le son « i », comme dans sty-lo."
             },
             {
               "affiche": "W w",

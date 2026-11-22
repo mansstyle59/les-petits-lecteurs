@@ -292,5 +292,33 @@
   "entendu": "ʁ",
   "score": 1.0,
   "fichier_verifie": true
+ },
+ "mots/renard": {
+  "api": "œ̃ ʁənˈaʁ.",
+  "ls": 1.0,
+  "source": "Un renard.",
+  "entendu": "Un renard.",
+  "score": 1.0
+ },
+ "mots/orange": {
+  "api": "yn oʁˈɑ̃ʒ.",
+  "ls": 1.0,
+  "source": "Une orange.",
+  "entendu": "Une orange",
+  "score": 1.0
+ },
+ "mots/stylo": {
+  "api": "œ̃ stilˈo.",
+  "ls": 1.0,
+  "source": "Un stylo.",
+  "entendu": "un stylo",
+  "score": 1.0
+ },
+ "mots/tortue": {
+  "api": "yn tɔʁtˈy.",
+  "ls": 1.0,
+  "source": "Une tortue.",
+  "entendu": "Une tortue.",
+  "score": 1.0
  }
 }
