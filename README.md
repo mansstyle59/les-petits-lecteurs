@@ -60,6 +60,8 @@ L'architecture actuelle (application web embarquée dans une WebView Android) re
 
 ## Développement
 
-- `tools/generer_voix.py` : régénère les voix à partir de `contenu/cours.json`.
+- `tools/generer_voix.py` : régénère les voix à partir de `contenu/cours.json` ; `--voix-duo` ne remplace que les encouragements par la voix masculine.
+- `tools/auditer_voix_duo.py` : contrôle les encouragements par reconnaissance vocale Whisper et signale les fichiers à écouter.
+- `.github/workflows/voix-duo.yml` : génération et contrôle des voix sur demande depuis GitHub Actions (sélectionner la branche de travail).
 - `tools/build_sw.py` : régénère le cache hors connexion après toute modification.
 - Les APK sont compilés automatiquement par GitHub Actions à chaque push sur `main`.
