@@ -610,7 +610,7 @@
     document.getElementById("progress").addEventListener("click", function () { go("progress"); });
     var hp = document.getElementById("home-parents"); if (hp) hp.addEventListener("click", function () { go("parentsGate"); });
     var rv = document.getElementById("review");
-    if (rv) rv.addEventListener("click", function () { if (timeUp(p)) return go("pause"); var r = reviewLesson(p); if (r) go("game", { id: "REV", review: true }); });
+    if (rv) rv.addEventListener("click", function () { var r = reviewLesson(p); if (r) go("game", { id: "REV", review: true }); });
     app.querySelectorAll(".node").forEach(function (b) {
       b.addEventListener("click", function () {
         if (b.classList.contains("locked")) { toast("Finis d'abord la leçon d'avant !"); return; }
@@ -621,7 +621,7 @@
     if (timeUp(p)) homeVoice.push("ui/pause.mp3");
     else if (p.limit && timeLeft(p) < 4 * 60) homeVoice.push("ui/presque-fini.mp3");
     else homeVoice.push("ui/choisis-lecon.mp3");
-    play(homeVoice);
+    if (Date.now() - (window.__lplHello || 0) > 90000 || window.__lplHelloId !== p.id) { window.__lplHello = Date.now(); window.__lplHelloId = p.id; play(homeVoice); }
   };
   // Route qui serpente d'une leçon à l'autre (dessinée d'après la position réelle des leçons)
   function drawRoad() {
@@ -670,7 +670,7 @@
     var html = bubble(Object.keys(p.trophies).length ? "Bravo pour tes trophées !" : "Gagne ton premier trophée en finissant une leçon !", "happy") + '<div class="trophies">';
     TROPHIES.forEach(function (t) {
       var got = !!p.trophies[t.id];
-      html += '<div class="trophy' + (got ? " got" : "") + '"><span class="trophy-ico" aria-hidden="true">' + (got ? t.ico : "🔒") + '</span><strong>' + esc(t.titre) + "</strong><span>" + esc(t.desc) + "</span></div>";
+      html += '<div class="trophy focusable' + (got ? " got" : "") + '" tabindex="0"><span class="trophy-ico" aria-hidden="true">' + (got ? t.ico : "🔒") + '</span><strong>' + esc(t.titre) + "</strong><span>" + esc(t.desc) + "</span></div>";
     });
     app.innerHTML = html + "</div>";
   };
@@ -1191,15 +1191,15 @@
     var jours = p.days.length, serie = streak(p), aReviser = Object.keys(p.errs).length;
     var html = bubble(reussies ? "Regarde tout ce que tu as appris !" : "Fais ta première leçon pour voir tes progrès !", "happy") +
       '<div class="stats">' +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">✅</span><strong>' + reussies + " / " + allLessons.length + "</strong><span>leçons réussies</span></div>" +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">🔤</span><strong>' + lettres + " / 26</strong><span>lettres connues</span></div>" +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">⭐</span><strong>' + totalStars(p) + "</strong><span>étoiles gagnées</span></div>" +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">🔥</span><strong>' + serie + "</strong><span>jour" + (serie > 1 ? "s" : "") + " de suite</span></div>" +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">📅</span><strong>' + jours + "</strong><span>jour" + (jours > 1 ? "s" : "") + " de lecture</span></div>" +
-      '<div class="stat"><span class="stat-ico" aria-hidden="true">🔁</span><strong>' + aReviser + "</strong><span>à réviser</span></div></div><h2>Mes étapes</h2><div class='steps-progress'>";
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">✅</span><strong>' + reussies + " / " + allLessons.length + "</strong><span>leçons réussies</span></div>" +
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">🔤</span><strong>' + lettres + " / 26</strong><span>lettres connues</span></div>" +
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">⭐</span><strong>' + totalStars(p) + "</strong><span>étoiles gagnées</span></div>" +
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">🔥</span><strong>' + serie + "</strong><span>jour" + (serie > 1 ? "s" : "") + " de suite</span></div>" +
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">📅</span><strong>' + jours + "</strong><span>jour" + (jours > 1 ? "s" : "") + " de lecture</span></div>" +
+      '<div class="stat focusable" tabindex="0"><span class="stat-ico" aria-hidden="true">🔁</span><strong>' + aReviser + "</strong><span>à réviser</span></div></div><h2>Mes étapes</h2><div class='steps-progress'>";
     cours.modules.forEach(function (m, mi) {
       var ok = m.lecons.filter(function (l) { return (p.stars[l.id] || 0) >= 3; }).length;
-      html += '<div class="step-row unit-' + (mi % 4) + '"><span class="step-name">Étape ' + (mi + 1) + " · " + esc(m.titre) + '</span><span class="step-bar"><span style="width:' + (ok / m.lecons.length * 100) + '%"></span></span><span class="step-count">' + ok + "/" + m.lecons.length + "</span></div>";
+      html += '<div tabindex="0" class="step-row focusable unit-' + (mi % 4) + '"><span class="step-name">Étape ' + (mi + 1) + " · " + esc(m.titre) + '</span><span class="step-bar"><span style="width:' + (ok / m.lecons.length * 100) + '%"></span></span><span class="step-count">' + ok + "/" + m.lecons.length + "</span></div>";
     });
     app.innerHTML = html + "</div>";
   };
@@ -1330,8 +1330,9 @@
     var p = profile();
     setTop("C'est la pause", true);
     app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Bravo " + esc(p.name) + " !</h1><p class='hint'>Tu as bien travaillé aujourd'hui. On se retrouve demain pour la suite !</p>" +
-      '<div class="actions column"><button class="btn secondary wide focusable" type="button" id="gifts2">🎁 Voir mes cadeaux</button><button class="btn secondary wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+      '<div class="actions column">' + (Object.keys(p.errs).length ? '<button class="btn wide focusable" type="button" id="rev2">🔁 Faire mes révisions (sans limite)</button>' : "") + '<button class="btn secondary wide focusable" type="button" id="gifts2">🎁 Voir mes cadeaux</button><button class="btn secondary wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
     document.getElementById("gifts2").addEventListener("click", function () { go("gifts", {}, true); });
+    var r2 = document.getElementById("rev2"); if (r2) r2.addEventListener("click", function () { if (reviewLesson(p)) go("game", { id: "REV", review: true }, true); });
     document.getElementById("menu").addEventListener("click", back);
     play(nameAudio(p).concat(["ui/pause.mp3"]));
   };
@@ -1551,7 +1552,7 @@
 
   // ================= Télécommande (TV) : navigation spatiale =================
   function focusables() {
-    return Array.prototype.filter.call(document.querySelectorAll("button:not([disabled]):not([hidden]), input, a.focusable"), function (el) {
+    return Array.prototype.filter.call(document.querySelectorAll("button:not([disabled]):not([hidden]), input, a.focusable, [tabindex='0'].focusable"), function (el) {
       var r = el.getBoundingClientRect();
       return r.width > 0 && r.height > 0 && !el.closest("[hidden]");
     });
