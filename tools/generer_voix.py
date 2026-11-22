@@ -9,15 +9,24 @@ dictionnaire phonétique français d'espeak-ng, puis sont vérifiés (audit).
 Usage : python3 tools/generer_voix.py [dossier_du_depot] [--tout]
   --tout : régénère aussi les fichiers déjà présents.
 """
-import json, wave, pathlib, subprocess, sys, tempfile
+import json, wave, pathlib, subprocess, sys, tempfile, os
 from piper import PiperVoice
 from piper.config import SynthesisConfig
 
 REPO = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else ".").resolve()
 TOUT = "--tout" in sys.argv
+DUO_ONLY = "--voix-duo" in sys.argv
 OUT = REPO / "audio"
 VOICE = "/tmp/voices/fr_FR-siwis-medium.onnx"
+VOICE_MALE = os.environ.get("PIPER_MALE_VOICE", "/tmp/voices/fr_FR-upmc-medium.onnx")
 v = PiperVoice.load(VOICE)
+v_male = None
+# Encouragements positifs : voix masculine UPMC, locuteur « pierre » (speaker_id=1).
+# Les autres messages d'interface restent en voix féminine Siwis.
+MALE_UI = {
+    "bravo", "super", "etoile", "fin", "bien-dit", "super-prenom",
+    "trophee", "courage", "genial", "champion", "revision-fin", "cadeau",
+}
 CFG = SynthesisConfig(length_scale=1.15, noise_scale=0.55, noise_w_scale=0.6)
 cours = json.loads((REPO / "contenu/cours.json").read_text(encoding="utf-8"))
 
@@ -102,9 +111,10 @@ UI = {
 }
 PRENOMS = {"maelo": "Maëlo,"}
 
-def to_wav(phonemes, path_wav, cfg=None):
-    ids = v.phonemes_to_ids(list(phonemes))
-    audio = v.phoneme_ids_to_audio(ids, cfg or CFG)
+def to_wav(phonemes, path_wav, cfg=None, voice=None, speaker_id=None):
+    voice = voice or v
+    ids = voice.phonemes_to_ids(list(phonemes))
+    audio = voice.phoneme_ids_to_audio(ids, cfg or CFG, speaker_id=speaker_id)
     import numpy as np
     pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
     with wave.open(str(path_wav), "wb") as w:
@@ -129,10 +139,24 @@ def synth(path, text=None, api=None, cfg=None):
         cfg = SynthesisConfig(length_scale=CHOIX[key]["ls"], noise_scale=0.55, noise_w_scale=0.6)
     ph = api if api is not None else text_phonemes(text)
     AUDIT.append((str(path.relative_to(OUT)), text or "", ph, api is not None))
-    if path.exists() and not TOUT:
+    is_male_ui = key.startswith("ui/") and pathlib.Path(key).stem in MALE_UI
+    if DUO_ONLY and not is_male_ui:
         return
+    if path.exists() and not TOUT and not DUO_ONLY:
+        return
+    voice, speaker_id = v, None
+    if is_male_ui:
+        global v_male
+        if not pathlib.Path(VOICE_MALE).is_file():
+            raise FileNotFoundError(
+                "Modèle masculin Piper introuvable : " + VOICE_MALE
+                + ". Téléchargez fr_FR-upmc-medium.onnx et son fichier .onnx.json."
+            )
+        if v_male is None:
+            v_male = PiperVoice.load(VOICE_MALE)
+        voice, speaker_id = v_male, 1  # UPMC : 0 = Jessica, 1 = Pierre
     with tempfile.NamedTemporaryFile(suffix=".wav") as tmp:
-        to_wav(ph, tmp.name, cfg)
+        to_wav(ph, tmp.name, cfg, voice=voice, speaker_id=speaker_id)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp.name, "-af",
                         "adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5", "-ac", "1", "-ar", "24000", "-b:a", "48k", str(path)], check=True)
 
