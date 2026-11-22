@@ -67,7 +67,18 @@ final class WebViewController: UIViewController, WKNavigationDelegate, WKUIDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        web.load(URLRequest(url: remote, cachePolicy: .reloadRevalidatingCacheData, timeoutInterval: 8))
+        loadRemote()
+        // Retour dans l'application : si on était sur la copie hors ligne, on retente la version en ligne
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self = self, self.fellBack else { return }
+            self.fellBack = false
+            self.loadRemote()
+        }
+    }
+
+    /// Toujours la dernière version publiée (aucune copie en cache pour la page)
+    private func loadRemote() {
+        web.load(URLRequest(url: remote, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 20))
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }

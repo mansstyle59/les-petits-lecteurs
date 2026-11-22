@@ -10,8 +10,8 @@ android {
         applicationId "fr.lespetitslecteurs"
         minSdk 21
         targetSdk 34
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "1.1"
         // Adresse de l'application en ligne : les mises à jour arrivent sans réinstaller l'APK
         buildConfigField "String", "APP_URL", "\"https://mansstyle59.github.io/les-petits-lecteurs/app/\""
     }

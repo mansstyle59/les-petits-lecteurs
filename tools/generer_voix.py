@@ -87,6 +87,8 @@ UI = {
     "pause": "C'est fini pour aujourd'hui. Bravo pour ton travail ! On se retrouve demain.",
     "presque-fini": "Encore une petite leçon, et c'est la pause !",
     "comme-dans": "comme dans",
+    "jai-entendu": "J'ai entendu :", "ecoute-bien": "Écoute bien, on dit :", "reessaie": "À toi, essaie encore !",
+    "repete": "À toi, répète !",
     "inscription": "Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge.",
     "inscription-ecrit": "Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal.",
     "compris": "J'ai compris ! C'est bien ça ?",

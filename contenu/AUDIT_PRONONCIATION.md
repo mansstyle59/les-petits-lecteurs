@@ -38,6 +38,10 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/pause.mp3 | C'est fini pour aujourd'hui. Bravo pour ton travail ! On se retrouve demain. | sɛ finˈi puʁ oʒuʁdyˈi.bʁavˈo puʁ tɔ̃ tʁavˈaj!ɔ̃ sə- ʁətʁˈuv dəmˈɛ̃. | dictionnaire |
 | ui/presque-fini.mp3 | Encore une petite leçon, et c'est la pause ! | ɑ̃kˌɔʁ yn pətˈit ləsˈɔ̃, e sɛ la- pˈoz! | dictionnaire |
 | ui/comme-dans.mp3 | comme dans | kɔm dˈɑ̃ | dictionnaire |
+| ui/jai-entendu.mp3 | J'ai entendu : | ʒe ɑ̃tɑ̃dˈy:  | dictionnaire |
+| ui/ecoute-bien.mp3 | Écoute bien, on dit : | ekˈut bjˈɛ̃, ɔ̃ dˈi:  | dictionnaire |
+| ui/reessaie.mp3 | À toi, essaie encore ! | a twˈa, esˈɛ ɑ̃kˈɔʁ! | dictionnaire |
+| ui/repete.mp3 | À toi, répète ! | a twˈa, ʁepˈɛt! | dictionnaire |
 | ui/inscription.mp3 | Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge. | avˌɛk papˈa, mamˈɑ̃, u œ̃n adˈylt: apyˈi syʁ lə- mikʁˈo, e dˈi tɔ̃ pʁenˈɔ̃ e tɔ̃n ˈaːʒ. | dictionnaire |
 | ui/inscription-ecrit.mp3 | Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal. | avˌɛk œ̃n adˈylt, ekʁˈi tɔ̃ pʁenˈɔ̃, pyˈi ʃwazˈi tɔ̃n ˈaːʒ e tɔ̃n animˈal. | dictionnaire |
 | ui/compris.mp3 | J'ai compris ! C'est bien ça ? | ʒe kɔ̃pʁˈi!sɛ bjˈɛ̃ sˈa? | dictionnaire |
@@ -52,92 +56,66 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | titres/L1.mp3 | Les voyelles. | le- vwajˈɛl. | dictionnaire |
 | consignes/L1.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-a.mp3 | [nom de la lettre a] | la lˈɛtʁə, ˈa. | imposée |
-| lettres/son-a.mp3 | [son de la lettre a] | ˈa | imposée |
 | mots/avion.mp3 | Avion. | avjˈɔ̃. | dictionnaire |
 | lettres/nom-e.mp3 | [nom de la lettre e] | la lˈɛtʁə, ˈə. | imposée |
-| lettres/son-e.mp3 | [son de la lettre e] | ˈeː | imposée |
 | mots/éléphant.mp3 | Éléphant. | elefˈɑ̃. | dictionnaire |
 | lettres/nom-i.mp3 | [nom de la lettre i] | la lˈɛtʁə, ˈiː. | imposée |
-| lettres/son-i.mp3 | [son de la lettre i] | ˈi! | imposée |
 | mots/image.mp3 | Image. | imˈaʒ. | imposée |
 | lettres/nom-o.mp3 | [nom de la lettre o] | la lˈɛtʁə, ˈo. | imposée |
-| lettres/son-o.mp3 | [son de la lettre o] | ˈo | imposée |
 | mots/olive.mp3 | Olive. | ɔlˈiv. | imposée |
 | lettres/nom-u.mp3 | [nom de la lettre u] | la lˈɛtʁə, ˈy. | imposée |
-| lettres/son-u.mp3 | [son de la lettre u] | ˈy | imposée |
 | mots/usine.mp3 | Usine. | yzˈin. | dictionnaire |
 | titres/L2.mp3 | Les sons continus , m, l, r, s. | le- sˈɔ̃ kɔ̃tinˈy, ˈɛm, ˈɛl, ˈɛʁ, ˈɛs. | dictionnaire |
 | consignes/L2.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-m.mp3 | [nom de la lettre m] | la lˈɛtʁə, ˈɛm. | imposée |
-| lettres/son-m.mp3 | [son de la lettre m] | ˈmːː | imposée |
 | mots/maison.mp3 | Maison. | mɛzˈɔ̃. | dictionnaire |
 | lettres/nom-l.mp3 | [nom de la lettre l] | la lˈɛtʁə, ˈɛl. | imposée |
-| lettres/son-l.mp3 | [son de la lettre l] | ˈlːː | imposée |
 | mots/lune.mp3 | Lune. | lˈyn. | dictionnaire |
 | lettres/nom-r.mp3 | [nom de la lettre r] | la lˈɛtʁə, ˈɛʁ. | imposée |
-| lettres/son-r.mp3 | [son de la lettre r] | ˈʁːː | imposée |
 | mots/rose.mp3 | Rose. | ʁˈoz. | imposée |
 | lettres/nom-s.mp3 | [nom de la lettre s] | la lˈɛtʁə, ˈɛs. | imposée |
-| lettres/son-s.mp3 | [son de la lettre s] | ˈsːː | imposée |
 | mots/soleil.mp3 | Soleil. | sɔlˈɛj. | imposée |
 | titres/L3.mp3 | Les sons courts , p, t, b, d. | le- sˈɔ̃ kˈuʁ, pˈe, tˈe, bˈe, dˈe. | dictionnaire |
 | consignes/L3.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-p.mp3 | [nom de la lettre p] | la lˈɛtʁə, pˈe. | imposée |
-| lettres/son-p.mp3 | [son de la lettre p] | pˈə | imposée |
 | mots/pomme.mp3 | Pomme. | pˈɔm. | dictionnaire |
 | lettres/nom-t.mp3 | [nom de la lettre t] | la lˈɛtʁə, tˈe. | imposée |
-| lettres/son-t.mp3 | [son de la lettre t] | tˈə | imposée |
 | mots/table.mp3 | Table. | tˈabl. | dictionnaire |
 | lettres/nom-b.mp3 | [nom de la lettre b] | la lˈɛtʁə, bˈe. | imposée |
-| lettres/son-b.mp3 | [son de la lettre b] | bˈə | imposée |
 | mots/bateau.mp3 | Bateau. | batˈo. | dictionnaire |
 | lettres/nom-d.mp3 | [nom de la lettre d] | la lˈɛtʁə, dˈe. | imposée |
-| lettres/son-d.mp3 | [son de la lettre d] | dˈə | imposée |
 | mots/dauphin.mp3 | Dauphin. | dofˈɛ̃. | dictionnaire |
 | titres/L4.mp3 | Les sons f, v, z, j. | le- sˈɔ̃ ˈɛf, vˈe, zˈɛd, ʒˈi. | dictionnaire |
 | consignes/L4.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-f.mp3 | [nom de la lettre f] | la lˈɛtʁə, ˈɛf. | imposée |
-| lettres/son-f.mp3 | [son de la lettre f] | ˈfːː | imposée |
 | mots/fleur.mp3 | Fleur. | flˈœʁ. | dictionnaire |
 | lettres/nom-v.mp3 | [nom de la lettre v] | la lˈɛtʁə, vˈe. | imposée |
-| lettres/son-v.mp3 | [son de la lettre v] | ˈvːː | imposée |
 | mots/vache.mp3 | Vache. | vˈaʃ. | dictionnaire |
 | lettres/nom-z.mp3 | [nom de la lettre z] | la lˈɛtʁə, zˈɛd. | imposée |
-| lettres/son-z.mp3 | [son de la lettre z] | ˈzːː | imposée |
 | mots/zèbre.mp3 | Zèbre. | zˈɛbʁ. | dictionnaire |
 | lettres/nom-j.mp3 | [nom de la lettre j] | la lˈɛtʁə, ʒˈi. | imposée |
-| lettres/son-j.mp3 | [son de la lettre j] | ˈʒːː | imposée |
 | mots/jupe.mp3 | Jupe. | ʒˈyp. | dictionnaire |
 | titres/L5.mp3 | Les sons n, c, k, g. | le- sˈɔ̃ ˈɛn, sˈe, kˈa, ʒˈe. | dictionnaire |
 | consignes/L5.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-n.mp3 | [nom de la lettre n] | la lˈɛtʁə, ˈɛn. | imposée |
-| lettres/son-n.mp3 | [son de la lettre n] | ˈnːː | imposée |
 | mots/nuage.mp3 | Nuage. | nyˈaʒ. | dictionnaire |
 | lettres/nom-c.mp3 | [nom de la lettre c] | la lˈɛtʁə, sˈe. | imposée |
-| lettres/son-c.mp3 | [son de la lettre c] | kˈə | imposée |
 | mots/cube.mp3 | Cube. | kˈyb. | dictionnaire |
 | lettres/nom-k.mp3 | [nom de la lettre k] | la lˈɛtʁə, kˈa. | imposée |
-| lettres/son-k.mp3 | [son de la lettre k] | kˈə | imposée |
 | mots/kiwi.mp3 | Kiwi. | kiwˈi. | imposée |
 | lettres/nom-g.mp3 | [nom de la lettre g] | la lˈɛtʁə, ʒˈe. | imposée |
-| lettres/son-g.mp3 | [son de la lettre g] | ɡˈə | imposée |
 | mots/gorille.mp3 | Gorille. | ɡɔʁˈij. | imposée |
 | titres/L6.mp3 | Lettres particulières , ache, ku, ixe, i grec, double vé. | lˈɛtʁ paʁtikyljˈɛʁ, ˈaʃ, kˈy, ˈiks, ˈi ɡʁˈɛk, dˈubl vˈe. | dictionnaire |
 | consignes/L6.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-h.mp3 | [nom de la lettre h] | la lˈɛtʁə, ˈaʃ. | imposée |
-| lettres/son-h.mp3 | La lettre H ne fait pas de son. | la- lˈɛtʁ ˈaʃ nə- fˈɛ pa də- sˈɔ̃. | dictionnaire |
 | mots/hibou.mp3 | Hibou. | ibˈu. | dictionnaire |
 | lettres/nom-q.mp3 | [nom de la lettre q] | la lˈɛtʁə, kˈy. | imposée |
-| lettres/son-q.mp3 | [son de la lettre q] | kˈə | imposée |
 | mots/quatre.mp3 | Quatre. | kˈatʁ. | dictionnaire |
 | lettres/nom-x.mp3 | [nom de la lettre x] | la lˈɛtʁə, ˈiks. | imposée |
-| lettres/son-x.mp3 | [son de la lettre x] | kˈsːː | imposée |
 | mots/xylophone.mp3 | Xylophone. | ksilɔfˈɔn. | imposée |
 | lettres/nom-y.mp3 | [nom de la lettre y] | la lˈɛtʁə, ˈi ɡʁˈɛk. | imposée |
-| lettres/son-y.mp3 | [son de la lettre y] | ˈi! | imposée |
 | mots/yaourt.mp3 | Yaourt. | jaˈuʁt. | dictionnaire |
 | lettres/nom-w.mp3 | [nom de la lettre w] | la lˈɛtʁə, dˈublə vˈe. | imposée |
-| lettres/son-w.mp3 | [son de la lettre w] | ˈvːː | imposée |
 | mots/wagon.mp3 | Wagon. | vaɡˈɔ̃. | dictionnaire |
 | titres/M2.mp3 | Les syllabes. | le- silˈab. | dictionnaire |
 | titres/S1.mp3 | Syllabes avec m. | silˈab avˌɛk ˈɛm. | dictionnaire |

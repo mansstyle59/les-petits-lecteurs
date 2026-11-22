@@ -15,9 +15,11 @@
   var coarse = !!(window.matchMedia && matchMedia("(pointer:coarse)").matches);
   var reducedMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches);
 
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-  var canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
-  var canSpeak = !isTV && coarse && (!!SR || canRecord);
+  // Micro : reconnaissance vocale intégrée (Whisper sur l'appareil), identique sur tous les supports
+  var hasMic = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebAssembly && (window.AudioContext || window.webkitAudioContext));
+  var canSpeak = !isTV && coarse && hasMic;
+  var voiceMod = null;
+  function voice() { return voiceMod || (voiceMod = import("./voice.js" + (typeof Q === "string" ? Q : ""))); }
 
   var app = document.getElementById("app");
   var btnBack = document.getElementById("btn-back");
@@ -28,6 +30,9 @@
   var AVATARS = ["🦊", "🐼", "🐯", "🐰", "🦁", "🐸", "🐧", "🦄", "🐶", "🐱", "🐵", "🐻"];
   var AGES = [3, 4, 5, 6, 7, 8];
   var AUDIO_BASE = "../audio/";
+  // Version de l'application (ajoutée automatiquement aux fichiers) : évite toute ancienne copie en cache
+  var APP_VER = (function () { try { return new URL(document.currentScript.src).searchParams.get("v") || "dev"; } catch (e) { return "dev"; } })();
+  var Q = "?v=" + APP_VER;
 
   // ================= Synchronisation (Supabase) =================
   var SYNC_URL = "https://vfxblubjsxwseacmslnu.supabase.co/rest/v1/rpc/";
@@ -90,7 +95,7 @@
     unlocked = true;
     try {
       player.muted = true;
-      player.src = AUDIO_BASE + "ui/ecoute.mp3";
+      player.src = AUDIO_BASE + "ui/ecoute.mp3" + Q;
       var p = player.play();
       if (p && p.then) p.then(function () { player.pause(); player.muted = false; }).catch(function () { player.muted = false; });
       else player.muted = false;
@@ -125,7 +130,7 @@
     player.onended = function () { setTimeout(function () { playNext(onEnd); }, 160); };
     player.onerror = function () { playNext(onEnd); };
     player.muted = false;
-    player.src = AUDIO_BASE + p;
+    player.src = AUDIO_BASE + p + Q;
     var pr = player.play();
     if (pr && pr.catch) pr.catch(function () { playNext(onEnd); });
   }
@@ -413,7 +418,8 @@
 
   // Inscription avec un adulte : à la voix (« Je m'appelle Maëlo, j'ai 6 ans ») ou au clavier
   var AGE_WORDS = { trois: 3, quatre: 4, cinq: 5, six: 6, sept: 7, huit: 8 };
-  var KNOWN_NAMES = { maelo: "Maëlo", mailo: "Maëlo", maylo: "Maëlo", mayelo: "Maëlo", maelos: "Maëlo", maeloh: "Maëlo" };
+  var KNOWN_NAMES = { maelo: "Maëlo", mailo: "Maëlo", maylo: "Maëlo", mayelo: "Maëlo", maelos: "Maëlo", maeloh: "Maëlo",
+    maelau: "Maëlo", maelot: "Maëlo", maeleau: "Maëlo", maillo: "Maëlo", maillot: "Maëlo", maelaut: "Maëlo", maelaux: "Maëlo", mayelau: "Maëlo" };
   function parseIntro(text) {
     var t = String(text).trim(), res = { name: null, age: null };
     var mAge = t.match(/(\d{1,2})\s*ans?/i) || t.match(/\b(\d)\b/);
@@ -436,7 +442,7 @@
   SCREENS.newProfile = function () {
     setTop("Inscription", true);
     var chosen = AVATARS[0], age = 6, step = 1;
-    var micOK = !!SR && !isApp && !isTV;
+    var micOK = hasMic && !isTV;
     function draw() {
       var html = '<div class="adult-note"><span aria-hidden="true">👨‍👩‍👦</span> À faire avec un adulte</div>' +
         '<form class="form card-panel" id="pf" autocomplete="off" novalidate>';
@@ -460,26 +466,33 @@
       document.getElementById("pf").addEventListener("submit", submit);
     }
     function setAge(a) { age = a; app.querySelectorAll(".age-choice").forEach(function (x) { x.setAttribute("aria-pressed", String(+x.dataset.age === a)); }); }
-    var rec = null;
-    leaveHook = function () { try { if (rec) { rec.onresult = rec.onerror = rec.onend = null; rec.abort(); } } catch (e) {} };
+    var ictrl = null, alive = true;
+    leaveHook = function () { alive = false; if (ictrl) ictrl.abort(); voice().then(function (V) { V.releaseMic(); }).catch(function () {}); };
     function listenIntro() {
       stopAudio();
       var mic = document.getElementById("intro-mic"), hint = document.getElementById("intro-hint");
-      try {
-        rec = new SR(); rec.lang = "fr-FR"; rec.interimResults = false; rec.maxAlternatives = 3;
-        var got = false;
-        rec.onresult = function (e) {
-          got = true; mic.classList.remove("listening");
-          var r = parseIntro(e.results[0][0].transcript);
-          if (r.name) document.getElementById("pname").value = r.name;
-          if (r.age) setAge(r.age);
-          if (r.name) { hint.textContent = "J'ai compris : " + r.name + (r.age ? ", " + r.age + " ans" : "") + ". Un adulte vérifie, puis choisis ton animal."; play(["ui/compris.mp3", "ui/animal.mp3"]); }
-          else { hint.textContent = "Je n'ai pas bien compris. Réessaie, ou un adulte écrit le prénom."; play("ui/pas-compris.mp3"); }
-        };
-        rec.onerror = function () { got = true; mic.classList.remove("listening"); hint.textContent = "Le micro n'est pas disponible : un adulte peut écrire le prénom."; play("ui/pas-compris.mp3"); };
-        rec.onend = function () { mic.classList.remove("listening"); if (!got) { hint.textContent = "Je n'ai rien entendu. Appuie et parle bien fort."; } };
-        rec.start(); mic.classList.add("listening"); hint.textContent = "Je t'écoute…";
-      } catch (e) { hint.textContent = "Le micro n'est pas disponible : un adulte peut écrire le prénom."; }
+      mic.disabled = true;
+      hint.textContent = "Préparation du micro…";
+      voice().then(function (V) {
+        return V.warmup(function (x) { hint.textContent = "Préparation du micro… " + Math.round(x * 100) + " %"; }).then(function () {
+          mic.classList.add("listening"); hint.textContent = "Je t'écoute…";
+          ictrl = new AbortController();
+          return V.record({ signal: ictrl.signal, maxMs: 7000, silenceMs: 1100 });
+        }).then(function (r) {
+          mic.classList.remove("listening");
+          if (!alive) return;
+          if (!r.speech) { mic.disabled = false; hint.textContent = "Je n'ai rien entendu. Appuie et parle bien fort."; play("ui/pas-compris.mp3"); return; }
+          hint.textContent = "Je réfléchis…";
+          return V.transcribeText(r.audio).then(function (txt) {
+            mic.disabled = false;
+            var res = parseIntro(txt);
+            if (res.name) document.getElementById("pname").value = res.name;
+            if (res.age) setAge(res.age);
+            if (res.name) { hint.textContent = "J'ai compris : " + res.name + (res.age ? ", " + res.age + " ans" : "") + ". Un adulte vérifie, puis choisis ton animal."; play(["ui/compris.mp3", "ui/animal.mp3"]); }
+            else { hint.textContent = "Je n'ai pas bien compris. Réessaie, ou un adulte écrit le prénom."; play("ui/pas-compris.mp3"); }
+          });
+        });
+      }).catch(function () { mic.disabled = false; mic.classList.remove("listening"); hint.textContent = "Le micro n'est pas autorisé : autorise-le dans les réglages, ou un adulte écrit le prénom."; });
     }
     function submit(e) {
       e.preventDefault();
@@ -767,138 +780,207 @@
     return '<div class="target phrase">' + esc(it.phrase) + "</div>";
   }
 
+  // ---- Parole au micro (téléphone / tablette) ----
+  // Le modèle compare ce que l'enfant a dit à la bonne réponse ET à des réponses proches
+  // (« ma » contre « mi », « mo », « la »…). Règles :
+  //  - bonne réponse en tête ou à égalité → « Bien dit ! »
+  //  - autre réponse nettement en tête → vraie correction : « J'ai entendu mi. Écoute : ma »
+  //  - doute → « Je n'ai pas bien entendu » (jamais « faux » à tort)
+  // Les sons isolés (« mmm ») ne sont pas jugés par la machine (pas assez fiable) :
+  // l'enfant se réécoute à côté du modèle et un adulte valide.
+  var LETTER_NAME_TXT = { a: "A", b: "B", c: "C", d: "D", e: "E", f: "F", g: "G", h: "H", i: "I", j: "J", k: "K", l: "L", m: "M",
+    n: "N", o: "O", p: "P", q: "Q", r: "R", s: "S", t: "T", u: "U", v: "V", w: "W", x: "X", y: "Y", z: "Z" };
+  function allItems(filter) {
+    var out = [];
+    allLessons.forEach(function (id) { lessonIndex[id].items.forEach(function (it) { if (filter(it)) out.push(it); }); });
+    return out;
+  }
+  function phonKey(t) { return phonTokens(t).join(""); }
+  function candidatesFor(it, l) {
+    var target, pool = [];
+    if (it.lettre_minuscule) {
+      target = LETTER_NAME_TXT[it.lettre_minuscule];
+      pool = l.items.filter(function (x) { return x.lettre_minuscule; }).map(function (x) { return LETTER_NAME_TXT[x.lettre_minuscule]; });
+      if (pool.length < 4) pool = pool.concat(["A", "M", "L", "O", "S", "R"]);
+    } else if (it.syllabe_tts) {
+      target = it.affiche;
+      var cons = target.replace(/[aeiouéy].*$/, ""), vow = target.slice(cons.length);
+      pool = allItems(function (x) { return x.syllabe_tts; }).map(function (x) { return x.affiche; })
+        .filter(function (x) { return x !== target && (x.indexOf(cons) === 0 || x.slice(-vow.length) === vow); });
+    } else if (it.mot) {
+      target = it.mot;
+      pool = l.items.filter(function (x) { return x.mot; }).map(function (x) { return x.mot; })
+        .concat(allItems(function (x) { return x.mot && x.mot[0] === it.mot[0]; }).map(function (x) { return x.mot; }));
+    } else {
+      target = it.phrase.replace(/[.!?]$/, "");
+      pool = allItems(function (x) { return x.phrase; }).map(function (x) { return x.phrase.replace(/[.!?]$/, ""); });
+    }
+    var seen = {}, out = [target]; seen[phonKey(target)] = 1;
+    shuffle(pool).forEach(function (x) { var k = phonKey(x); if (!seen[k] && out.length < 6) { seen[k] = 1; out.push(x); } });
+    return out;
+  }
+  function audioForCandidate(text, it) {
+    if (it.lettre_minuscule) { var L = text.toLowerCase(); return ["lettres/nom-" + L + ".mp3"]; }
+    if (it.syllabe_tts) { var sy = allItems(function (x) { return x.affiche === text; })[0]; return sy ? ["syllabes/" + sy.syllabe_tts + ".mp3"] : ["tts:" + text]; }
+    if (it.mot) { var w = allItems(function (x) { return x.mot === text; })[0]; return w ? ["mots/" + w.mot + ".mp3"] : ["tts:" + text]; }
+    var ph = allItems(function (x) { return x.phrase && x.phrase.replace(/[.!?]$/, "") === text; })[0];
+    return ph ? itemAudio(ph, ph._lid, ph._idx) : ["tts:" + text];
+  }
+  function judge(scores) {
+    var t = scores[0], bestOther = -Infinity, bi = -1;
+    for (var i = 1; i < scores.length; i++) if (scores[i] > bestOther) { bestOther = scores[i]; bi = i; }
+    // Seuils calculés sur des mesures : aucune bonne réponse n'a été corrigée à tort.
+    if (t - bestOther >= 1.0) return { verdict: "ok" };
+    if (bestOther - t >= 3.2 && bestOther > -4.5) return { verdict: "autre", index: bi };
+    return { verdict: "doute" };
+  }
+  window.__lplJudge = judge;
+  window.__lplTest = { candidatesFor: candidatesFor, judge: judge, lesson: function (id) { return lessonIndex[id]; } };
+  function speakPrompt(it) {
+    if (it.lettre_minuscule) return "ui/q-lettre-nom.mp3";
+    if (it.syllabe_tts) return "ui/q-syllabe.mp3";
+    if (it.mot) return "ui/q-mot.mp3";
+    return "ui/q-phrase.mp3";
+  }
+  function speakDisplay(it) {
+    if (it.lettre_minuscule) return '<div class="target big">' + esc(it.lettre_majuscule) + " " + esc(it.lettre_minuscule) + "</div>";
+    if (it.syllabe_tts) return '<div class="target big">' + esc(it.affiche) + "</div>";
+    if (it.mot) return '<div class="target">' + (it.illustration ? '<span class="emoji" aria-hidden="true">' + it.illustration + "</span> " : "") + esc(it.mot) + "</div>";
+    return '<div class="target phrase">' + esc(it.phrase) + "</div>";
+  }
+
   SCREENS.speak = function (a) {
     var l = findLesson(a.id), p = profile();
     setTop("À toi de parler", true);
-    var items = shuffle(l.items).slice(0, Math.min(3, l.items.length));
-    var k = 0, rec = null, mediaRec = null, stream = null, timer = null, recordedUrl = null, alive = true;
-    var useSR = !!SR && !isApp;
-
-    function cleanup() {
-      clearTimeout(timer);
-      try { if (rec) { rec.onend = null; rec.onresult = null; rec.onerror = null; rec.abort(); } } catch (e) {}
-      try { if (mediaRec && mediaRec.state !== "inactive") { mediaRec.onstop = null; mediaRec.stop(); } } catch (e) {}
-      if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
-      stream = null; rec = null; mediaRec = null;
-    }
-    leaveHook = function () { alive = false; cleanup(); if (recordedUrl) URL.revokeObjectURL(recordedUrl); };
-
+    var items = shuffle(l.items.filter(function (x) { return x.lettre_minuscule !== "h"; })).slice(0, Math.min(3, l.items.length));
+    var k = 0, alive = true, ctrl = null, tries = 0;
+    leaveHook = function () { alive = false; if (ctrl) ctrl.abort(); voice().then(function (V) { V.releaseMic(); }).catch(function () {}); };
     function done() { go("result", { id: l.id, stars: a.stars, errors: a.errors }, true); }
+    function fb(cls, html) { var f = document.getElementById("fb"); if (f) { f.className = "footer-feedback show " + cls; f.innerHTML = html; } }
+    function setState(st, txt) {
+      var m = document.getElementById("mic"), h = document.getElementById("mic-hint");
+      if (m) { m.classList.toggle("listening", st === "listening"); m.classList.toggle("thinking", st === "thinking"); m.disabled = st !== "idle"; }
+      if (h) h.textContent = txt;
+    }
+    function actions(html) { var b = document.getElementById("speak-actions"); if (b) b.innerHTML = html; return b; }
+
     function showItem() {
       if (!alive) return;
+      tries = 0;
       var it = items[k], idx = l.items.indexOf(it);
       app.innerHTML = '<div class="speak"><div class="progressbar"><span style="width:' + Math.max(4, k / items.length * 100) + '%"></span></div>' +
-        bubble(p.name + ", à toi de le dire !", "happy") + speakDisplay(it) +
-        '<button class="btn secondary focusable" type="button" id="model">🔊 Écouter le modèle</button>' +
-        '<button class="mic focusable" type="button" id="mic" aria-label="Appuie et parle"><span class="mic-ico" aria-hidden="true">🎤</span></button>' +
+        bubble(it.lettre_minuscule ? p.name + ", c'est quoi cette lettre ?" : p.name + ", à toi de le dire !", "happy") + speakDisplay(it) +
+        '<button class="btn secondary focusable" type="button" id="model">🔊 Écouter</button>' +
+        '<div class="mic-wrap"><span class="mic-level" id="mic-level"></span><button class="mic focusable" type="button" id="mic" aria-label="Appuie et parle"><span class="mic-ico" aria-hidden="true">🎤</span></button></div>' +
         '<p class="hint" id="mic-hint">Appuie sur le micro, puis parle.</p><div class="speak-actions" id="speak-actions"></div>' +
         '<div class="actions center"><button class="btn ghost focusable" type="button" id="skip">Passer</button></div></div>' +
         '<div class="footer-feedback" id="fb" aria-live="assertive"></div>';
       document.getElementById("model").addEventListener("click", function () { play(itemAudio(it, l.id, idx)); });
-      document.getElementById("mic").addEventListener("click", function () { listen(it); });
+      document.getElementById("mic").addEventListener("click", function () { listen(it, idx); });
       document.getElementById("skip").addEventListener("click", nextItem);
       play(nameAudio(p).concat([speakPrompt(it)]).concat(it.lettre_minuscule ? [] : itemAudio(it, l.id, idx)).concat(["ui/a-toi-micro.mp3"]));
     }
-    function nextItem() { cleanup(); k++; if (k >= items.length) done(); else showItem(); }
-    function success(it) {
+    function nextItem() { if (ctrl) ctrl.abort(); k++; if (k >= items.length) done(); else showItem(); }
+
+    function listen(it, idx) {
+      stopAudio();
+      voice().then(function (V) {
+        setState("listening", "Je t'écoute…");
+        var lvl = document.getElementById("mic-level");
+        ctrl = new AbortController();
+        return V.record({ signal: ctrl.signal, onLevel: function (x) { if (lvl) lvl.style.transform = "scale(" + (1 + x * 0.9) + ")"; } }).then(function (r) {
+          if (!alive) return;
+          if (lvl) lvl.style.transform = "scale(1)";
+          if (!r.speech) { setState("idle", "Je n'ai rien entendu. Appuie et parle bien fort."); fb("info", "<strong>Je n'ai rien entendu.</strong>"); play("ui/pas-entendu.mp3"); return; }
+          setState("thinking", "Je réfléchis…");
+          var cands = candidatesFor(it, l);
+          return V.score(r.audio, cands).then(function (scores) {
+            if (!alive) return;
+            var j = judge(scores);
+            tries++;
+            if (j.verdict === "ok") return success(it, idx, r.audio);
+            if (j.verdict === "autre") return correct(it, idx, cands[j.index], r.audio);
+            notSure(it, idx, r.audio);
+          });
+        });
+      }).catch(function (e) {
+        setState("idle", "Le micro n'est pas autorisé. Autorise-le dans les réglages, ou un adulte peut valider.");
+        actions('<button class="btn focusable" type="button" id="adult">✓ Un adulte valide</button>');
+        document.getElementById("adult").addEventListener("click", function () { success(it, idx, null); });
+      });
+    }
+    function success(it, idx, audio) {
       if (!alive) return;
       p.spoke = true; saveState(p);
-      var fb = document.getElementById("fb");
-      fb.className = "footer-feedback show good"; fb.innerHTML = "<strong>Bien dit, " + esc(p.name) + " !</strong>";
-      setMic("idle"); confetti(60);
-      var extra = it.lettre_minuscule ? ["ui/q-lettre-son.mp3", "lettres/son-" + it.lettre_minuscule + ".mp3"] : [];
-      play(["ui/bien-dit.mp3"].concat(extra), function () { setTimeout(nextItem, 300); });
+      setState("idle", "Bravo !"); actions("");
+      fb("good", "<strong>Bien dit, " + esc(p.name) + " !</strong>");
+      confetti(60);
+      if (it.lettre_minuscule) return play(["ui/bien-dit.mp3"], function () { soundStep(it, idx); });
+      play(["ui/bien-dit.mp3"], function () { setTimeout(nextItem, 350); });
     }
-    function notSure(it, playbackUrl) {
+    function correct(it, idx, heard, audio) {
       if (!alive) return;
-      var fb = document.getElementById("fb");
-      fb.className = "footer-feedback show info"; fb.innerHTML = "<strong>Je n'ai pas bien entendu.</strong>";
-      setMic("idle");
-      var box = document.getElementById("speak-actions");
-      box.innerHTML = (playbackUrl ? '<button class="btn secondary focusable" type="button" id="me">🔁 Écouter ma voix</button>' : "") +
-        '<button class="btn secondary focusable" type="button" id="again">↻ Réessayer</button>' +
-        '<button class="btn focusable" type="button" id="adult">✓ Un adulte valide</button>';
-      if (playbackUrl) document.getElementById("me").addEventListener("click", function () { new Audio(playbackUrl).play().catch(function () {}); });
-      document.getElementById("again").addEventListener("click", function () { box.innerHTML = ""; fb.className = "footer-feedback"; listen(it); });
-      document.getElementById("adult").addEventListener("click", function () { box.innerHTML = ""; success(it); });
+      setState("idle", "Écoute bien, puis réessaie.");
+      fb("bad", "<strong>J'ai entendu « " + esc(heard) + " ». On dit « " + esc(it.lettre_minuscule ? it.lettre_majuscule : (it.affiche || it.mot || it.phrase)) + " ».</strong>");
+      var b = actions('<button class="btn secondary focusable" type="button" id="me">🔁 Ma voix</button><button class="btn focusable" type="button" id="adult">✓ Un adulte valide</button>');
+      document.getElementById("me").addEventListener("click", function () { voice().then(function (V) { V.playBack(audio); }); });
+      document.getElementById("adult").addEventListener("click", function () { success(it, idx, null); });
+      play(["ui/jai-entendu.mp3"].concat(audioForCandidate(heard, it)).concat(["ui/ecoute-bien.mp3"]).concat(it.lettre_minuscule ? ["lettres/nom-" + it.lettre_minuscule + ".mp3"] : itemAudio(it, l.id, idx)).concat(["ui/reessaie.mp3"]));
+    }
+    function notSure(it, idx, audio) {
+      if (!alive) return;
+      setState("idle", "Appuie sur le micro et parle bien fort.");
+      fb("info", "<strong>Je n'ai pas bien entendu.</strong>");
+      actions('<button class="btn secondary focusable" type="button" id="me">🔁 Ma voix</button><button class="btn focusable" type="button" id="adult">✓ Un adulte valide</button>');
+      document.getElementById("me").addEventListener("click", function () { voice().then(function (V) { V.playBack(audio); }); });
+      document.getElementById("adult").addEventListener("click", function () { success(it, idx, null); });
       play(["ui/pas-entendu.mp3"]);
     }
-    function setMic(st) {
-      var m = document.getElementById("mic"), h = document.getElementById("mic-hint");
-      if (!m) return;
-      m.classList.toggle("listening", st === "listening");
-      if (h) h.textContent = st === "listening" ? (useSR ? "Je t'écoute…" : "Je t'enregistre… appuie pour arrêter.") : "Appuie sur le micro, puis parle.";
-    }
-    function listen(it) { stopAudio(); if (useSR) listenSR(it); else if (canRecord) listenRecord(it); else notSure(it, null); }
-    function listenSR(it) {
-      try {
-        cleanup();
-        rec = new SR();
-        rec.lang = "fr-FR"; rec.interimResults = false; rec.continuous = false; rec.maxAlternatives = 5;
-        var got = false;
-        rec.onresult = function (e) {
-          got = true;
-          var alts = [];
-          for (var r = 0; r < e.results.length; r++) for (var j = 0; j < e.results[r].length; j++) alts.push(e.results[r][j].transcript);
-          if (matchesItem(it, alts)) success(it); else notSure(it, null);
-        };
-        rec.onerror = function (e) {
-          got = true;
-          if (e.error === "not-allowed" || e.error === "service-not-allowed") {
-            useSR = false;
-            if (canRecord) listenRecord(it); else { toast("Le micro n'est pas autorisé. Un adulte peut valider."); notSure(it, null); }
-          } else notSure(it, null);
-        };
-        rec.onend = function () { clearTimeout(timer); if (!got) notSure(it, null); };
-        rec.start();
-        setMic("listening");
-        timer = setTimeout(function () { try { rec && rec.stop(); } catch (e) {} }, 7000);
-      } catch (e) { useSR = false; if (canRecord) listenRecord(it); else notSure(it, null); }
-    }
-    function listenRecord(it) {
-      if (mediaRec && mediaRec.state === "recording") { mediaRec.stop(); return; }
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) {
-        if (!alive) { s.getTracks().forEach(function (t) { t.stop(); }); return; }
-        stream = s;
-        var chunks = [];
-        mediaRec = new MediaRecorder(s);
-        mediaRec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
-        mediaRec.onstop = function () {
-          clearTimeout(timer);
-          if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
-          stream = null;
-          var blob = new Blob(chunks, { type: (mediaRec && mediaRec.mimeType) || "audio/webm" });
-          if (recordedUrl) URL.revokeObjectURL(recordedUrl);
-          recordedUrl = URL.createObjectURL(blob);
-          setMic("idle");
-          var fb = document.getElementById("fb");
-          if (fb) { fb.className = "footer-feedback show info"; fb.innerHTML = "<strong>Écoute ta voix !</strong>"; }
-          var au = new Audio(recordedUrl);
-          au.onended = function () { askAdult(it, recordedUrl); };
-          au.play().catch(function () { askAdult(it, recordedUrl); });
-        };
-        mediaRec.start();
-        setMic("listening");
-        timer = setTimeout(function () { if (mediaRec && mediaRec.state === "recording") mediaRec.stop(); }, 4000);
-      }).catch(function () { toast("Le micro n'est pas autorisé. Un adulte peut valider."); notSure(it, null); });
-    }
-    function askAdult(it, url) {
-      var box = document.getElementById("speak-actions");
-      if (!box || !alive) return;
-      box.innerHTML = '<button class="btn secondary focusable" type="button" id="me">🔁 Écouter ma voix</button>' +
-        '<button class="btn secondary focusable" type="button" id="again">↻ Recommencer</button>' +
-        '<button class="btn focusable" type="button" id="adult">✓ C\'est bien dit</button>';
-      document.getElementById("me").addEventListener("click", function () { new Audio(url).play().catch(function () {}); });
-      document.getElementById("again").addEventListener("click", function () { box.innerHTML = ""; listen(it); });
-      document.getElementById("adult").addEventListener("click", function () { box.innerHTML = ""; success(it); });
+    // Son de la lettre : l'enfant répète, se réécoute à côté du modèle, un adulte valide.
+    function soundStep(it, idx) {
+      if (!alive) return;
+      var son = ["lettres/son-" + it.lettre_minuscule + ".mp3"];
+      setState("idle", "Maintenant le son : écoute, puis répète.");
+      fb("info", "<strong>Et le son de la lettre ?</strong>");
+      var b = actions('<button class="btn secondary focusable" type="button" id="hear-son">🔊 Le son</button>');
+      document.getElementById("hear-son").addEventListener("click", function () { play(son); });
+      var mic = document.getElementById("mic");
+      var fresh = mic.cloneNode(true); mic.parentNode.replaceChild(fresh, mic);
+      fresh.addEventListener("click", function () {
+        stopAudio();
+        voice().then(function (V) {
+          setState("listening", "Je t'écoute…");
+          ctrl = new AbortController();
+          return V.record({ signal: ctrl.signal, maxMs: 3000, silenceMs: 700 }).then(function (r) {
+            if (!alive) return;
+            setState("idle", "Écoute ta voix et le modèle.");
+            var bb = actions('<button class="btn secondary focusable" type="button" id="me">🔁 Ma voix</button><button class="btn secondary focusable" type="button" id="hear-son2">🔊 Le modèle</button><button class="btn focusable" type="button" id="same">✓ C\'est pareil</button>');
+            document.getElementById("me").addEventListener("click", function () { V.playBack(r.audio); });
+            document.getElementById("hear-son2").addEventListener("click", function () { play(son); });
+            document.getElementById("same").addEventListener("click", function () { fb("good", "<strong>Super !</strong>"); play(["ui/super.mp3"], function () { setTimeout(nextItem, 300); }); });
+            V.playBack(r.audio).then(function () { if (alive) play(son); });
+          });
+        }).catch(function () { setState("idle", "Le micro n'est pas autorisé."); });
+      });
+      play(["ui/q-lettre-son.mp3"].concat(son).concat(["ui/repete.mp3"]));
     }
 
     app.innerHTML = '<div class="speak intro">' + bubble("Maintenant, à toi de parler !", "happy") +
       '<button class="btn big wide focusable" type="button" id="go-speak">🎤 C\'est parti</button>' +
+      '<div class="loader" id="loader" hidden><span class="loader-bar"><span id="loader-fill"></span></span><span id="loader-txt">Préparation du micro…</span></div>' +
       '<div class="actions center"><button class="btn ghost focusable" type="button" id="skip-all">Plus tard</button></div></div>';
-    document.getElementById("go-speak").addEventListener("click", showItem);
     document.getElementById("skip-all").addEventListener("click", done);
+    document.getElementById("go-speak").addEventListener("click", function () {
+      var btn = this; btn.disabled = true;
+      var ld = document.getElementById("loader"); ld.hidden = false;
+      voice().then(function (V) {
+        return V.warmup(function (x) { var f = document.getElementById("loader-fill"), t = document.getElementById("loader-txt"); if (f) f.style.width = Math.round(x * 100) + "%"; if (t) t.textContent = "Préparation du micro… " + Math.round(x * 100) + " %"; });
+      }).then(function () { if (alive) showItem(); })
+        .catch(function () { if (!alive) return; ld.hidden = true; btn.disabled = false; toast("Le micro n'a pas pu se préparer. Vérifie la connexion."); });
+    });
     play(nameAudio(p).concat(["ui/parlons.mp3"]));
+    // Préchargement discret du modèle pendant que l'enfant écoute la consigne
+    voice().then(function (V) { V.warmup(); }).catch(function () {});
   };
 
   // ---- Résultat : étoiles, confettis, trophées, leçon suivante ----
@@ -1220,8 +1302,50 @@
   });
 
   // ================= Démarrage =================
+  // À l'ouverture : vérifie s'il existe une version plus récente et l'installe aussitôt.
+  function checkUpdate() {
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctrl) ctrl.abort(); }, 5000);
+    return fetch("../version.json?t=" + Date.now(), { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (v) {
+        clearTimeout(to);
+        if (!v || !v.version || APP_VER === "dev" || v.version === APP_VER) return false;
+        // Une version plus récente existe : on recharge (une seule fois) sans aucun cache.
+        var key = "lpl.reloadFor";
+        var already = null; try { already = sessionStorage.getItem(key); } catch (e) {}
+        if (already === v.version) return false;
+        try { sessionStorage.setItem(key, v.version); } catch (e) {}
+        if (navigator.serviceWorker && navigator.serviceWorker.getRegistration) {
+          navigator.serviceWorker.getRegistration().then(function (r) { if (r) r.update(); });
+        }
+        var u = new URL(location.href); u.searchParams.set("maj", v.version);
+        location.replace(u.toString());
+        return true;
+      }).catch(function () { clearTimeout(to); return false; });
+  }
+  function splashDone() {
+    var sp = document.getElementById("splash");
+    if (!sp) return;
+    sp.classList.add("hide");
+    setTimeout(function () { if (sp.parentNode) sp.parentNode.removeChild(sp); }, 450);
+    // « Mise à jour installée » quand la version a changé depuis la dernière ouverture
+    var last = null; try { last = localStorage.getItem("lpl.version"); } catch (e) {}
+    if (last && last !== APP_VER && APP_VER !== "dev") toast("✨ Application mise à jour : nouveautés et corrections installées.");
+    try { localStorage.setItem("lpl.version", APP_VER); } catch (e) {}
+  }
+  // Retour dans l'application après une longue absence : nouvelle vérification
+  var hiddenAt = 0;
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > 10 * 60 * 1000) {
+      var top = stack[stack.length - 1];
+      if (top && (top.screen === "home" || top.screen === "profiles")) checkUpdate();
+    }
+  });
+
   function start() {
-    fetch("../contenu/cours.json").then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (data) {
+    fetch("../contenu/cours.json" + Q, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (data) {
       cours = data;
       cours.modules.forEach(function (m) { m.lecons.forEach(function (l) {
         lessonIndex[l.id] = l; allLessons.push(l.id);
@@ -1239,5 +1363,10 @@
   if ("serviceWorker" in navigator && location.protocol === "https:" && location.hostname !== "appassets.androidplatform.net") {
     navigator.serviceWorker.register("../sw.js", { scope: "../" }).catch(function () {});
   }
-  start();
+  var t0 = Date.now();
+  checkUpdate().then(function (reloading) {
+    if (reloading) return;
+    start();
+    setTimeout(splashDone, Math.max(0, 900 - (Date.now() - t0)));
+  });
 })();

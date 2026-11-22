@@ -116,6 +116,7 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null) {
             web.restoreState(savedInstanceState);
         } else {
+            web.clearCache(false); // la page et le code sont rechargés ; les voix restent en cache
             web.loadUrl(BuildConfig.APP_URL + "?mode=" + mode + "&app=android");
         }
         web.requestFocus();
@@ -163,5 +164,10 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         web.onResume();
+        // Si on était sur la copie hors ligne, on retente la version en ligne (toujours à jour)
+        if (fellBack) {
+            fellBack = false;
+            web.loadUrl(BuildConfig.APP_URL + "?mode=" + mode + "&app=android");
+        }
     }
 }

@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir -p ios/www
           cp -R index.html app contenu audio apple-touch-icon.png icon-192.png icon-512.png ios/www/
+          rm -rf ios/www/app/models  # le modèle vocal (76 Mo) se télécharge depuis le site
 
       - name: Générer le projet Xcode
         run: cd ios && xcodegen generate
