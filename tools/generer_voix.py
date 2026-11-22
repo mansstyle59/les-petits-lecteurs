@@ -26,6 +26,7 @@ v_male = None
 MALE_UI = {
     "bravo", "super", "etoile", "fin", "bien-dit", "super-prenom",
     "trophee", "courage", "genial", "champion", "revision-fin", "cadeau",
+    "encore", "reessaie", "repete", "prochaine",
 }
 CFG = SynthesisConfig(length_scale=1.15, noise_scale=0.55, noise_w_scale=0.6)
 cours = json.loads((REPO / "contenu/cours.json").read_text(encoding="utf-8"))
@@ -243,6 +244,7 @@ lines = ["# Audit de prononciation", "", "Transcription phonétique (API) envoy�
          "| Fichier | Texte | API | Source |", "|---|---|---|---|"]
 for f, t, ph, forced in AUDIT:
     lines.append(f"| {f} | {t} | {ph} | {'imposée' if forced else 'dictionnaire'} |")
-(REPO / "contenu" / "AUDIT_PRONONCIATION.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+audit_name = "AUDIT_VOIX_DUO.md" if DUO_ONLY else "AUDIT_PRONONCIATION.md"
+(REPO / "contenu" / audit_name).write_text("\n".join(lines) + "\n", encoding="utf-8")
 json.dump([{"fichier": f, "texte": t, "api": ph} for f, t, ph, _ in AUDIT], open("/tmp/audit_voix.json", "w"), ensure_ascii=False)
 print("fichiers:", len(AUDIT))
