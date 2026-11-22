@@ -260,7 +260,7 @@
     return i >= 0 && i < allLessons.length - 1 ? allLessons[i + 1] : null;
   }
   function lessonIcon(l) {
-    return { son_vers_lettre: "🔤", assemblage_syllabe: "🧩", image_vers_mot: "📖", lecture_phrase: "💬" }[l.type_jeu] || "⭐";
+    return l.icone || { son_vers_lettre: "🔤", assemblage_syllabe: "🧩", image_vers_mot: "📖", lecture_phrase: "💬" }[l.type_jeu] || "⭐";
   }
 
   // ================= Révisions et cadeaux =================
@@ -306,10 +306,13 @@
     { id: "serie3", ico: "🔥", titre: "3 jours de suite", desc: "Tu as joué 3 jours d'affilée.", test: function (p) { return streak(p) >= 3; } },
     { id: "M1", ico: "🔤", titre: "Toutes les lettres", desc: "Tu connais les 26 lettres.", test: function (p) { return moduleDone(p, "M1"); } },
     { id: "etoiles20", ico: "🌟", titre: "20 étoiles", desc: "Tu as gagné 20 étoiles.", test: function (p) { return totalStars(p) >= 20; } },
+    { id: "etoiles50", ico: "🌠", titre: "50 étoiles", desc: "Tu as gagné 50 étoiles.", test: function (p) { return totalStars(p) >= 50; } },
     { id: "M2", ico: "🧩", titre: "Roi des syllabes", desc: "Toutes les syllabes réussies.", test: function (p) { return moduleDone(p, "M2"); } },
     { id: "serie7", ico: "📅", titre: "Une semaine", desc: "7 jours de suite !", test: function (p) { return streak(p) >= 7; } },
     { id: "M3", ico: "📖", titre: "Lecteur de mots", desc: "Tous les premiers mots lus.", test: function (p) { return moduleDone(p, "M3"); } },
-    { id: "M4", ico: "🏆", titre: "Je sais lire !", desc: "Tu lis tes premières phrases.", test: function (p) { return moduleDone(p, "M4"); } },
+    { id: "M4", ico: "💬", titre: "Premières phrases", desc: "Tu lis tes premières phrases.", test: function (p) { return moduleDone(p, "M4"); } },
+    { id: "M5", ico: "🪄", titre: "Sons magiques", desc: "Tu connais ou, on, an, in, oi, ch…", test: function (p) { return moduleDone(p, "M5"); } },
+    { id: "M6", ico: "🏆", titre: "Je sais lire !", desc: "Tu lis de petites histoires.", test: function (p) { return moduleDone(p, "M6"); } },
     { id: "couronne", ico: "👑", titre: "Champion", desc: "3 étoiles partout.", test: function (p) { return allLessons.every(function (id) { return p.stars[id] === 3; }); } }
   ];
   function checkTrophies(p) {
@@ -521,7 +524,7 @@
         var off = ["0px", "44px", "66px", "44px", "0px", "-44px", "-66px", "-44px"][n % 8];
         html += '<div class="node-wrap" style="--offset:' + off + '">' + (current ? '<span class="node-tag">' + (resuming ? "En cours" : "Commencer") + "</span>" : "") +
           '<button class="' + cls + '" type="button" data-l="' + l.id + '" aria-label="' + esc(l.titre) + (open ? ", " + s + " étoiles sur 3" : ", verrouillée") + '">' +
-          '<span class="node-ico" aria-hidden="true">' + (open ? (s === 3 ? "👑" : s ? "★" : lessonIcon(l)) : "🔒") + "</span></button>" +
+          '<span class="node-ico" aria-hidden="true">' + (open ? (s === 3 ? "👑" : lessonIcon(l)) : "🔒") + "</span></button>" +
           '<span class="node-label">' + esc(l.titre) + '</span><span class="node-stars" aria-hidden="true">' + starsText(s, 3) + "</span></div>";
         n++;
       });

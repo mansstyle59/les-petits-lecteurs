@@ -4,81 +4,67 @@
 
 ## M1 · Les lettres
 
-### L1 · Les voyelles
+### 🐝 L1 · Les voyelles
 *Objectif :* Reconnaître les lettres a, e, i, o, u : leur nom et leur son.  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **A a** : nom « a », son « a » — avion ✈️
-- **E e** : nom « e », son « e » — éléphant 🐘 · _Son [e] comme dans « éléphant ». Le e muet de « le » n'est pas enseigné ici._
-- **I i** : nom « i », son « i » — image 🖼️
-- **O o** : nom « o », son « o » — olive 🫒
-- **U u** : nom « u », son « u » — usine 🏭
+- **A a** — avion ✈️
+- **E e** — éléphant 🐘
+- **I i** — image 🖼️
+- **O o** — olive 🫒
+- **U u** — usine 🏭
 
-### L2 · Les sons continus : m, l, r, s
+### 🐑 L2 · Les sons continus : m, l, r, s
 *Objectif :* Reconnaître m, l, r, s et leur son.  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **M m** : nom « emme », son « mmm » — maison 🏠
-- **L l** : nom « elle », son « lll » — lune 🌙
-- **R r** : nom « erre », son « rrr » — rose 🌹
-- **S s** : nom « esse », son « sss » — soleil ☀️
+- **M m** — maison 🏠
+- **L l** — lune 🌙
+- **R r** — rose 🌹
+- **S s** — soleil ☀️
 
-### L3 · Les sons courts : p, t, b, d
+### 🐬 L3 · Les sons courts : p, t, b, d
 *Objectif :* Reconnaître p, t, b, d et leur son.  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **P p** : nom « pé », son « pe » — pomme 🍎 · _Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)._
-- **T t** : nom « té », son « te » — table 🪑 · _Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)._
-- **B b** : nom « bé », son « be » — bateau ⛵ · _Consonne occlusive : prononcer le son court, sans ajouter de « e » (le moteur vocal doit utiliser l'audio enregistré)._
-- **D d** : nom « dé », son « de » — dauphin 🐬 · _Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)._
+- **P p** — pomme 🍎
+- **T t** — table 🪑
+- **B b** — bateau ⛵
+- **D d** — dauphin 🐬
 
-### L4 · Les sons f, v, z, j
+### 🦓 L4 · Les sons f, v, z, j
 *Objectif :* Reconnaître f, v, z, j et leur son.  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **F f** : nom « effe », son « fff » — fleur 🌸
-- **V v** : nom « vé », son « vvv » — vache 🐄
-- **Z z** : nom « zède », son « zzz » — zèbre 🦓
-- **J j** : nom « ji », son « je » — jupe 👗
+- **F f** — fleur 🌸
+- **V v** — vache 🐄
+- **Z z** — zèbre 🦓
+- **J j** — jupe 👗
 
-### L5 · Les sons n, c, k, g
+### 🐨 L5 · Les sons n, c, k, g
 *Objectif :* Reconnaître n, c, k, g et leur son (c et g durs).  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **N n** : nom « enne », son « nnn » — nuage ☁️
-- **C c** : nom « cé », son « ke » — cube 🧊 · _Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard._
-- **K k** : nom « ka », son « ke » — kiwi 🥝 · _Son [k], comme le c dur._
-- **G g** : nom « gé », son « gue » — gorille 🦍 · _Son dur [g] devant a, o, u (« gorille »)._
+- **N n** — nuage ☁️
+- **C c** — cube 🧊
+- **K k** — kiwi 🥝
+- **G g** — gorille 🦍
 
-### L6 · Lettres particulières : h, q, x, y, w
+### 🦉 L6 · Lettres particulières : h, q, x, y, w
 *Objectif :* Reconnaître les lettres h, q, x, y, w et leurs particularités.  
-*Jeu :* son_vers_lettre  
-*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?  
-*Réussite :* Reconnaître au moins 4 lettres sur 5 à chaque essai.
+*Consigne :* Écoute bien le son. Quelle lettre fait ce son ?
 
-- **H h** : nom « ache », son «  » — hibou 🦉 · _Lettre muette : aucun son. Elle s'écrit mais ne se prononce pas._
-- **Q q** : nom « ku », son « ke » — quatre 4️⃣ · _Dans les premiers mots, « qu » se prononce [k]._
-- **X x** : nom « iks », son « ks » — xylophone 🎶 · _Son [ks] dans ce cas ; les autres sons de x sont vus plus tard._
-- **Y y** : nom « i grec », son « i » — yaourt 🥛 · _Son [i] ici, comme dans « yaourt » (le son [j] viendra plus tard)._
-- **W w** : nom « double vé », son « w » — wagon 🚃 · _Son rare, utilisé surtout dans des mots empruntés._
+- **H h** — hibou 🦉
+- **Q q** — quatre 4️⃣
+- **X x** — xylophone 🎶
+- **Y y** — yaourt 🥛
+- **W w** — wagon 🚃
 
 ## M2 · Les syllabes
 
-### S1 · Syllabes avec m
+### 🐭 S1 · Syllabes avec m
 *Objectif :* Assembler m avec les voyelles.  
-*Jeu :* assemblage_syllabe  
-*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.  
-*Réussite :* Assembler 5 syllabes sans aide.
+*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.
 
 - ma
 - me
@@ -86,11 +72,9 @@
 - mo
 - mu
 
-### S2 · Syllabes avec l et r
+### 🦁 S2 · Syllabes avec l et r
 *Objectif :* Assembler l et r avec les voyelles.  
-*Jeu :* assemblage_syllabe  
-*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.  
-*Réussite :* Assembler 5 syllabes sans aide.
+*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.
 
 - la
 - le
@@ -103,11 +87,9 @@
 - ro
 - ru
 
-### S3 · Syllabes avec p, t, b, d
+### 🐼 S3 · Syllabes avec p, t, b, d
 *Objectif :* Assembler p, t, b, d avec les voyelles.  
-*Jeu :* assemblage_syllabe  
-*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.  
-*Réussite :* Assembler 5 syllabes sans aide.
+*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.
 
 - pa
 - pe
@@ -130,11 +112,9 @@
 - do
 - du
 
-### S4 · Syllabes avec f, s, v, j
+### 🦊 S4 · Syllabes avec f, s, v, j
 *Objectif :* Assembler f, s, v, j avec les voyelles.  
-*Jeu :* assemblage_syllabe  
-*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.  
-*Réussite :* Assembler 5 syllabes sans aide.
+*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.
 
 - fa
 - fe
@@ -157,11 +137,9 @@
 - jo
 - ju
 
-### S5 · Syllabes avec n, c, g
+### 🐻 S5 · Syllabes avec n, c, g
 *Objectif :* Assembler n, c (dur) et g (dur) avec les voyelles.  
-*Jeu :* assemblage_syllabe  
-*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.  
-*Réussite :* Assembler 5 syllabes sans aide.
+*Consigne :* Écoute la syllabe, puis trouve-la parmi les images.
 
 - na
 - ne
@@ -177,11 +155,9 @@
 
 ## M3 · Les premiers mots
 
-### W1 · Premiers mots avec m, l, r, s
+### 🦙 W1 · Premiers mots avec m, l, r, s
 *Objectif :* Associer un mot à son image.  
-*Jeu :* image_vers_mot  
-*Consigne :* Écoute le mot, puis touche son image.  
-*Réussite :* Reconnaître 4 mots sur 5.
+*Consigne :* Écoute le mot, puis touche son image.
 
 - 🦙 **lama** (la-ma)
 - 🫏 **mule** (mu-le)
@@ -189,11 +165,9 @@
 - 🧂 **sel** (sel)
 - 👫 **ami** (a-mi)
 
-### W2 · Premiers mots avec p, t, b, d
+### 🏍️ W2 · Premiers mots avec p, t, b, d
 *Objectif :* Associer un mot à son image.  
-*Jeu :* image_vers_mot  
-*Consigne :* Écoute le mot, puis touche son image.  
-*Réussite :* Reconnaître 4 mots sur 5.
+*Consigne :* Écoute le mot, puis touche son image.
 
 - 👨 **papa** (pa-pa)
 - 🛏️ **dodo** (do-do)
@@ -201,11 +175,9 @@
 - 🧶 **tapis** (ta-pis)
 - 🫧 **bulle** (bu-lle)
 
-### W3 · Premiers mots avec f, v, z, j, n
+### 🚀 W3 · Premiers mots avec f, v, z, j, n
 *Objectif :* Associer un mot à son image.  
-*Jeu :* image_vers_mot  
-*Consigne :* Écoute le mot, puis touche son image.  
-*Réussite :* Reconnaître 4 mots sur 5.
+*Consigne :* Écoute le mot, puis touche son image.
 
 - 👗 **jupe** (ju-pe)
 - 🚢 **navire** (na-vi-re)
@@ -213,33 +185,124 @@
 - 🧵 **fil** (fil)
 - ☁️ **nuage** (nu-a-ge)
 
-### W4 · Les sons ch et ou
+### 🐱 W4 · Les sons ch et ou
 *Objectif :* Reconnaître les sons ch et ou dans un mot.  
-*Jeu :* image_vers_mot  
-*Consigne :* Écoute le mot, puis touche son image.  
-*Réussite :* Reconnaître 4 mots sur 5.
+*Consigne :* Écoute le mot, puis touche son image.
 
 - 🥬 **chou** (chou)
-- 🐱 **chat** (cha) · _« chat » : le t final est muet._
+- 🐱 **chat** (cha)
 - 🐔 **poule** (pou-le)
 
 ## M4 · Les premières phrases
 
-### P1 · Premières phrases
+### 🚣 P1 · Premières phrases
 *Objectif :* Lire une phrase courte et la relier à son image.  
-*Jeu :* lecture_phrase  
-*Consigne :* Lis la phrase à voix haute, puis écoute-la.  
-*Réussite :* Lire 2 phrases sur 2 avec une aide sonore.
+*Consigne :* Lis la phrase à voix haute, puis écoute-la.
 
 - 🚣 Papa rame.
-- 🦙 Lili a un lama. · _« un » et « une » sont des mots à apprendre tels quels._
+- 🦙 Lili a un lama.
 
-### P2 · Phrases avec des mots nouveaux
+### 🌙 P2 · Phrases avec des mots nouveaux
 *Objectif :* Lire des phrases avec les mots déjà appris.  
-*Jeu :* lecture_phrase  
-*Consigne :* Lis la phrase à voix haute, puis écoute-la.  
-*Réussite :* Lire 2 phrases sur 2 avec une aide sonore.
+*Consigne :* Lis la phrase à voix haute, puis écoute-la.
 
-- 🏍️ Maman a une moto. · _« un » et « une » sont des mots à apprendre tels quels._
+- 🏍️ Maman a une moto.
 - 🦙 Le lama dort.
+
+## M5 · Les sons magiques
+
+### 🐺 C1 · Les sons ou et on
+*Objectif :* Quand o et u sont ensemble, ils font « ou ». Quand o et n sont ensemble, ils font « on ».  
+*Consigne :* Écoute le son, puis trouve comment il s'écrit.
+
+- ou
+- on
+- mou
+- lou
+- pou
+- son
+- bon
+- non
+
+### 🎈 C2 · Mots avec ou et on
+*Objectif :* Lire des mots avec ou et on.  
+*Consigne :* Écoute le mot, puis touche son image.
+
+- 🐺 **loup** (loup)
+- 🛞 **roue** (rou-e)
+- 🐑 **mouton** (mou-ton)
+- 🎈 **ballon** (bal-lon)
+- 🍬 **bonbon** (bon-bon)
+- 🌉 **pont** (pont)
+
+### 👑 C3 · Les sons an, in et oi
+*Objectif :* an et en font « an », in fait « in », oi fait « oi ».  
+*Consigne :* Écoute le son, puis trouve comment il s'écrit.
+
+- an
+- in
+- oi
+- fin
+- moi
+- toi
+
+### 🐰 C4 · Mots avec an, in et oi
+*Objectif :* Lire des mots avec an, in et oi.  
+*Consigne :* Écoute le mot, puis touche son image.
+
+- 🐰 **lapin** (la-pin)
+- 🎄 **sapin** (sa-pin)
+- 🦷 **dent** (dent)
+- 🤴 **roi** (roi)
+- ⭐ **étoile** (é-toi-le)
+- 👩 **maman** (ma-man)
+
+### 🐫 C5 · Les sons ch, eau et ai
+*Objectif :* ch fait « ch », eau fait « o », ai fait « è ».  
+*Consigne :* Écoute le son, puis trouve comment il s'écrit.
+
+- cha
+- chi
+- cho
+- eau
+- ai
+- lai
+- mai
+
+### 🏰 C6 · Mots avec ch, eau et ai
+*Objectif :* Lire des mots avec ch, eau et ai.  
+*Consigne :* Écoute le mot, puis touche son image.
+
+- 🏰 **château** (châ-teau)
+- 🐫 **chameau** (cha-meau)
+- 🎂 **gâteau** (gâ-teau)
+- 🥛 **lait** (lait)
+- 🪑 **chaise** (chai-se)
+- 🐴 **cheval** (che-val)
+
+## M6 · Je lis des histoires
+
+### 🐱 H1 · Histoire du chat
+*Objectif :* Lire de petites phrases et comprendre l'image.  
+*Consigne :* Lis la phrase, puis touche la bonne image.
+
+- 🐱 Le chat dort sur le lit.
+- 🥛 Le chat boit du lait.
+- 🎈 Le chat joue avec un ballon.
+
+### 🐺 H2 · Le loup et le mouton
+*Objectif :* Lire une petite histoire.  
+*Consigne :* Lis la phrase, puis touche la bonne image.
+
+- 🐺 Le loup a vu un mouton.
+- 🐑 Le mouton court dans le pré.
+- 🌲 Le loup se cache dans le bois.
+
+### 🤴 H3 · Le roi et le gâteau
+*Objectif :* Lire une petite histoire.  
+*Consigne :* Lis la phrase, puis touche la bonne image.
+
+- 🎂 Le roi a un gros gâteau.
+- 🥕 Le lapin mange une carotte.
+- 📖 Maman lit un livre au lit.
 

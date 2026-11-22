@@ -69,7 +69,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🐝"
         },
         {
           "id": "L2",
@@ -119,7 +120,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🐑"
         },
         {
           "id": "L3",
@@ -169,7 +171,8 @@
               "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🐬"
         },
         {
           "id": "L4",
@@ -219,7 +222,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🦓"
         },
         {
           "id": "L5",
@@ -269,7 +273,8 @@
               "note": "Son dur [g] devant a, o, u (« gorille »)."
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🐨"
         },
         {
           "id": "L6",
@@ -329,7 +334,8 @@
               "note": "Son rare, utilisé surtout dans des mots empruntés."
             }
           ],
-          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai."
+          "reussite": "Reconnaître au moins 4 lettres sur 5 à chaque essai.",
+          "icone": "🦉"
         }
       ]
     },
@@ -365,7 +371,8 @@
               "syllabe_tts": "mu"
             }
           ],
-          "reussite": "Assembler 5 syllabes sans aide."
+          "reussite": "Assembler 5 syllabes sans aide.",
+          "icone": "🐭"
         },
         {
           "id": "S2",
@@ -415,7 +422,8 @@
               "syllabe_tts": "ru"
             }
           ],
-          "reussite": "Assembler 5 syllabes sans aide."
+          "reussite": "Assembler 5 syllabes sans aide.",
+          "icone": "🦁"
         },
         {
           "id": "S3",
@@ -505,7 +513,8 @@
               "syllabe_tts": "du"
             }
           ],
-          "reussite": "Assembler 5 syllabes sans aide."
+          "reussite": "Assembler 5 syllabes sans aide.",
+          "icone": "🐼"
         },
         {
           "id": "S4",
@@ -595,7 +604,8 @@
               "syllabe_tts": "ju"
             }
           ],
-          "reussite": "Assembler 5 syllabes sans aide."
+          "reussite": "Assembler 5 syllabes sans aide.",
+          "icone": "🦊"
         },
         {
           "id": "S5",
@@ -649,7 +659,8 @@
               "syllabe_tts": "gu"
             }
           ],
-          "reussite": "Assembler 5 syllabes sans aide."
+          "reussite": "Assembler 5 syllabes sans aide.",
+          "icone": "🐻"
         }
       ]
     },
@@ -700,7 +711,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître 4 mots sur 5."
+          "reussite": "Reconnaître 4 mots sur 5.",
+          "icone": "🦙"
         },
         {
           "id": "W2",
@@ -745,7 +757,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître 4 mots sur 5."
+          "reussite": "Reconnaître 4 mots sur 5.",
+          "icone": "🏍️"
         },
         {
           "id": "W3",
@@ -790,7 +803,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître 4 mots sur 5."
+          "reussite": "Reconnaître 4 mots sur 5.",
+          "icone": "🚀"
         },
         {
           "id": "W4",
@@ -821,7 +835,8 @@
               "note": ""
             }
           ],
-          "reussite": "Reconnaître 4 mots sur 5."
+          "reussite": "Reconnaître 4 mots sur 5.",
+          "icone": "🐱"
         }
       ]
     },
@@ -847,7 +862,8 @@
               "note": "« un » et « une » sont des mots à apprendre tels quels."
             }
           ],
-          "reussite": "Lire 2 phrases sur 2 avec une aide sonore."
+          "reussite": "Lire 2 phrases sur 2 avec une aide sonore.",
+          "icone": "🚣"
         },
         {
           "id": "P2",
@@ -867,7 +883,374 @@
               "note": ""
             }
           ],
-          "reussite": "Lire 2 phrases sur 2 avec une aide sonore."
+          "reussite": "Lire 2 phrases sur 2 avec une aide sonore.",
+          "icone": "🌙"
+        }
+      ]
+    },
+    {
+      "id": "M5",
+      "titre": "Les sons magiques",
+      "lecons": [
+        {
+          "id": "C1",
+          "icone": "🐺",
+          "titre": "Les sons ou et on",
+          "objectif": "Quand o et u sont ensemble, ils font « ou ». Quand o et n sont ensemble, ils font « on ».",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute le son, puis trouve comment il s'écrit.",
+          "items": [
+            {
+              "affiche": "ou",
+              "syllabe_tts": "ou"
+            },
+            {
+              "affiche": "on",
+              "syllabe_tts": "on"
+            },
+            {
+              "affiche": "mou",
+              "syllabe_tts": "mou"
+            },
+            {
+              "affiche": "lou",
+              "syllabe_tts": "lou"
+            },
+            {
+              "affiche": "pou",
+              "syllabe_tts": "pou"
+            },
+            {
+              "affiche": "son",
+              "syllabe_tts": "son"
+            },
+            {
+              "affiche": "bon",
+              "syllabe_tts": "bon"
+            },
+            {
+              "affiche": "non",
+              "syllabe_tts": "non"
+            }
+          ],
+          "reussite": "Reconnaître ou et on."
+        },
+        {
+          "id": "C2",
+          "icone": "🎈",
+          "titre": "Mots avec ou et on",
+          "objectif": "Lire des mots avec ou et on.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "loup",
+              "decoupage": "loup",
+              "illustration": "🐺",
+              "mot_tts": "loup",
+              "note": ""
+            },
+            {
+              "mot": "roue",
+              "decoupage": "rou-e",
+              "illustration": "🛞",
+              "mot_tts": "roue",
+              "note": "Le e final ne se prononce pas."
+            },
+            {
+              "mot": "mouton",
+              "decoupage": "mou-ton",
+              "illustration": "🐑",
+              "mot_tts": "mouton",
+              "note": ""
+            },
+            {
+              "mot": "ballon",
+              "decoupage": "bal-lon",
+              "illustration": "🎈",
+              "mot_tts": "ballon",
+              "note": ""
+            },
+            {
+              "mot": "bonbon",
+              "decoupage": "bon-bon",
+              "illustration": "🍬",
+              "mot_tts": "bonbon",
+              "note": ""
+            },
+            {
+              "mot": "pont",
+              "decoupage": "pont",
+              "illustration": "🌉",
+              "mot_tts": "pont",
+              "note": "Le t final ne se prononce pas."
+            }
+          ],
+          "reussite": "Lire 5 mots sur 6."
+        },
+        {
+          "id": "C3",
+          "icone": "👑",
+          "titre": "Les sons an, in et oi",
+          "objectif": "an et en font « an », in fait « in », oi fait « oi ».",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute le son, puis trouve comment il s'écrit.",
+          "items": [
+            {
+              "affiche": "an",
+              "syllabe_tts": "an"
+            },
+            {
+              "affiche": "in",
+              "syllabe_tts": "in"
+            },
+            {
+              "affiche": "oi",
+              "syllabe_tts": "oi"
+            },
+            {
+              "affiche": "fin",
+              "syllabe_tts": "fin"
+            },
+            {
+              "affiche": "moi",
+              "syllabe_tts": "moi"
+            },
+            {
+              "affiche": "toi",
+              "syllabe_tts": "toi"
+            }
+          ],
+          "reussite": "Reconnaître an, in et oi."
+        },
+        {
+          "id": "C4",
+          "icone": "🐰",
+          "titre": "Mots avec an, in et oi",
+          "objectif": "Lire des mots avec an, in et oi.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "lapin",
+              "decoupage": "la-pin",
+              "illustration": "🐰",
+              "mot_tts": "lapin",
+              "note": ""
+            },
+            {
+              "mot": "sapin",
+              "decoupage": "sa-pin",
+              "illustration": "🎄",
+              "mot_tts": "sapin",
+              "note": ""
+            },
+            {
+              "mot": "dent",
+              "decoupage": "dent",
+              "illustration": "🦷",
+              "mot_tts": "dent",
+              "note": "« en » fait le son « an »."
+            },
+            {
+              "mot": "roi",
+              "decoupage": "roi",
+              "illustration": "🤴",
+              "mot_tts": "roi",
+              "note": ""
+            },
+            {
+              "mot": "étoile",
+              "decoupage": "é-toi-le",
+              "illustration": "⭐",
+              "mot_tts": "étoile",
+              "note": ""
+            },
+            {
+              "mot": "maman",
+              "decoupage": "ma-man",
+              "illustration": "👩",
+              "mot_tts": "maman",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 5 mots sur 6."
+        },
+        {
+          "id": "C5",
+          "icone": "🐫",
+          "titre": "Les sons ch, eau et ai",
+          "objectif": "ch fait « ch », eau fait « o », ai fait « è ».",
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute le son, puis trouve comment il s'écrit.",
+          "items": [
+            {
+              "affiche": "cha",
+              "syllabe_tts": "cha"
+            },
+            {
+              "affiche": "chi",
+              "syllabe_tts": "chi"
+            },
+            {
+              "affiche": "cho",
+              "syllabe_tts": "cho"
+            },
+            {
+              "affiche": "eau",
+              "syllabe_tts": "eau"
+            },
+            {
+              "affiche": "ai",
+              "syllabe_tts": "ai"
+            },
+            {
+              "affiche": "lai",
+              "syllabe_tts": "lai"
+            },
+            {
+              "affiche": "mai",
+              "syllabe_tts": "mai"
+            }
+          ],
+          "reussite": "Reconnaître ch, eau et ai."
+        },
+        {
+          "id": "C6",
+          "icone": "🏰",
+          "titre": "Mots avec ch, eau et ai",
+          "objectif": "Lire des mots avec ch, eau et ai.",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "château",
+              "decoupage": "châ-teau",
+              "illustration": "🏰",
+              "mot_tts": "château",
+              "note": ""
+            },
+            {
+              "mot": "chameau",
+              "decoupage": "cha-meau",
+              "illustration": "🐫",
+              "mot_tts": "chameau",
+              "note": ""
+            },
+            {
+              "mot": "gâteau",
+              "decoupage": "gâ-teau",
+              "illustration": "🎂",
+              "mot_tts": "gâteau",
+              "note": ""
+            },
+            {
+              "mot": "lait",
+              "decoupage": "lait",
+              "illustration": "🥛",
+              "mot_tts": "lait",
+              "note": "Le t final ne se prononce pas."
+            },
+            {
+              "mot": "chaise",
+              "decoupage": "chai-se",
+              "illustration": "🪑",
+              "mot_tts": "chaise",
+              "note": ""
+            },
+            {
+              "mot": "cheval",
+              "decoupage": "che-val",
+              "illustration": "🐴",
+              "mot_tts": "cheval",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 5 mots sur 6."
+        }
+      ]
+    },
+    {
+      "id": "M6",
+      "titre": "Je lis des histoires",
+      "lecons": [
+        {
+          "id": "H1",
+          "icone": "🐱",
+          "titre": "Histoire du chat",
+          "objectif": "Lire de petites phrases et comprendre l'image.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Le chat dort sur le lit.",
+              "illustration": "🐱",
+              "note": ""
+            },
+            {
+              "phrase": "Le chat boit du lait.",
+              "illustration": "🥛",
+              "note": ""
+            },
+            {
+              "phrase": "Le chat joue avec un ballon.",
+              "illustration": "🎈",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 3 phrases."
+        },
+        {
+          "id": "H2",
+          "icone": "🐺",
+          "titre": "Le loup et le mouton",
+          "objectif": "Lire une petite histoire.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Le loup a vu un mouton.",
+              "illustration": "🐺",
+              "note": ""
+            },
+            {
+              "phrase": "Le mouton court dans le pré.",
+              "illustration": "🐑",
+              "note": ""
+            },
+            {
+              "phrase": "Le loup se cache dans le bois.",
+              "illustration": "🌲",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 3 phrases."
+        },
+        {
+          "id": "H3",
+          "icone": "🤴",
+          "titre": "Le roi et le gâteau",
+          "objectif": "Lire une petite histoire.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Le roi a un gros gâteau.",
+              "illustration": "🎂",
+              "note": ""
+            },
+            {
+              "phrase": "Le lapin mange une carotte.",
+              "illustration": "🥕",
+              "note": ""
+            },
+            {
+              "phrase": "Maman lit un livre au lit.",
+              "illustration": "📖",
+              "note": ""
+            }
+          ],
+          "reussite": "Lire 3 phrases."
         }
       ]
     }

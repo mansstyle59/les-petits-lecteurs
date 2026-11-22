@@ -1,0 +1,296 @@
+{
+ "mots/loup": {
+  "api": "lə- lˈu.",
+  "ls": 1.0,
+  "source": "Le loup.",
+  "entendu": "Le loup.",
+  "score": 0.8
+ },
+ "mots/bonbon": {
+  "api": "œ̃ bɔ̃bˈɔ̃.",
+  "ls": 1.15,
+  "source": "Un bonbon.",
+  "entendu": "un bonbon",
+  "score": 1.0
+ },
+ "mots/pont": {
+  "api": "œ̃ pˈɔ̃.",
+  "ls": 1.0,
+  "source": "Un pont.",
+  "entendu": "Un pont.",
+  "score": 1.0
+ },
+ "mots/lapin": {
+  "api": "œ̃ lapˈɛ̃.",
+  "ls": 1.0,
+  "source": "Un lapin.",
+  "entendu": "Un lapin.",
+  "score": 1.0
+ },
+ "mots/dent": {
+  "api": "yn dˈɑ̃.",
+  "ls": 1.3,
+  "source": "Une dent.",
+  "entendu": "Une dent",
+  "score": 1.0
+ },
+ "mots/roi": {
+  "api": "lə- ʁwˈa.",
+  "ls": 1.0,
+  "source": "Le roi.",
+  "entendu": "le roi",
+  "score": 1.0
+ },
+ "mots/chameau": {
+  "api": "œ̃ ʃamˈo.",
+  "ls": 1.0,
+  "source": "Un chameau.",
+  "entendu": "Un chameau.",
+  "score": 1.0
+ },
+ "mots/gâteau": {
+  "api": "œ̃ ɡatˈo.",
+  "ls": 1.0,
+  "source": "Un gâteau.",
+  "entendu": "Un gâteau.",
+  "score": 1.0
+ },
+ "mots/lait": {
+  "api": "dy- lˈɛ.",
+  "ls": 1.0,
+  "source": "Du lait.",
+  "entendu": "du lait",
+  "score": 1.0
+ },
+ "phrases/H2-1": {
+  "api": "lə- lˈu a vˈy œ̃ mutˈɔ̃.",
+  "ls": 1.0,
+  "source": "Le loup a vu un mouton.",
+  "entendu": "Le loup a vu un mouton.",
+  "score": 1.0
+ },
+ "syllabes/son": {
+  "api": "sˈɔ̃.",
+  "ls": 1.0,
+  "source": "Son.",
+  "entendu": "SONG",
+  "score": 0.86
+ },
+ "syllabes/non": {
+  "api": "nˈɔ̃.",
+  "ls": 1.0,
+  "source": "Non.",
+  "entendu": "non",
+  "score": 1.0
+ },
+ "syllabes/fin": {
+  "api": "fˈɛ̃.",
+  "ls": 1.0,
+  "source": "Fin.",
+  "entendu": "fin",
+  "score": 1.0
+ },
+ "lettres/son-a": {
+  "api": "ˈa",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "ʔ a",
+  "score": 1.0
+ },
+ "lettres/son-e": {
+  "api": "ˈe",
+  "ls": 1.3,
+  "ns": 0.55,
+  "nw": 0.8,
+  "entendu": "eː",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-i": {
+  "api": "ˈi",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʔ iː",
+  "score": 1.0
+ },
+ "lettres/son-o": {
+  "api": "ˈo",
+  "ls": 1.3,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "o",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-y": {
+  "api": "ˈi",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʔ i",
+  "score": 1.0
+ },
+ "lettres/son-s": {
+  "api": "ˈsː",
+  "ls": 0.85,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "ʔ s",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-f": {
+  "api": "ˈfː",
+  "ls": 1.3,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʔ f",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-v": {
+  "api": "vːː",
+  "ls": 0.85,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "v",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-n": {
+  "api": "ˈnnn",
+  "ls": 0.85,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "ʔ n",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-p": {
+  "api": "pˈø",
+  "ls": 0.85,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "p əɜ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-t": {
+  "api": "tˈə",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "t əɜ",
+  "score": 1.0
+ },
+ "lettres/son-b": {
+  "api": "bˈø",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "b",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-d": {
+  "api": "dˈø",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "d əɜ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-c": {
+  "api": "kə",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "k əɜ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-k": {
+  "api": "kə",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "k əɜ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-q": {
+  "api": "kə",
+  "ls": 1.0,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "k əɜ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-l": {
+  "api": "ˈlː",
+  "ls": 0.85,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "l",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-z": {
+  "api": "zːː",
+  "ls": 1.6,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʔ z",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-j": {
+  "api": "ʒːː",
+  "ls": 0.85,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "ʒ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-x": {
+  "api": "ˈksː",
+  "ls": 0.85,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʔ k s",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-g": {
+  "api": "ɡˈə",
+  "ls": 1.0,
+  "ns": 0.55,
+  "nw": 0.4,
+  "entendu": "ɡ øː",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-u": {
+  "api": "ˈy.",
+  "ls": 1.6,
+  "ns": 0.3,
+  "nw": 0.4,
+  "entendu": "ʉ",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "lettres/son-r": {
+  "api": "ʁə",
+  "ls": 1.0,
+  "ns": 0.3,
+  "nw": 0.8,
+  "entendu": "ʁ",
+  "score": 1.0,
+  "fichier_verifie": true
+ }
+}

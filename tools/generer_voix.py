@@ -50,13 +50,21 @@ SON_CFG = {
 CONS = {"m": "m", "l": "l", "r": "ʁ", "s": "s", "f": "f", "v": "v", "z": "z", "j": "ʒ", "n": "n",
         "p": "p", "t": "t", "b": "b", "d": "d", "c": "k", "g": "ɡ"}
 VOY = {"a": "a", "e": "ə", "i": "i", "o": "o", "u": "y"}
+# Sons complexes et syllabes avec sons complexes (API, français de France)
+SYL_API = {
+    "ou": "ˈu", "on": "ˈɔ̃", "mou": "mˈu", "lou": "lˈu", "pou": "pˈu", "son": "sˈɔ̃", "bon": "bˈɔ̃", "ton": "tˈɔ̃",
+    "an": "ˈɑ̃", "in": "ˈɛ̃", "oi": "wˈa", "man": "mˈɑ̃", "lin": "lˈɛ̃", "moi": "mwˈa", "toi": "twˈa", "pin": "pˈɛ̃",
+    "cha": "ʃˈa", "chi": "ʃˈi", "cho": "ʃˈo", "eau": "ˈo", "ai": "ˈɛ", "lai": "lˈɛ", "mai": "mˈɛ",
+}
 def syllabe_api(s):
+    if s in SYL_API: return SYL_API[s]
     return CONS[s[0]] + "ˈ" + VOY[s[1]] + "ː"
 
 # Corrections de mots si l'audit en trouve (mot -> API). Vide si tout est correct.
 MOTS_API = {
     "kiwi": "kiwˈi.", "xylophone": "ksilɔfˈɔn.", "rose": "ʁˈoz.", "olive": "ɔlˈiv.",
-    "gorille": "ɡɔʁˈij.", "soleil": "sɔlˈɛj.", "moto": "mɔtˈo.", "image": "imˈaʒ.",
+    "gorille": "ɡɔʁˈij.", "château": "ʃatˈo.", "gâteau": "ɡatˈo.", "chameau": "ʃamˈo.", "lait": "lˈɛ.",
+    "chaise": "ʃˈɛz.", "cheval": "ʃəvˈal.", "roue": "ʁˈu.", "pont": "pˈɔ̃.", "dent": "dˈɑ̃.", "étoile": "etwˈal.", "soleil": "sɔlˈɛj.", "moto": "mɔtˈo.", "image": "imˈaʒ.",
 }
 PHRASES_API = {
     "Lili a un lama.": "lilˈi a œ̃ lamˈa.",
@@ -105,9 +113,17 @@ def text_phonemes(text):
         out.extend(sent)
     return "".join(out)
 
+# Rendus choisis par écoute automatique (tools/choisir_voix.py)
+CHOIX_PATH = REPO / "tools" / "choix_voix.json"
+CHOIX = json.loads(CHOIX_PATH.read_text(encoding="utf-8")) if CHOIX_PATH.exists() else {}
+
 AUDIT = []
 def synth(path, text=None, api=None, cfg=None):
     path.parent.mkdir(parents=True, exist_ok=True)
+    key = str(path.relative_to(OUT))[:-4]
+    if key in CHOIX and CHOIX[key].get("score", 0) >= 0.8:
+        api = CHOIX[key]["api"]
+        cfg = SynthesisConfig(length_scale=CHOIX[key]["ls"], noise_scale=0.55, noise_w_scale=0.6)
     ph = api if api is not None else text_phonemes(text)
     AUDIT.append((str(path.relative_to(OUT)), text or "", ph, api is not None))
     if path.exists() and not TOUT:
@@ -128,7 +144,10 @@ for m in cours["modules"]:
             if "lettre_minuscule" in it:
                 L = it["lettre_minuscule"]
                 synth(OUT / "lettres" / f"nom-{L}.mp3", f"[nom de la lettre {L}]", NOM_API[L])
-                if L == "h":
+                son_file = OUT / "lettres" / f"son-{L}.mp3"
+                if son_file.exists() and "--sons" not in sys.argv:
+                    pass  # son validé phonétiquement : ne pas régénérer
+                elif L == "h":
                     synth(OUT / "lettres" / "son-h.mp3", "La lettre H ne fait pas de son.")
                 else:
                     synth(OUT / "lettres" / f"son-{L}.mp3", f"[son de la lettre {L}]", SON_API[L], SON_CFG.get(L))
@@ -143,10 +162,10 @@ for m in cours["modules"]:
                 synth(OUT / "phrases" / f"{l['id']}-{i + 1}.mp3", it["phrase"], PHRASES_API.get(it["phrase"]))
 
 # Voyelles seules : découpées dans « La lettre… i » (voyelle naturelle, en contexte), légèrement allongées.
-def voyelle_naturelle(L, core, out):
+def voyelle_naturelle(L, core, out, carrier="la lˈɛtʁə, ", tempo="0.8"):
     import numpy as np
     sr = v.config.sample_rate
-    a = np.clip(v.phoneme_ids_to_audio(v.phonemes_to_ids(list("la lˈɛtʁə, " + core + ".")), CFG), -1, 1)
+    a = np.clip(v.phoneme_ids_to_audio(v.phonemes_to_ids(list(carrier + core + ".")), CFG), -1, 1)
     win = int(sr * 0.01)
     e = np.array([np.sqrt(np.mean(a[i:i + win] ** 2)) for i in range(0, len(a) - win, win)])
     quiet = e < max(e) * 0.04
@@ -166,11 +185,18 @@ def voyelle_naturelle(L, core, out):
     with tempfile.NamedTemporaryFile(suffix=".wav") as t:
         with wave.open(t.name, "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr); w.writeframes((seg * 32767).astype("<i2").tobytes())
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", t.name, "-af", "atempo=0.8,adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5",
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", t.name, "-af", "atempo=" + tempo + ",adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5",
                         "-ac", "1", "-ar", "24000", "-b:a", "48k", str(out)], check=True)
-for L, core in [("a", "ˈa"), ("e", "ˈe"), ("i", "ˈi"), ("o", "ˈo"), ("u", "ˈy"), ("y", "ˈi")]:
-    if TOUT or True:
-        voyelle_naturelle(L, core, OUT / "lettres" / f"son-{L}.mp3")
+# (les sons de voyelles sont choisis et validés par tools/choisir_sons.py)
+
+# Syllabes : découpées dans « le son… ma » pour une prononciation naturelle
+for m in cours["modules"]:
+    for l in m["lecons"]:
+        for it in l["items"]:
+            if "syllabe_tts" in it:
+                s_ = it["syllabe_tts"]
+                if f"syllabes/{s_}" in CHOIX: continue  # rendu direct vérifié
+                voyelle_naturelle(s_, syllabe_api(s_), OUT / "syllabes" / f"{s_}.mp3", carrier="lə sˈɔ̃, ", tempo="0.9")
 
 # Rapport de prononciation (relecture humaine)
 lines = ["# Audit de prononciation", "", "Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.",

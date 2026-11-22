@@ -252,3 +252,71 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | consignes/P2.mp3 | Lis la phrase à voix haute, puis écoute-la. | lˈi la- fʁˈaz a vwˈa ˈot, pyˈiz ekˈutlˈa-. | dictionnaire |
 | phrases/P2-1.mp3 | Maman a une moto. | mamˈɑ̃ a yn mɔtˈo. | imposée |
 | phrases/P2-2.mp3 | Le lama dort. | lə- lamˈa dˈɔʁ. | dictionnaire |
+| titres/M5.mp3 | Les sons magiques. | le- sˈɔ̃ maʒˈik. | dictionnaire |
+| titres/C1.mp3 | Les sons ou et on. | le- sˈɔ̃ u e ˈɔ̃. | dictionnaire |
+| consignes/C1.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
+| syllabes/ou.mp3 | [syllabe ou] | ˈu | imposée |
+| syllabes/on.mp3 | [syllabe on] | ˈɔ̃ | imposée |
+| syllabes/mou.mp3 | [syllabe mou] | mˈu | imposée |
+| syllabes/lou.mp3 | [syllabe lou] | lˈu | imposée |
+| syllabes/pou.mp3 | [syllabe pou] | pˈu | imposée |
+| syllabes/son.mp3 | [syllabe son] | sˈɔ̃. | imposée |
+| syllabes/bon.mp3 | [syllabe bon] | bˈɔ̃ | imposée |
+| syllabes/non.mp3 | [syllabe non] | nˈɔ̃. | imposée |
+| titres/C2.mp3 | Mots avec ou et on. | mˈo avˌɛk u e ˈɔ̃. | dictionnaire |
+| consignes/C2.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/loup.mp3 | Loup. | lə- lˈu. | imposée |
+| mots/roue.mp3 | Roue. | ʁˈu. | imposée |
+| mots/mouton.mp3 | Mouton. | mutˈɔ̃. | dictionnaire |
+| mots/ballon.mp3 | Ballon. | balˈɔ̃. | dictionnaire |
+| mots/bonbon.mp3 | Bonbon. | œ̃ bɔ̃bˈɔ̃. | imposée |
+| mots/pont.mp3 | Pont. | œ̃ pˈɔ̃. | imposée |
+| titres/C3.mp3 | Les sons an, in et oi. | le- sˈɔ̃z ˈɑ̃, ɪn e wˈa. | dictionnaire |
+| consignes/C3.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
+| syllabes/an.mp3 | [syllabe an] | ˈɑ̃ | imposée |
+| syllabes/in.mp3 | [syllabe in] | ˈɛ̃ | imposée |
+| syllabes/oi.mp3 | [syllabe oi] | wˈa | imposée |
+| syllabes/fin.mp3 | [syllabe fin] | fˈɛ̃. | imposée |
+| syllabes/moi.mp3 | [syllabe moi] | mwˈa | imposée |
+| syllabes/toi.mp3 | [syllabe toi] | twˈa | imposée |
+| titres/C4.mp3 | Mots avec an, in et oi. | mˈo avˌɛk ˈɑ̃, ɪn e wˈa. | dictionnaire |
+| consignes/C4.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/lapin.mp3 | Lapin. | œ̃ lapˈɛ̃. | imposée |
+| mots/sapin.mp3 | Sapin. | sapˈɛ̃. | dictionnaire |
+| mots/dent.mp3 | Dent. | yn dˈɑ̃. | imposée |
+| mots/roi.mp3 | Roi. | lə- ʁwˈa. | imposée |
+| mots/étoile.mp3 | Étoile. | etwˈal. | imposée |
+| mots/maman.mp3 | Maman. | mamˈɑ̃. | dictionnaire |
+| titres/C5.mp3 | Les sons ch, eau et ai. | le- sˈɔ̃ sˌeˈaʃ, ˈo e ˈe. | dictionnaire |
+| consignes/C5.mp3 | Écoute le son, puis trouve comment il s'écrit. | ekˈut lə- sˈɔ̃, pyˈi tʁˈuv kɔmˌɑ̃ il sekʁˈi. | dictionnaire |
+| syllabes/cha.mp3 | [syllabe cha] | ʃˈa | imposée |
+| syllabes/chi.mp3 | [syllabe chi] | ʃˈi | imposée |
+| syllabes/cho.mp3 | [syllabe cho] | ʃˈo | imposée |
+| syllabes/eau.mp3 | [syllabe eau] | ˈo | imposée |
+| syllabes/ai.mp3 | [syllabe ai] | ˈɛ | imposée |
+| syllabes/lai.mp3 | [syllabe lai] | lˈɛ | imposée |
+| syllabes/mai.mp3 | [syllabe mai] | mˈɛ | imposée |
+| titres/C6.mp3 | Mots avec ch, eau et ai. | mˈo avˌɛk sˌeˈaʃ, ˈo e ˈe. | dictionnaire |
+| consignes/C6.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/château.mp3 | Château. | ʃatˈo. | imposée |
+| mots/chameau.mp3 | Chameau. | œ̃ ʃamˈo. | imposée |
+| mots/gâteau.mp3 | Gâteau. | œ̃ ɡatˈo. | imposée |
+| mots/lait.mp3 | Lait. | dy- lˈɛ. | imposée |
+| mots/chaise.mp3 | Chaise. | ʃˈɛz. | imposée |
+| mots/cheval.mp3 | Cheval. | ʃəvˈal. | imposée |
+| titres/M6.mp3 | Je lis des histoires. | ʒə- lˈi de-z istwˈaʁ. | dictionnaire |
+| titres/H1.mp3 | Histoire du chat. | istwˈaʁ dy- ʃˈa. | dictionnaire |
+| consignes/H1.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H1-1.mp3 | Le chat dort sur le lit. | lə- ʃˈa dˈɔʁ syʁ lə- lˈi. | dictionnaire |
+| phrases/H1-2.mp3 | Le chat boit du lait. | lə- ʃˈa bwˈa dy- lˈɛ. | dictionnaire |
+| phrases/H1-3.mp3 | Le chat joue avec un ballon. | lə- ʃˈa ʒˈu avˌɛk œ̃ balˈɔ̃. | dictionnaire |
+| titres/H2.mp3 | Le loup et le mouton. | lə- lˈu e lə- mutˈɔ̃. | dictionnaire |
+| consignes/H2.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H2-1.mp3 | Le loup a vu un mouton. | lə- lˈu a vˈy œ̃ mutˈɔ̃. | imposée |
+| phrases/H2-2.mp3 | Le mouton court dans le pré. | lə- mutˈɔ̃ kˈuʁ dɑ̃ lə- pʁˈe. | dictionnaire |
+| phrases/H2-3.mp3 | Le loup se cache dans le bois. | lə- lˈu sə- kˈaʃ dɑ̃ lə- bwˈa. | dictionnaire |
+| titres/H3.mp3 | Le roi et le gâteau. | lə- ʁwˈa e lə- ɡatˈo. | dictionnaire |
+| consignes/H3.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H3-1.mp3 | Le roi a un gros gâteau. | lə- ʁwˈa a œ̃ ɡʁˈo ɡatˈo. | dictionnaire |
+| phrases/H3-2.mp3 | Le lapin mange une carotte. | lə- lapˈɛ̃ mˈɑ̃ʒ yn kaʁˈɔt. | dictionnaire |
+| phrases/H3-3.mp3 | Maman lit un livre au lit. | mamˈɑ̃ lˈiʲ œ̃ lˈivʁ o lˈi. | dictionnaire |
