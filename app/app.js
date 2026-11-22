@@ -166,16 +166,54 @@
   document.addEventListener("click", function (e) {
     if (busy && app.contains(e.target)) { e.stopPropagation(); e.preventDefault(); }
   }, true);
+  // ---- Sous-titres : le texte exact de la voix s'affiche, et les mots s'allument pendant qu'elle parle ----
+  var VOIX = {}, capEl = null, capRaf = 0, capHide = 0, capSession = 0;
+  function subtitlesOn() { return !(state && state.settings && state.settings.subtitles === false); }
+  function showCaption(text, timed, isName) {
+    if (!subtitlesOn() || !text) return hideCaption(true);
+    if (!capEl) { capEl = document.createElement("div"); capEl.id = "caption"; capEl.setAttribute("aria-hidden", "true"); document.body.appendChild(capEl); }
+    clearTimeout(capHide); cancelAnimationFrame(capRaf);
+    var words = String(text).split(/\s+/);
+    // Dans une même phrase de la voix (« Bonjour » + « Maëlo » + « Choisis une leçon »), le texte se complète au lieu de s'effacer
+    var keep = capEl.classList.contains("on") && capEl.dataset.session === String(capSession) && capEl.querySelectorAll("span").length + words.length <= 26;
+    if (!keep) capEl.innerHTML = "";
+    var last = keep ? capEl.querySelector("span:last-child") : null;
+    if (last && !/[.!?,…:;»]$/.test(last.textContent)) last.textContent += ",";
+    if (last && /,$/.test(last.textContent) && !isName && words[0] && !/^(Maëlo|Milo|Léa|Lili|Papa|Maman)$/.test(words[0].replace(/[^\wÀ-ÿ]/g, ""))) words[0] = words[0].charAt(0).toLowerCase() + words[0].slice(1);
+    capEl.querySelectorAll("span").forEach(function (x) { x.classList.add("said"); });
+    capEl.insertAdjacentHTML("beforeend", (keep ? " " : "") + words.map(function (w) { return "<span class='new'>" + esc(w) + "</span>"; }).join(" "));
+    capEl.dataset.session = String(capSession);
+    capEl.classList.add("on");
+    var spans = capEl.querySelectorAll("span.new");
+    spans.forEach(function (x) { x.classList.remove("new"); });
+    if (!timed) { spans.forEach(function (x) { x.classList.add("said"); }); return; }
+    // les mots s'allument au rythme de l'audio (proportionnel à la longueur des mots)
+    var lens = words.map(function (w) { return w.replace(/[^\wÀ-ÿ]/g, "").length + 1; }), tot = lens.reduce(function (x, y) { return x + y; }, 0), acc = [], c = 0;
+    lens.forEach(function (n) { c += n; acc.push(c / tot); });
+    (function tick() {
+      var d = player.duration, f = d && isFinite(d) ? Math.min(1, (player.currentTime - 0.08) / Math.max(0.3, d - 0.3)) : 0;
+      spans.forEach(function (x, i) { x.classList.toggle("said", f >= (i ? acc[i - 1] : 0) + 0.02); });
+      if (f < 1) capRaf = requestAnimationFrame(tick);
+    })();
+  }
+  function hideCaption(now) {
+    cancelAnimationFrame(capRaf); clearTimeout(capHide);
+    if (!capEl) return;
+    if (now) { capEl.classList.remove("on"); return; }
+    capHide = setTimeout(function () { if (capEl) { capEl.querySelectorAll("span").forEach(function (x) { x.classList.add("said"); }); capEl.classList.remove("on"); } }, 900);
+  }
   function play(paths, onEnd) {
     stopAudio();
     queue = (Array.isArray(paths) ? paths : [paths]).filter(Boolean);
+    capSession++;
     setBusy(queue.length > 0, queue.length);
-    playNext(function () { setBusy(false); if (onEnd) onEnd(); });
+    playNext(function () { setBusy(false); hideCaption(); if (onEnd) onEnd(); });
   }
   function playNext(onEnd) {
     if (!queue.length) { if (onEnd) onEnd(); return; }
     var p = queue.shift();
-    if (p.indexOf("tts:") === 0) { speakTTS(p.slice(4), function () { playNext(onEnd); }); return; }
+    if (p.indexOf("tts:") === 0) { showCaption(p.slice(4), false, true); speakTTS(p.slice(4), function () { playNext(onEnd); }); return; }
+    showCaption(VOIX[p.replace(/\.mp3$/, "")], true, p.indexOf("prenoms/") === 0);
     player.onended = function () { busyDone++; setTimeout(function () { playNext(onEnd); }, 140); };
     player.onerror = function () { playNext(onEnd); };
     player.muted = false;
@@ -187,6 +225,7 @@
   }
   function stopAudio() {
     queue = []; player.onended = null; player.onerror = null;
+    if (typeof hideCaption === "function") hideCaption(true);
     if (typeof setBusy === "function" && busy) setBusy(false);
     try { player.pause(); } catch (e) {}
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
@@ -209,6 +248,18 @@
     a = a.slice();
     for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
     return a;
+  }
+  function flyStar(from) {
+    try {
+      if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var r = from.getBoundingClientRect(), goal = document.querySelector(".chip.gold") || document.getElementById("topbar");
+      var g = goal ? goal.getBoundingClientRect() : { left: innerWidth - 60, top: 10, width: 40, height: 30 };
+      var st = document.createElement("span"); st.className = "fly-star"; st.textContent = "★"; st.setAttribute("aria-hidden", "true");
+      st.style.left = (r.left + r.width / 2) + "px"; st.style.top = (r.top + r.height / 2) + "px";
+      document.body.appendChild(st);
+      requestAnimationFrame(function () { st.style.translate = (g.left + g.width / 2 - r.left - r.width / 2) + "px " + (g.top + g.height / 2 - r.top - r.height / 2) + "px"; st.style.opacity = "0.2"; });
+      setTimeout(function () { st.remove(); if (goal && goal.classList) { goal.classList.remove("bump"); void goal.offsetWidth; goal.classList.add("bump"); } }, 750);
+    } catch (e) {}
   }
   function toast(msg) {
     toastEl.textContent = msg;
@@ -491,6 +542,7 @@
     var top = stack[stack.length - 1];
     app.className = "screen screen-" + top.screen;
     SCREENS[top.screen](top.args);
+    void app.offsetWidth; app.classList.add("enter");
     window.scrollTo(0, 0);
     if (isTV) focusFirst();
   }
@@ -766,7 +818,7 @@
   SCREENS.discover = function (a) {
     var l = findLesson(a.id), p = profile();
     setTop(l.titre, true);
-    var html = bubble("Touche chaque carte pour écouter.", "happy") + "<h1>" + esc(l.titre) + "</h1><div class='cards'>";
+    var html = bubble("Touche une carte pour écouter.", "happy") + "<h1>" + esc(l.titre) + "</h1><div class='cards'>";
     l.items.forEach(function (it, i) { html += cardHTML(it, i); });
     html += '</div><div class="actions sticky-actions"><button class="btn big wide focusable" type="button" id="start">À toi de jouer !</button></div>';
     app.innerHTML = html;
@@ -1185,7 +1237,7 @@
           if (b.dataset.key === itemKey(it)) {
             locked = true;
             if (a.review && p.errs[itemKey(it)]) { delete p.errs[itemKey(it)]; }
-            b.classList.add("good");
+            b.classList.add("good"); flyStar(b);
             var nowT = app.querySelector(".map-tile.now .map-deco"); if (nowT) nowT.innerHTML = tileFace(it);
             moveHero(Math.max(0, step + 1 - errors), "hop");
             fb.className = "footer-feedback show good";
@@ -1802,8 +1854,14 @@
       allLessons.forEach(function (id) { html += "<tr><td>" + id + " · " + esc(findLesson(id).titre) + "</td><td>" + starsText(pp.stars[id] || 0, 3) + "</td></tr>"; });
       html += '</tbody></table></div><div class="actions"><button class="btn secondary focusable" type="button" data-resetgames="' + esc(pp.id) + '">Remettre les jeux au niveau 1</button><button class="btn secondary focusable" type="button" data-reset="' + esc(pp.id) + '">Remettre à zéro</button><button class="btn danger focusable" type="button" data-del="' + esc(pp.id) + '">Supprimer le profil</button></div></section>';
     });
+    if (tab === "appareils") html += "<h2>Sous-titres</h2><p class='hint'>Le texte de la voix s'affiche en bas de l'écran, et les mots s'allument pendant qu'elle parle : votre enfant voit ce qu'il entend.</p>" +
+      '<div class="ages"><button type="button" class="pick focusable" id="sub-on" aria-pressed="' + subtitlesOn() + '">Activés</button><button type="button" class="pick focusable" id="sub-off" aria-pressed="' + !subtitlesOn() + '">Désactivés</button></div>';
     if (tab === "appareils") html += "<h2>À savoir</h2><p class='hint'>Aucune publicité, aucun achat, aucun micro. Les progrès restent sur l'appareil (et sur votre code famille si vous l'avez créé).</p>";
     app.innerHTML = html;
+    [["sub-on", true], ["sub-off", false]].forEach(function (x) {
+      var b = document.getElementById(x[0]);
+      if (b) b.addEventListener("click", function () { state.settings = state.settings || {}; state.settings.subtitles = x[1]; persist(); render(); });
+    });
     app.querySelectorAll(".ptab").forEach(function (b) { b.addEventListener("click", function () { go("parents", { tab: b.dataset.tab }, true); }); });
 
     var cc = document.getElementById("create-code");
@@ -2100,6 +2158,7 @@
   });
 
   function start() {
+    fetch("../contenu/voix.json" + Q).then(function (r) { return r.json(); }).then(function (v) { VOIX = v; }).catch(function () {});
     fetch("../contenu/cours.json" + Q, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (data) {
       cours = data;
       cours.modules.forEach(function (m) { m.lecons.forEach(function (l) {

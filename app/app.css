@@ -656,3 +656,34 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12
 .gift-ok{font-weight:900;color:var(--green-deep,#58a700)}
 .gift-left{font-size:.85rem;font-weight:800;color:var(--ink-soft)}
 .gift.ready{box-shadow:0 0 0 3px rgba(88,204,2,.25)}
+
+/* ---------- Sous-titres de la voix ---------- */
+#caption{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));translate:-50% 20px;z-index:90;max-width:min(92vw,720px);padding:10px 18px;border-radius:18px;background:#fff;border:2px solid var(--line);border-bottom-width:5px;box-shadow:0 8px 24px rgba(0,0,0,.12);font-weight:900;font-size:clamp(1rem,4vw,1.35rem);line-height:1.35;text-align:center;color:#a9b4bd;opacity:0;pointer-events:none;transition:opacity .25s,translate .25s}
+#caption.on{opacity:1;translate:-50% 0}
+#caption span{transition:color .12s}
+#caption span.said{color:var(--blue-deep)}
+.mode-tv #caption{font-size:3.6vh;bottom:3vh;padding:1.4vh 2vw;max-width:80vw}
+@media (prefers-reduced-motion:reduce){#caption{transition:none}}
+
+/* ---------- Animations (translation et opacité uniquement : pas de flou sur le texte) ---------- */
+@keyframes enter-up{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+#app.enter > *{animation:enter-up .35s ease-out backwards}
+#app.enter > *:nth-child(2){animation-delay:.06s}#app.enter > *:nth-child(3){animation-delay:.12s}#app.enter > *:nth-child(4){animation-delay:.18s}#app.enter > *:nth-child(n+5){animation-delay:.22s}
+#app.enter .cards > *,#app.enter .choices > *,#app.enter .gifts > *,#app.enter .trophies > *,#app.enter .stats > *,#app.enter .home-tiles > *,#app.enter .memory > *{animation:enter-up .4s ease-out backwards}
+#app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(2){animation-delay:.08s}
+#app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(3){animation-delay:.14s}
+#app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(4){animation-delay:.2s}
+#app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(n+5){animation-delay:.26s}
+@keyframes talk{0%,100%{translate:0 0}50%{translate:0 -4px}}
+body.voice-busy .mascot,body:has(#caption.on) .bubble .mascot{animation:talk .45s ease-in-out infinite}
+.fly-star{position:fixed;z-index:95;margin:-14px 0 0 -14px;font-size:28px;line-height:1;color:#ffc800;text-shadow:0 2px 0 #d79a00;pointer-events:none;transition:translate .7s cubic-bezier(.5,-.3,.6,1),opacity .7s}
+@keyframes bump{0%,100%{translate:0 0}35%{translate:0 -6px}}
+.chip.gold.bump{animation:bump .4s ease}
+.choice.good{animation:good-hop .5s ease}
+@keyframes good-hop{0%,100%{translate:0 0}40%{translate:0 -10px}}
+@media (prefers-reduced-motion:reduce){#app.enter > *,#app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *,body.voice-busy .mascot,.choice.good,.chip.gold.bump{animation:none}}
+/* Téléphone et ordinateur : sous-titres en haut, sous la barre « Écoute bien », pour ne pas cacher les boutons du bas */
+body:not(.mode-tv) #caption{bottom:auto;top:calc(var(--topbar-h) + var(--safe-top) + 38px);translate:-50% -12px}
+body:not(.mode-tv) #caption.on{translate:-50% 0}
+body:not(.mode-tv) #caption{left:0;right:0;max-width:none;top:calc(var(--topbar-h) + var(--safe-top));translate:0 -6px;border-radius:0 0 16px 16px;border-width:0 0 4px;border-color:#bfe8ff;background:#eaf7ff;padding:8px 14px;font-size:1.05rem;box-shadow:0 6px 14px rgba(0,0,0,.08)}
+body:not(.mode-tv) #caption.on{translate:0 0}
