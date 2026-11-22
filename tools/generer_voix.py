@@ -135,14 +135,14 @@ AUDIT = []
 def synth(path, text=None, api=None, cfg=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     key = str(path.relative_to(OUT))[:-4]
+    is_male_ui = key.startswith("ui/") and pathlib.Path(key).stem in MALE_UI
+    if DUO_ONLY and not is_male_ui:
+        return
     if key in CHOIX and CHOIX[key].get("score", 0) >= 0.8:
         api = CHOIX[key]["api"]
         cfg = SynthesisConfig(length_scale=CHOIX[key]["ls"], noise_scale=0.55, noise_w_scale=0.6)
     ph = api if api is not None else text_phonemes(text)
     AUDIT.append((str(path.relative_to(OUT)), text or "", ph, api is not None))
-    is_male_ui = key.startswith("ui/") and pathlib.Path(key).stem in MALE_UI
-    if DUO_ONLY and not is_male_ui:
-        return
     if path.exists() and not TOUT and not DUO_ONLY:
         return
     voice, speaker_id = v, None
