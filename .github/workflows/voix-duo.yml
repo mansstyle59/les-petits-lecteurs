@@ -1,6 +1,13 @@
 name: Générer et contrôler les voix françaises
 
 on:
+  push:
+    branches:
+      - feature/voix-duo-fr-male-female
+    paths:
+      - '.github/workflows/voix-duo.yml'
+      - 'tools/generer_voix.py'
+      - 'tools/auditer_voix_duo.py'
   workflow_dispatch:
 
 permissions:
