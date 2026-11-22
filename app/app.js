@@ -86,6 +86,7 @@
     return s;
   }
   var state = loadState();
+  try { dedupeProfiles(); setTimeout(persist, 0); } catch (e) {}
   function persist() {
     memoryStore = state;
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* stockage indisponible */ }
@@ -302,6 +303,7 @@
     return null;
   }
   function itemAudio(it, lessonId, idx) {
+    if (it.audio) return [it.audio + ".mp3"];   // phrase déjà enregistrée ailleurs (autre leçon, histoire)
     if (it.lettre_minuscule) return ["lettres/phrase-" + it.lettre_minuscule + (it.exemple_bis ? "-2" : "") + ".mp3"];   // « La lettre A fait le son a, comme dans avion. »
     if (it.syllabe_tts) return ["syllabes/" + it.syllabe_tts + ".mp3"];
     if (it.mot) return ["mots/" + it.mot + ".mp3"];
@@ -1126,10 +1128,9 @@
       step = Math.min(p.resume.step || 0, order.length - 1); errors = p.resume.errors || 0;
     } else {
       var idxs = l.items.map(function (_, i) { return i; });
-      order = shuffle(idxs);
-      while (order.length < 5) order = order.concat(shuffle(idxs));
-      while (order.length < 8) order = order.concat(shuffle(idxs));
-      order = order.slice(0, 8);
+      // Chaque question est différente (pas de répétition) ; 8 questions au plus
+      order = shuffle(idxs).slice(0, 8);
+      if (order.length < 5) order = order.concat(shuffle(idxs)).slice(0, 5);
     }
     function saveResume() {
       if (a.review || a.arcade) { saveState(p); return; }
@@ -1908,6 +1909,33 @@
       var l = null;
       for (var i = 0; i < state.profiles.length; i++) if (state.profiles[i].id === r.id) l = state.profiles[i];
       if (!l) { state.profiles.push(r); return; }
+      mergeInto(l, r);
+    });
+    dedupeProfiles();
+  }
+  // Un même enfant créé sur plusieurs appareils (même prénom) : on regroupe tout dans un seul profil
+  function dedupeProfiles() {
+    var byName = {};
+    state.profiles.forEach(function (p) {
+      if (p.deleted) return;
+      var k = String(p.name || "").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      (byName[k] = byName[k] || []).push(p);
+    });
+    Object.keys(byName).forEach(function (k) {
+      var g = byName[k]; if (g.length < 2) return;
+      g.sort(function (x, y) { return (totalStars(y) - totalStars(x)) || (y.days.length - x.days.length); });
+      var keep = g[0];
+      g.slice(1).forEach(function (o) {
+        var copy = JSON.parse(JSON.stringify(o)); copy.id = keep.id; copy.deleted = false;
+        mergeInto(keep, copy);
+        o.deleted = true; o.stars = {}; o.trophies = {}; o.updated = Date.now();
+        if (state.current === o.id) state.current = keep.id;
+      });
+      keep.updated = Date.now();
+    });
+  }
+  function mergeInto(l, r) {
+    {
       var newer = r.updated > l.updated ? r : l;
       var lastReset = Math.max(l.reset || 0, r.reset || 0);
       var srcs = [l, r].filter(function (s) { return !lastReset || s.updated >= lastReset; });
@@ -1938,7 +1966,7 @@
       l.trophies = l.deleted ? {} : trophies;
       l.days = Object.keys(days).sort().slice(-60);
       l.updated = Math.max(l.updated, r.updated);
-    });
+    }
   }
   function syncNow(pushOnly) {
     if (!state.code) return Promise.resolve();

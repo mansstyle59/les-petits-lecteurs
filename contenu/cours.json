@@ -1709,6 +1709,41 @@
               "illustration": "🐔",
               "mot_tts": "poule",
               "note": ""
+            },
+            {
+              "mot": "chaise",
+              "decoupage": "chai-se",
+              "illustration": "🪑",
+              "mot_tts": "chaise",
+              "note": ""
+            },
+            {
+              "mot": "cheval",
+              "decoupage": "che-val",
+              "illustration": "🐴",
+              "mot_tts": "cheval",
+              "note": ""
+            },
+            {
+              "mot": "chameau",
+              "decoupage": "cha-meau",
+              "illustration": "🐫",
+              "mot_tts": "chameau",
+              "note": ""
+            },
+            {
+              "mot": "loup",
+              "decoupage": "loup",
+              "illustration": "🐺",
+              "mot_tts": "loup",
+              "note": ""
+            },
+            {
+              "mot": "mouton",
+              "decoupage": "mou-ton",
+              "illustration": "🐑",
+              "mot_tts": "mouton",
+              "note": ""
             }
           ],
           "reussite": "Reconnaître 4 mots sur 5.",
@@ -1736,6 +1771,30 @@
               "phrase": "Lili a un lama.",
               "illustration": "🦙",
               "note": "« un » et « une » sont des mots à apprendre tels quels."
+            },
+            {
+              "phrase": "Maman a une moto.",
+              "illustration": "🏍️",
+              "note": "",
+              "audio": "phrases/P2-1"
+            },
+            {
+              "phrase": "Le chat dort sur le lit.",
+              "illustration": "🐱",
+              "note": "",
+              "audio": "phrases/H1-1"
+            },
+            {
+              "phrase": "Le chat boit du lait.",
+              "illustration": "🥛",
+              "note": "",
+              "audio": "phrases/H1-2"
+            },
+            {
+              "phrase": "Le chat joue avec un ballon.",
+              "illustration": "🎈",
+              "note": "",
+              "audio": "phrases/H1-3"
             }
           ],
           "reussite": "Lire 2 phrases sur 2 avec une aide sonore.",
@@ -1757,6 +1816,30 @@
               "phrase": "Le lama dort.",
               "illustration": "🦙",
               "note": ""
+            },
+            {
+              "phrase": "Papa rame.",
+              "illustration": "🚣",
+              "note": "",
+              "audio": "phrases/P1-1"
+            },
+            {
+              "phrase": "Le chat dort sur le lit.",
+              "illustration": "🐱",
+              "note": "",
+              "audio": "phrases/H1-1"
+            },
+            {
+              "phrase": "Le chat boit du lait.",
+              "illustration": "🥛",
+              "note": "",
+              "audio": "phrases/H1-2"
+            },
+            {
+              "phrase": "Le chat joue avec un ballon.",
+              "illustration": "🎈",
+              "note": "",
+              "audio": "phrases/H1-3"
             }
           ],
           "reussite": "Lire 2 phrases sur 2 avec une aide sonore.",
@@ -2072,6 +2155,24 @@
               "phrase": "Le chat joue avec un ballon.",
               "illustration": "🎈",
               "note": ""
+            },
+            {
+              "phrase": "Un matin, Milo vit un papillon dans le jardin.",
+              "illustration": "🦋",
+              "note": "",
+              "audio": "histoires/chat-3"
+            },
+            {
+              "phrase": "Il courut très vite pour l'attraper.",
+              "illustration": "🏃",
+              "note": "",
+              "audio": "histoires/chat-4"
+            },
+            {
+              "phrase": "Le papillon s'envola tout en haut d'un arbre.",
+              "illustration": "🌳",
+              "note": "",
+              "audio": "histoires/chat-5"
             }
           ],
           "reussite": "Lire 3 phrases."
@@ -2098,6 +2199,24 @@
               "phrase": "Le loup se cache dans le bois.",
               "illustration": "🌲",
               "note": ""
+            },
+            {
+              "phrase": "Dans la forêt vivait un gros ours brun.",
+              "illustration": "🐻",
+              "note": "",
+              "audio": "histoires/ours-1"
+            },
+            {
+              "phrase": "Un jour, l'ours se réveilla avec très faim.",
+              "illustration": "😋",
+              "note": "",
+              "audio": "histoires/ours-2"
+            },
+            {
+              "phrase": "Dans l'eau, il vit des poissons qui nageaient.",
+              "illustration": "🐟",
+              "note": "",
+              "audio": "histoires/ours-6"
             }
           ],
           "reussite": "Lire 3 phrases."
@@ -2124,6 +2243,24 @@
               "phrase": "Maman lit un livre au lit.",
               "illustration": "📖",
               "note": ""
+            },
+            {
+              "phrase": "À la ferme, il y avait une petite poule rousse.",
+              "illustration": "🐔",
+              "note": "",
+              "audio": "histoires/poule-1"
+            },
+            {
+              "phrase": "Chaque matin, elle pondait un œuf tout blanc.",
+              "illustration": "🥚",
+              "note": "",
+              "audio": "histoires/poule-2"
+            },
+            {
+              "phrase": "Mais un jour, son œuf était jaune et brillant.",
+              "illustration": "✨",
+              "note": "",
+              "audio": "histoires/poule-3"
             }
           ],
           "reussite": "Lire 3 phrases."
@@ -2321,6 +2458,24 @@
               "phrase": "Le chien court après un ballon.",
               "illustration": "🐕",
               "note": ""
+            },
+            {
+              "phrase": "Un matin, Milo vit un papillon dans le jardin.",
+              "illustration": "🦋",
+              "note": "",
+              "audio": "histoires/chat-3"
+            },
+            {
+              "phrase": "Il courut très vite pour l'attraper.",
+              "illustration": "🏃",
+              "note": "",
+              "audio": "histoires/chat-4"
+            },
+            {
+              "phrase": "Le papillon s'envola tout en haut d'un arbre.",
+              "illustration": "🌳",
+              "note": "",
+              "audio": "histoires/chat-5"
             }
           ],
           "reussite": "Tout bon."
@@ -2347,6 +2502,24 @@
               "phrase": "Le papillon vole sur une fleur.",
               "illustration": "🦋",
               "note": ""
+            },
+            {
+              "phrase": "Léa adore regarder les étoiles le soir.",
+              "illustration": "🌟",
+              "note": "",
+              "audio": "histoires/fusee-1"
+            },
+            {
+              "phrase": "Elle la peint en rouge et en bleu.",
+              "illustration": "🎨",
+              "note": "",
+              "audio": "histoires/fusee-3"
+            },
+            {
+              "phrase": "Dans son rêve, la fusée part vers la lune.",
+              "illustration": "🌙",
+              "note": "",
+              "audio": "histoires/fusee-5"
             }
           ],
           "reussite": "Tout bon."
@@ -2373,6 +2546,24 @@
               "phrase": "La nuit, la lune brille.",
               "illustration": "🌙",
               "note": ""
+            },
+            {
+              "phrase": "Dans la forêt vivait un gros ours brun.",
+              "illustration": "🐻",
+              "note": "",
+              "audio": "histoires/ours-1"
+            },
+            {
+              "phrase": "Un jour, l'ours se réveilla avec très faim.",
+              "illustration": "😋",
+              "note": "",
+              "audio": "histoires/ours-2"
+            },
+            {
+              "phrase": "Dans l'eau, il vit des poissons qui nageaient.",
+              "illustration": "🐟",
+              "note": "",
+              "audio": "histoires/ours-6"
             }
           ],
           "reussite": "Tout bon."
