@@ -558,5 +558,357 @@
   "entendu": "Et c'est encore.",
   "score": 0.88,
   "fichier_verifie": true
+ },
+ "histoires/chat-1": {
+  "api": "il etˈɛt yn fwˈaz œ̃ pətˈi ʃˈa ki saplˈɛ milˈo.",
+  "ls": 1.0,
+  "source": "Il était une fois un petit chat qui s'appelait Milo.",
+  "entendu": "Il était une fois un petit chat qui s'appelait Milo.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-2": {
+  "api": "milˈo avˈɛ lə- pwˈal tu ʁˈuz e yn lˈɔ̃ɡ kˈø.",
+  "ls": 1.0,
+  "source": "Milo avait le poil tout roux et une longue queue.",
+  "entendu": "Milo avait le poil tourreau et une longue queue.",
+  "score": 0.98,
+  "fichier_verifie": true
+ },
+ "histoires/chat-3": {
+  "api": "œ̃ matˈɛ̃, milˈo vˈiʲ œ̃ papijˈɔ̃ dɑ̃ lə- ʒaʁdˈɛ̃.",
+  "ls": 1.0,
+  "source": "Un matin, Milo vit un papillon dans le jardin.",
+  "entendu": "Un matin, Milo vit d'un papillon dans le jardin.",
+  "score": 0.98,
+  "fichier_verifie": true
+ },
+ "histoires/chat-4": {
+  "api": "il kuʁˈy tʁɛ vˈit puʁ latʁapˈe.",
+  "ls": 1.0,
+  "source": "Il courut très vite pour l'attraper.",
+  "entendu": "Il courut très vite pour l'attraper.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-5": {
+  "api": "lə- papijˈɔ̃ sɑ̃volˈa tut ɑ̃ ˈo dœ̃n ˈaʁbʁ.",
+  "ls": 1.0,
+  "source": "Le papillon s'envola tout en haut d'un arbre.",
+  "entendu": "Le papillon s'envola tout en haut d'un arbre.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-6": {
+  "api": "milˈo ɡʁɛ̃pˈa dɑ̃ lˈaʁbʁ, mɛz il y pˈœʁ də- dɛsˈɑ̃dʁ.",
+  "ls": 1.0,
+  "source": "Milo grimpa dans l'arbre, mais il eut peur de descendre.",
+  "entendu": "Milo grimpa dans l'arbre, mais il eut peur de descendre.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-7": {
+  "api": "sɔ̃n amˈi lə- ʃjˈɛ̃ abwajˈa puʁ aplˈe la- mamˈɑ̃.",
+  "ls": 1.0,
+  "source": "Son ami le chien aboya pour appeler la maman.",
+  "entendu": "Son ami le chien aboya pour appeler la maman.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-8": {
+  "api": "la- mamˈɑ̃ pʁˈi yn eʃˈɛl e fˈi dɛsˈɑ̃dʁ milˈo.",
+  "ls": 1.0,
+  "source": "La maman prit une échelle et fit descendre Milo.",
+  "entendu": "La maman prie une échelle et fit descendre mille eaux.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-9": {
+  "api": "milˈo fˈiʲ œ̃ ɡʁˈo kalˈɛ̃ a sɔ̃n amˈi lə- ʃjˈɛ̃.",
+  "ls": 1.0,
+  "source": "Milo fit un gros câlin à son ami le chien.",
+  "entendu": "Milo fit un gros calard à son amie le chien.",
+  "score": 0.93,
+  "fichier_verifie": true
+ },
+ "histoires/chat-10": {
+  "api": "dəpyˌi sə- ʒˈuʁ, milˈo ʁəɡˈaʁd le- papijˈɔ̃ sɑ̃ ɡʁɛ̃pˈe.",
+  "ls": 1.0,
+  "source": "Depuis ce jour, Milo regarde les papillons sans grimper.",
+  "entendu": "Depuis ce jour, Milo regarde les papillons s'engrinper.",
+  "score": 0.95,
+  "fichier_verifie": true
+ },
+ "histoires/ours-1": {
+  "api": "dɑ̃ la- foʁˈɛ vivˈɛt œ̃ ɡʁˈoz ˈuʁs bʁˈœ̃.",
+  "ls": 1.0,
+  "source": "Dans la forêt vivait un gros ours brun.",
+  "entendu": "dans la forêt vivée à un gros ours-bran.",
+  "score": 0.92,
+  "fichier_verifie": true
+ },
+ "histoires/ours-2": {
+  "api": "œ̃ ʒˈuʁ, lˈuʁs sə- ʁevɛjˈa avˌɛk tʁɛ fˈɛ̃.",
+  "ls": 1.0,
+  "source": "Un jour, l'ours se réveilla avec très faim.",
+  "entendu": "Un jour, l'ours se réveilla avec très faim.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-3": {
+  "api": "il ʃɛʁʃˈa dy- mjˈɛl dɑ̃ lə- kʁˈø dœ̃ vjˈɛj ˈaʁbʁ.",
+  "ls": 1.0,
+  "source": "Il chercha du miel dans le creux d'un vieil arbre.",
+  "entendu": "Il chercha du miel dans le creux d'un vieil arbre.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-4": {
+  "api": "mɛ le-z abˈɛj netˈɛ pa kɔ̃tˈɑ̃t dy- tˈu.",
+  "ls": 1.0,
+  "source": "Mais les abeilles n'étaient pas contentes du tout.",
+  "entendu": "Mais les abeilles n'étaient pas contentes du tout.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-5": {
+  "api": "bˌezˌɛdzˈɛd, bˌezˌɛdzˈɛd!lˈuʁs paʁtˈiʲ ɑ̃ kuʁˈɑ̃ vɛʁ la- ʁivjˈɛʁ.",
+  "ls": 1.0,
+  "source": "Bzz, bzz ! L'ours partit en courant vers la rivière.",
+  "entendu": "BZZ, BZZ de l'ours-partie en courant vers la rivière.",
+  "score": 0.97,
+  "fichier_verifie": true
+ },
+ "histoires/ours-6": {
+  "api": "dɑ̃ lˈo, il vˈi de- pwasˈɔ̃ ki naʒˈɛ.",
+  "ls": 1.0,
+  "source": "Dans l'eau, il vit des poissons qui nageaient.",
+  "entendu": "Dans l'eau, il vit des poissons qui nageaient.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-7": {
+  "api": "lˈuʁs atɑ̃dˈi sɑ̃ buʒˈe, tʁɛ pasjˈɑ̃.",
+  "ls": 1.0,
+  "source": "L'ours attendit sans bouger, très patient.",
+  "entendu": "L'ource attendie sans bouger, très patient.",
+  "score": 0.98,
+  "fichier_verifie": true
+ },
+ "histoires/ours-8": {
+  "api": "il atʁapˈa œ̃ pwasˈɔ̃ e lə- mɑ̃ʒˈa.",
+  "ls": 1.0,
+  "source": "Il attrapa un poisson et le mangea.",
+  "entendu": "Il attrapa un poisson et le mangea.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-9": {
+  "api": "pyˈiz il tʁuvˈa osˌi de- fʁˈɛzz o bˈɔʁ dy- ʃəmˈɛ̃.",
+  "ls": 1.0,
+  "source": "Puis il trouva aussi des fraises au bord du chemin.",
+  "entendu": "Puis, il trouva aussi des fraises au bord du chemin.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-10": {
+  "api": "lə- vˈɑ̃tʁ plˈɛ̃, lˈuʁs fˈiʲ yn lˈɔ̃ɡ sjˈɛst.",
+  "ls": 1.0,
+  "source": "Le ventre plein, l'ours fit une longue sieste.",
+  "entendu": "Le ventre plein, l'ours fit une longue sieste.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-1": {
+  "api": "leˈa adˈɔʁ ʁəɡaʁdˈe le-z etwˈal lə- swˈaʁ.",
+  "ls": 1.0,
+  "source": "Léa adore regarder les étoiles le soir.",
+  "entendu": "Léa adore regarder les étoiles le soir.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-2": {
+  "api": "avˌɛk sɔ̃ papˈa, ɛl kɔ̃stʁyˈiʲ yn fyzˈe ɑ̃ kaʁtˈɔ̃.",
+  "ls": 1.0,
+  "source": "Avec son papa, elle construit une fusée en carton.",
+  "entendu": "Avec son papa, elle construit une fusion cartonne.",
+  "score": 0.96,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-3": {
+  "api": "ɛl la- pˈɛ̃t ɑ̃ ʁˈuʒ e ɑ̃ blˈø.",
+  "ls": 1.0,
+  "source": "Elle la peint en rouge et en bleu.",
+  "entendu": "Elle la peint en rouge et en bleu.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-4": {
+  "api": "lə- swˈaʁ, leˈa mˈɔ̃t dɑ̃ sa- fyzˈe e fˈɛʁm le-z jˈø.",
+  "ls": 1.0,
+  "source": "Le soir, Léa monte dans sa fusée et ferme les yeux.",
+  "entendu": "Le soir, Léa monte dans sa fusée et ferme les yeux.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-5": {
+  "api": "dɑ̃ sɔ̃ ʁˈɛv, la- fyzˈe pˈaʁ vɛʁ la- lˈyn.",
+  "ls": 1.0,
+  "source": "Dans son rêve, la fusée part vers la lune.",
+  "entendu": "Dans son rêve, l'a fusée par vers la Lune.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-6": {
+  "api": "syʁ la- lˈyn, leˈa sˈot tʁɛ ˈo, kɔm œ̃ kɑ̃ɡuʁˈu.",
+  "ls": 1.0,
+  "source": "Sur la lune, Léa saute très haut, comme un kangourou.",
+  "entendu": "Sur la lune, les assautes très haut, comme un kangourou.",
+  "score": 0.97,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-7": {
+  "api": "ɛl vwˈa la- tˈɛʁ, tut ʁˈɔ̃d e tut blˈø.",
+  "ls": 1.0,
+  "source": "Elle voit la Terre, toute ronde et toute bleue.",
+  "entendu": "Elle voit la terre toute rondée, toute bleue.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-8": {
+  "api": "œ̃ pətˈi maʁsjˈɛ̃ lyˌi dˈi bɔ̃ʒˈuʁ avˌɛk la- mˈɛ̃.",
+  "ls": 1.0,
+  "source": "Un petit martien lui dit bonjour avec la main.",
+  "entendu": "Un petit marcien lui dit bonjour avec la main.",
+  "score": 0.97,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-9": {
+  "api": "leˈa lyˌi dˈɔn œ̃ ɡatˈo, e lə- maʁsjˈɛ̃ suʁˈi.",
+  "ls": 1.0,
+  "source": "Léa lui donne un gâteau, et le martien sourit.",
+  "entendu": "Léa lui donne un gâteau et le martien sourit.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-10": {
+  "api": "pyˈi la- fyzˈe la- ʁamˈɛn dɑ̃ sɔ̃ lˈi, bjˈɛ̃n o ʃˈo.",
+  "ls": 1.0,
+  "source": "Puis la fusée la ramène dans son lit, bien au chaud.",
+  "entendu": "Puis, l'affusée la ramène dans son lit, bien au chaud.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-1": {
+  "api": "a la- fˈɛʁm, il iʲ avˈɛt yn pətˈit pˈul ʁˈus.",
+  "ls": 1.0,
+  "source": "À la ferme, il y avait une petite poule rousse.",
+  "entendu": "A la ferme, il y avait une petite poule rousse.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-2": {
+  "api": "ʃak matˈɛ̃, ɛl pɔ̃dˈɛt œ̃n ˈœf tu blˈɑ̃.",
+  "ls": 1.0,
+  "source": "Chaque matin, elle pondait un œuf tout blanc.",
+  "entendu": "Chaque matin, elle pondait un œuf tout blanc.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-3": {
+  "api": "mɛz œ̃ ʒˈuʁ, sɔ̃n ˈœf etˈɛ ʒˈon e bʁijˈɑ̃.",
+  "ls": 1.0,
+  "source": "Mais un jour, son œuf était jaune et brillant.",
+  "entendu": "Mais un jour, son œuf était jaune et brillant.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-4": {
+  "api": "lə- koʃˈɔ̃ e la- vˈaʃ vˈɛ̃ʁ lə- ʁəɡaʁdˈe.",
+  "ls": 1.0,
+  "source": "Le cochon et la vache vinrent le regarder.",
+  "entendu": "Le cochon et la vache vinrent le regarder.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-5": {
+  "api": "lə- mutˈɔ̃ dˈi: sɛt œ̃n ˈœf maʒˈik!",
+  "ls": 1.0,
+  "source": "Le mouton dit : c'est un œuf magique !",
+  "entendu": "Le mouton dit, c'est un œuf magique.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-6": {
+  "api": "tut a kˈu, lˈœf sə- mˈit a buʒˈe.",
+  "ls": 1.0,
+  "source": "Tout à coup, l'œuf se mit à bouger.",
+  "entendu": "Tout à coup, l'œuf se mit à bouger.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-7": {
+  "api": "kʁˈak!œ̃ pətˈi pusˈɛ̃ ʒˈon sɔʁtˈi də- lˈœf.",
+  "ls": 1.0,
+  "source": "Crac ! Un petit poussin jaune sortit de l'œuf.",
+  "entendu": "Crac un petit poussin jaune sorti de l'œuf.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-8": {
+  "api": "tu le-z animˈo də- la- fˈɛʁm aplodˈiʁ.",
+  "ls": 1.0,
+  "source": "Tous les animaux de la ferme applaudirent.",
+  "entendu": "Tous les animaux de la ferme applaudir.",
+  "score": 0.96,
+  "fichier_verifie": true
+ },
+ "histoires/poule-9": {
+  "api": "la- pˈul etˈɛ sˈi fjˈɛʁ də- sˈɔ̃ pusˈɛ̃.",
+  "ls": 1.0,
+  "source": "La poule était si fière de son poussin.",
+  "entendu": "La poule était si fière de son poussin.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-10": {
+  "api": "e lə- swˈaʁ, il dɔʁmˈiʁ tus ɑ̃sˈɑ̃bl dɑ̃ lə- fwˈɛ̃.",
+  "ls": 1.0,
+  "source": "Et le soir, ils dormirent tous ensemble dans le foin.",
+  "entendu": "Et le soir, ils dormirent tous ensemble dans le foin.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/chat-titre": {
+  "api": "lə- pətˈi ʃˈa milˈo.",
+  "ls": 1.0,
+  "source": "Le petit chat Milo.",
+  "entendu": "Le Petit Chamilo",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/ours-titre": {
+  "api": "lˈuʁs kiʲ avˈɛ fˈɛ̃.",
+  "ls": 1.0,
+  "source": "L'ours qui avait faim.",
+  "entendu": "l'ours qui avait faim.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/fusee-titre": {
+  "api": "la- fyzˈe də- leˈa.",
+  "ls": 1.0,
+  "source": "La fusée de Léa.",
+  "entendu": "La fusée de Léa",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "histoires/poule-titre": {
+  "api": "la- pˈul e lˈœf dˈɔʁ.",
+  "ls": 1.0,
+  "source": "La poule et l'œuf d'or.",
+  "entendu": "La poule est l'oeuf d'or.",
+  "score": 0.9,
+  "fichier_verifie": true
  }
 }

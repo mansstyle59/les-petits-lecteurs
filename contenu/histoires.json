@@ -1,0 +1,192 @@
+{
+  "histoires": [
+    {
+      "id": "chat",
+      "titre": "Le petit chat Milo",
+      "icone": "🐱",
+      "pages": [
+        [
+          "Il était une fois un petit chat qui s'appelait Milo.",
+          "🐱"
+        ],
+        [
+          "Milo avait le poil tout roux et une longue queue.",
+          "🧡"
+        ],
+        [
+          "Un matin, Milo vit un papillon dans le jardin.",
+          "🦋"
+        ],
+        [
+          "Il courut très vite pour l'attraper.",
+          "🏃"
+        ],
+        [
+          "Le papillon s'envola tout en haut d'un arbre.",
+          "🌳"
+        ],
+        [
+          "Milo grimpa dans l'arbre, mais il eut peur de descendre.",
+          "😿"
+        ],
+        [
+          "Son ami le chien aboya pour appeler la maman.",
+          "🐶"
+        ],
+        [
+          "La maman prit une échelle et fit descendre Milo.",
+          "🪜"
+        ],
+        [
+          "Milo fit un gros câlin à son ami le chien.",
+          "🤗"
+        ],
+        [
+          "Depuis ce jour, Milo regarde les papillons sans grimper.",
+          "😺"
+        ]
+      ]
+    },
+    {
+      "id": "ours",
+      "titre": "L'ours qui avait faim",
+      "icone": "🐻",
+      "pages": [
+        [
+          "Dans la forêt vivait un gros ours brun.",
+          "🐻"
+        ],
+        [
+          "Un jour, l'ours se réveilla avec très faim.",
+          "😋"
+        ],
+        [
+          "Il chercha du miel dans le creux d'un vieil arbre.",
+          "🍯"
+        ],
+        [
+          "Mais les abeilles n'étaient pas contentes du tout.",
+          "🐝"
+        ],
+        [
+          "Bzz, bzz ! L'ours partit en courant vers la rivière.",
+          "🏞️"
+        ],
+        [
+          "Dans l'eau, il vit des poissons qui nageaient.",
+          "🐟"
+        ],
+        [
+          "L'ours attendit sans bouger, très patient.",
+          "⏳"
+        ],
+        [
+          "Il attrapa un poisson et le mangea.",
+          "😊"
+        ],
+        [
+          "Puis il trouva aussi des fraises au bord du chemin.",
+          "🍓"
+        ],
+        [
+          "Le ventre plein, l'ours fit une longue sieste.",
+          "😴"
+        ]
+      ]
+    },
+    {
+      "id": "fusee",
+      "titre": "La fusée de Léa",
+      "icone": "🚀",
+      "pages": [
+        [
+          "Léa adore regarder les étoiles le soir.",
+          "🌟"
+        ],
+        [
+          "Avec son papa, elle construit une fusée en carton.",
+          "📦"
+        ],
+        [
+          "Elle la peint en rouge et en bleu.",
+          "🎨"
+        ],
+        [
+          "Le soir, Léa monte dans sa fusée et ferme les yeux.",
+          "🚀"
+        ],
+        [
+          "Dans son rêve, la fusée part vers la lune.",
+          "🌙"
+        ],
+        [
+          "Sur la lune, Léa saute très haut, comme un kangourou.",
+          "🦘"
+        ],
+        [
+          "Elle voit la Terre, toute ronde et toute bleue.",
+          "🌍"
+        ],
+        [
+          "Un petit martien lui dit bonjour avec la main.",
+          "👽"
+        ],
+        [
+          "Léa lui donne un gâteau, et le martien sourit.",
+          "🍪"
+        ],
+        [
+          "Puis la fusée la ramène dans son lit, bien au chaud.",
+          "🛏️"
+        ]
+      ]
+    },
+    {
+      "id": "poule",
+      "titre": "La poule et l'œuf d'or",
+      "icone": "🐔",
+      "pages": [
+        [
+          "À la ferme, il y avait une petite poule rousse.",
+          "🐔"
+        ],
+        [
+          "Chaque matin, elle pondait un œuf tout blanc.",
+          "🥚"
+        ],
+        [
+          "Mais un jour, son œuf était jaune et brillant.",
+          "✨"
+        ],
+        [
+          "Le cochon et la vache vinrent le regarder.",
+          "🐷"
+        ],
+        [
+          "Le mouton dit : c'est un œuf magique !",
+          "🐑"
+        ],
+        [
+          "Tout à coup, l'œuf se mit à bouger.",
+          "😮"
+        ],
+        [
+          "Crac ! Un petit poussin jaune sortit de l'œuf.",
+          "🐣"
+        ],
+        [
+          "Tous les animaux de la ferme applaudirent.",
+          "👏"
+        ],
+        [
+          "La poule était si fière de son poussin.",
+          "💛"
+        ],
+        [
+          "Et le soir, ils dormirent tous ensemble dans le foin.",
+          "🌾"
+        ]
+      ]
+    }
+  ]
+}

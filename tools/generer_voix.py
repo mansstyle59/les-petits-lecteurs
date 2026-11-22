@@ -98,6 +98,13 @@ UI = {
     "cadeau": "Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman !",
     "cadeaux": "Voici tes cadeaux. Gagne des étoiles pour les débloquer !",
     "revision": "On révise les petites erreurs. C'est comme ça qu'on devient fort !",
+    "touche": "Oh non, tu t'es trompé ! Tu as touché…",
+    "pas-bon": "Ce n'est pas le bon son. Réécoute bien :",
+    "memory-casse": "Retourne deux cartes. Trouve la grande lettre et la petite lettre qui vont ensemble !",
+    "memory-mots": "Retourne deux cartes. Trouve chaque mot avec son image !",
+    "serpent-images": "Tu es le serpent ! Va manger l'image qui commence par ce son. Attention aux rochers !",
+    "serpent-syllabes": "Tu es le serpent ! Va manger la syllabe que tu entends.",
+    "peche-intro": "C'est la pêche ! Écoute le son, et touche le poisson qui porte la bonne lettre.",
     "memory-intro": "Retourne deux cartes. Trouve chaque lettre avec son image !",
     "serpent-intro": "Tu es le serpent ! Avec les flèches, va manger la lettre qui fait ce son.",
     "revision-fin": "Super ! Tes erreurs sont corrigées.",
@@ -144,12 +151,12 @@ for m in cours["modules"]:
     synth(OUT / "titres" / f"{m['id']}.mp3", m["titre"] + ".")
     for l in m["lecons"]:
         TITRE_API = {"C3": "le sˈɔ̃, ˈɑ̃, ˈɛ̃, e wˈa.", "C4": "mˈo avˈɛk ˈɑ̃, ˈɛ̃, e wˈa.", "D3": "le sˈɔ̃, ɲə, ijə, e fə.",
-            "L2": "le sˈɔ̃ kɔ̃tinˈy, mː, lː, ʁː, sː.", "L3": "le sˈɔ̃ kˈuʁ, pˈø, tˈø, bˈə, dˈø.", "L4": "le sˈɔ̃, fː, vː, zː, ʒː.",
-            "L5": "le sˈɔ̃, nː, kˈø, e ɡˈø.", "S1": "silˈab avˈɛk mː.", "S2": "silˈab avˈɛk lː e ʁː.", "S3": "silˈab avˈɛk pˈø, tˈø, bˈə, e dˈø.",
-            "S4": "silˈab avˈɛk fː, sː, vː, e ʒː.", "S5": "silˈab avˈɛk nː, kˈø, e ɡˈø.", "W1": "pʁəmjˈe mˈo avˈɛk mː, lː, ʁː, e sː.",
-            "W2": "pʁəmjˈe mˈo avˈɛk pˈø, tˈø, bˈə, e dˈø.", "W3": "pʁəmjˈe mˈo avˈɛk fː, vː, zː, ʒː, e nː.", "W4": "le sˈɔ̃ ʃː e ˈu.",
+            "L2": "le sˈɔ̃ kɔ̃tinˈy.", "L3": "le sˈɔ̃ kˈuʁ.", "L4": "də nuvˈo sˈɔ̃.",
+            "L5": "ɑ̃kˈɔʁ də nuvˈo sˈɔ̃.", "S1": "le pʁəmjˈɛʁ silˈab.", "S2": "də nuvˈɛl silˈab.", "S3": "ɑ̃kˈɔʁ də silˈab.",
+            "S4": "ɑ̃kˈɔʁ plˈy də silˈab.", "S5": "le dɛʁnjˈɛʁ silˈab.", "W1": "le pʁəmjˈe mˈo.",
+            "W2": "də nuvˈo mˈo.", "W3": "ɑ̃kˈɔʁ də mˈo.", "W4": "le sˈɔ̃ ʃː e ˈu.",
             "C5": "le sˈɔ̃, ʃː, ˈo, e ˈɛ.", "C6": "mˈo avˈɛk ʃː, ˈo, e ˈɛ.",
-            "R1": "ʁevizjˈɔ̃, le vwajˈɛl, e mː, lː, ʁː, sː.", "R2": "ʁevizjˈɔ̃, pˈø, tˈø, bˈə, dˈø, fː, vː.", "R3": "ʁevizjˈɔ̃, zː, ʒː, nː, kˈø, e ɡˈø.",
+            "R1": "ʁevizjˈɔ̃ de lˈɛtʁ.", "R2": "ʁevizjˈɔ̃ de sˈɔ̃ kˈuʁ.", "R3": "ʁevizjˈɔ̃ de dɛʁnjˈɛʁ lˈɛtʁ.",
             "R4": "tˈut le lˈɛtʁ də ˈa a ˈɛm.", "R5": "tˈut le lˈɛtʁ də ˈɛn a zˈɛd.",
             "Y1": "le silˈab ɑ̃n ˈa.", "Y2": "le silˈab ɑ̃n ˈi.", "Y3": "le silˈab ɑ̃n ˈo.", "Y4": "le silˈab ɑ̃n ˈy.", "Y5": "le silˈab ɑ̃n ˈø."}
         if l["id"] in TITRE_API: synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"], TITRE_API[l["id"]])

@@ -238,7 +238,7 @@
   }
 
   // ================= Temps de jeu par jour =================
-  var PLAY_SCREENS = { discover: 1, game: 1, speak: 1, memory: 1, snake: 1 };
+  var PLAY_SCREENS = { discover: 1, game: 1, speak: 1, memory: 1, snake: 1, fish: 1 };
   function usedToday(p) { return (p.usage[today()] || 0); }
   function timeLeft(p) { return p.limit ? Math.max(0, p.limit * 60 - usedToday(p)) : Infinity; }
   // Une phrase « répétitive » (pause, presque fini…) n'est dite qu'une fois par jour et par enfant
@@ -302,14 +302,19 @@
     return null;
   }
   function itemAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/phrase-" + it.lettre_minuscule + ".mp3"];   // « La lettre A fait le son a, comme dans avion. »
+    if (it.lettre_minuscule) return ["lettres/phrase-" + it.lettre_minuscule + (it.exemple_bis ? "-2" : "") + ".mp3"];   // « La lettre A fait le son a, comme dans avion. »
     if (it.syllabe_tts) return ["syllabes/" + it.syllabe_tts + ".mp3"];
     if (it.mot) return ["mots/" + it.mot + ".mp3"];
     return ["phrases/" + (it._lid || lessonId) + "-" + ((it._idx !== undefined ? it._idx : idx) + 1) + ".mp3"];
   }
   function questionAudio(it, lessonId, idx) {
-    if (it.lettre_minuscule) return ["lettres/question-" + it.lettre_minuscule + ".mp3"];  // « Écoute le son : a, comme dans avion. »
+    if (it.lettre_minuscule) return ["lettres/question-" + it.lettre_minuscule + (it.exemple_bis ? "-2" : "") + ".mp3"];  // « Écoute le son : a, comme dans avion. »
     return itemAudio(it, lessonId, idx);
+  }
+  // Mauvaise réponse : « Oups ! Tu t'es trompé. Tu as touché… la lettre H. Ce n'est pas le bon son. Réécoute bien : … »
+  function wrongVoice(it, again) {
+    var said = it && it.lettre_minuscule ? ["lettres/nom-" + it.lettre_minuscule + ".mp3"] : it && it.syllabe_tts ? ["syllabes/" + it.syllabe_tts + ".mp3"] : it && it.mot ? ["mots/" + it.mot + ".mp3"] : null;
+    return said ? ["ui/touche.mp3"].concat(said, ["ui/pas-bon.mp3"], again) : ["ui/encore.mp3"].concat(again);
   }
   function itemKey(it) { return it.lettre_minuscule || it.syllabe_tts || it.mot || it.phrase; }
   function nextLessonFor(p) {
@@ -321,7 +326,11 @@
     var i = allLessons.indexOf(id);
     if (i <= 0) return true;
     if (p.stars[id] || (p.resume && p.resume.id === id)) return true;
-    return (p.stars[allLessons[i - 1]] || 0) >= 1;
+    if ((p.stars[allLessons[i - 1]] || 0) >= 1) return true;
+    // Première leçon d'une étape : ouverte dès que l'étape d'avant est finie ou que son coffre est ouvert
+    var m = moduleOf(id), mi = cours.modules.indexOf(m);
+    if (m && m.lecons[0].id === id && mi > 0) { var prev = cours.modules[mi - 1]; return moduleDone(p, prev.id) || !!(p.bonus && p.bonus["coffre-" + prev.id]); }
+    return false;
   }
   function nextLesson(id) {
     var i = allLessons.indexOf(id);
@@ -586,9 +595,29 @@
     play(micOK ? ["ui/inscription.mp3"] : ["ui/inscription-ecrit.mp3"]);
   };
 
+  SCREENS.surprise = function () {
+    var p = profile(), g = (p.gifted || []).filter(function (x) { return !x.opened; })[0];
+    if (!g) return back();
+    setTop("Surprise !", true);
+    app.innerHTML = '<div class="result surprise"><span class="surprise-box" aria-hidden="true">🎁</span><h1>Un cadeau pour toi, ' + esc(p.name) + " !</h1><p class='hint'>Papa ou maman t'offre un cadeau. Touche le paquet pour l'ouvrir !</p>" +
+      '<div class="actions column"><button class="btn big wide focusable" type="button" id="open-gift">Ouvrir le cadeau</button></div></div>';
+    document.getElementById("open-gift").addEventListener("click", function () {
+      g.opened = true;
+      p.claimed.push({ id: g.id, titre: g.titre, ico: g.ico, cout: 0, t: Date.now() });
+      saveState(p); confetti(260);
+      app.querySelector(".surprise-box").textContent = g.ico;
+      app.querySelector("h1").textContent = g.titre;
+      app.querySelector(".hint").textContent = "C'est un cadeau de papa ou maman. Va lui faire un câlin !";
+      var b = document.getElementById("open-gift"); b.textContent = "Merci !"; b.onclick = function () { back(); };
+      play(["ui/cadeau.mp3"]);
+    }, { once: true });
+    focusFirst("#open-gift");
+  };
+
   SCREENS.home = function () {
     var p = profile();
     if (!p) return resetTo("profiles");
+    if ((p.gifted || []).some(function (x) { return !x.opened; })) return go("surprise");
     setTop("Bonjour " + p.name + " !", true);
     var nextId = nextLessonFor(p), nextL = findLesson(nextId);
     var resuming = !!(p.resume && p.resume.id === nextId);
@@ -652,7 +681,7 @@
     if (rv) rv.addEventListener("click", function () { var r = reviewLesson(p); if (r) go("game", { id: "REV", review: true }); });
     app.querySelectorAll(".node").forEach(function (b) {
       b.addEventListener("click", function () {
-        if (b.classList.contains("locked")) { toast("Finis d'abord la leçon d'avant !"); return; }
+        if (b.classList.contains("locked")) { toast("Cette leçon s'ouvrira quand tu auras fini la leçon d'avant (même avec 1 étoile) !"); return; }
         openLesson(b.dataset.l);
       });
     });
@@ -753,7 +782,7 @@
     if (it.lettre_minuscule) {
       return '<button class="card focusable" data-i="' + i + '" type="button" aria-label="Lettre ' + esc(it.lettre_majuscule) + ', écouter">' +
         '<span class="glyph">' + esc(it.lettre_majuscule) + " " + esc(it.lettre_minuscule) + "</span>" +
-        '<span class="emoji" aria-hidden="true">' + it.illustration + '</span><span class="caption">' + esc(it.exemple) + '</span>' +
+        '<span class="emoji" aria-hidden="true">' + (it.illustration_bis || it.illustration) + '</span><span class="caption">' + esc(it.exemple_bis || it.exemple) + '</span>' +
         (COMPAGNONS[it.lettre_minuscule] ? '<span class="compagnon"><span aria-hidden="true">' + COMPAGNONS[it.lettre_minuscule][0] + "</span> " + esc(COMPAGNONS[it.lettre_minuscule][1]) + "</span>" : "") +
         '<span class="play-ico" aria-hidden="true">🔊</span></button>';
     }
@@ -798,7 +827,7 @@
   // Chaque case = une question : vide (?) tant qu'elle n'est pas trouvée, puis l'image (ou la syllabe) de la bonne réponse
   function tileFace(it) {
     if (!it) return "";
-    if (it.illustration) return it.illustration;
+    if (it.illustration) return it.illustration_bis || it.illustration;
     return '<b class="map-syl">' + esc(it.syllabe || it.syllabe_tts || itemKey(it)) + "</b>";
   }
   function mapHTML(th, steps, pos, avatar, faces, answered) {
@@ -820,7 +849,8 @@
   // ================= Mode jeu : le jeu des paires et le serpent des lettres =================
   var ARCADE = {
     memory: { ico: "🃏", titre: "Le jeu des paires", desc: "Retourne les cartes : trouve la lettre et son image.", kind: "lettre" },
-    snake: { ico: "🐍", titre: "Le serpent des lettres", desc: "Avec les flèches, mange la lettre qui fait le son.", kind: "lettre" }
+    snake: { ico: "🐍", titre: "Le serpent des lettres", desc: "Avec les flèches, mange la lettre qui fait le son.", kind: "lettre" },
+    fish: { ico: "🎣", titre: "La pêche aux lettres", desc: "Attrape le poisson qui porte le bon son.", kind: "lettre" }
   };
   function arcadePool(p, kind) {
     var seen = {}, out = [];
@@ -839,7 +869,7 @@
     lessonIndex.ARC = { id: "ARC", titre: g.titre, type_jeu: src.type_jeu, consigne: src.consigne, consigneId: g.consigneId, items: pool, pool: pool, theme: g.theme, hero: g.ico };
     go("game", { id: "ARC", arcade: key }, replace);
   }
-  function startArcade(key) { go(key === "snake" ? "snake" : "memory", { arcade: key, level: (profile().gameLevels || {})[key] || 1 }); }
+  function startArcade(key) { go(key, { arcade: key, level: (profile().gameLevels || {})[key] || 1 }); }
   // Récompense d'un niveau de jeu : étoiles bonus, 5 niveaux récompensés par jour
   function gameReward(p, gain) {
     var dayKey = today(), nb = Object.keys(p.bonus).filter(function (k) { return k.indexOf("jeu-" + dayKey) === 0; }).length;
@@ -894,36 +924,49 @@
   SCREENS.memory = function (a) {
     var p = profile(), level = a.level || 1;
     setTop("Le jeu des paires · niveau " + level, true);
-    var nPairs = [3, 4, 5, 6, 6, 8, 8, 8][Math.min(level, 8) - 1];
+    var nPairs = [3, 4, 4, 5, 6, 6, 8, 8][Math.min(level, 8) - 1];
     var mots = arcadePool(p, "mot").filter(function (it) { return it.illustration; });
-    var useWords = level >= 4 && mots.length >= nPairs;
+    // Niveaux : 1-2 lettre + image · 3 majuscule + minuscule · 4-5 mot + image (si les mots sont débloqués) · 6+ mélangé
+    var mode = level <= 2 ? "image" : level === 3 ? "casse" : (level <= 5 && mots.length >= nPairs) ? "mot" : (level >= 6 && Math.random() < .5 && mots.length >= nPairs ? "mot" : "image");
+    var useWords = mode === "mot";
     var src = useWords ? mots : arcadePool(p, "lettre").filter(function (it) { return it.illustration; });
-    var items = pickDistinct(src, nPairs, function (it) { return it.illustration; });
+    var items = pickDistinct(src, nPairs, function (it) { return useWords ? it.mot : it.lettre_minuscule; });
     nPairs = items.length;
     var cards = [];
     items.forEach(function (it, i) {
-      cards.push({ i: i, face: useWords ? esc(it.mot) : esc(it.lettre_majuscule + " " + it.lettre_minuscule), kind: "txt" });
-      cards.push({ i: i, face: it.illustration, kind: "img" });
+      if (mode === "casse") {
+        cards.push({ i: i, face: esc(it.lettre_majuscule), kind: "txt" });
+        cards.push({ i: i, face: esc(it.lettre_minuscule), kind: "txt2" });
+      } else {
+        cards.push({ i: i, face: useWords ? esc(it.mot) : esc(it.lettre_majuscule + " " + it.lettre_minuscule), kind: "txt" });
+        cards.push({ i: i, face: it.illustration, kind: "img" });
+      }
     });
     cards = shuffle(cards);
     var cols = cards.length <= 6 ? 3 : 4;
-    var html = '<p class="hint center">' + (useWords ? "Trouve chaque mot avec son image." : "Trouve chaque lettre avec son image.") + ' <span id="mem-count">0 / ' + nPairs + ' paires</span></p><div class="memory" style="--cols:' + cols + '">';
+    var consigne = mode === "casse" ? "Trouve la grande lettre et la petite lettre." : useWords ? "Trouve chaque mot avec son image." : "Trouve chaque lettre avec son image.";
+    var html = '<p class="hint center">' + consigne + ' <span id="mem-count">0 / ' + nPairs + ' paires</span> · <span id="mem-tries">0 coup</span></p><div class="memory" style="--cols:' + cols + '">';
     cards.forEach(function (c, k) {
       html += '<button class="mem-card focusable" type="button" data-k="' + k + '" data-p="' + c.i + '" aria-label="Carte cachée"><span class="mem-back" aria-hidden="true">❓</span><span class="mem-face ' + c.kind + '" aria-hidden="true">' + c.face + "</span></button>";
     });
     app.innerHTML = html + "</div>";
-    var open = [], found = 0, tries = 0, wait = false;
+    var open = [], found = 0, tries = 0, wait = false, peek = level <= 4;
+    // Au début des premiers niveaux : toutes les cartes sont montrées quelques secondes pour les mémoriser
+    if (peek) {
+      app.querySelectorAll(".mem-card").forEach(function (b) { b.classList.add("shown"); });
+      setTimeout(function () { app.querySelectorAll(".mem-card").forEach(function (b) { b.classList.remove("shown"); }); peek = false; }, 1500 + nPairs * 600);
+    }
     app.querySelectorAll(".mem-card").forEach(function (b) {
       b.addEventListener("click", function () {
         var c = cards[+b.dataset.k];
-        if (wait || b.classList.contains("shown") || b.classList.contains("found")) return;
+        if (wait || peek || b.classList.contains("shown") || b.classList.contains("found")) return;
         b.classList.add("shown"); b.setAttribute("aria-label", c.kind === "txt" ? "Carte " + (useWords ? items[c.i].mot : items[c.i].lettre_majuscule) : "Image");
         var it = items[c.i];
-        if (c.kind === "txt") play(useWords ? ["mots/" + it.mot + ".mp3"] : ["lettres/question-" + it.lettre_minuscule + ".mp3"]);
+        if (c.kind !== "img") play(useWords ? ["mots/" + it.mot + ".mp3"] : [((cours.sons_seuls || []).indexOf(it.lettre_minuscule) >= 0 ? "lettres/son-" : "lettres/question-") + it.lettre_minuscule + ".mp3"]);
         else if (useWords) play(["mots/" + it.mot + ".mp3"]);
         open.push(b);
         if (open.length < 2) return;
-        tries++;
+        tries++; document.getElementById("mem-tries").textContent = tries + " coup" + (tries > 1 ? "s" : "");
         var c1 = cards[+open[0].dataset.k], c2 = cards[+open[1].dataset.k];
         if (c1.i === c2.i && c1.kind !== c2.kind) {
           open.forEach(function (x) { x.classList.add("found"); });
@@ -942,8 +985,48 @@
         }
       });
     });
-    play(["ui/memory-intro.mp3"]);
+    play([mode === "casse" ? "ui/memory-casse.mp3" : useWords ? "ui/memory-mots.mp3" : "ui/memory-intro.mp3"]);
     focusFirst(".mem-card");
+  };
+
+  // ---- La pêche aux lettres : chaque poisson nage dans son couloir, on touche celui qui porte le bon son ----
+  SCREENS.fish = function (a) {
+    var p = profile(), level = a.level || 1;
+    setTop("La pêche · niveau " + level, true);
+    var lanes = [3, 4, 4, 5, 5, 5, 6, 6][Math.min(level, 8) - 1], need = 6, speed = Math.max(5, 11 - level);
+    var syl = arcadePool(p, "syllabe"), useSyl = level >= 4 && syl.length >= 8;
+    var pool = useSyl ? syl : arcadePool(p, "lettre").filter(function (it) { return it.lettre_minuscule !== "h"; });
+    function key(it) { return useSyl ? it.syllabe_tts : (it.son_tts || it.lettre_minuscule); }
+    function label(it) { return useSyl ? esc(it.affiche || it.syllabe_tts) : esc(it.lettre_minuscule); }
+    function audio(it) { return useSyl ? ["syllabes/" + it.syllabe_tts + ".mp3"] : [((cours.sons_seuls || []).indexOf(it.lettre_minuscule) >= 0 ? "lettres/son-" : "lettres/question-") + it.lettre_minuscule + ".mp3"]; }
+    var caught = 0, errors = 0, target, fishes, locked = false;
+    var FISH = ["🐟", "🐠", "🐡", "🦈", "🐙", "🦀"];
+    function round() {
+      fishes = pickDistinct(pool, lanes, key); target = fishes[Math.floor(Math.random() * fishes.length)];
+      var h = '<div class="snake-top"><button class="listen focusable small-listen" type="button" id="fish-listen" data-t="' + esc(label(target)) + '" aria-label="Réécouter">🔊</button><span class="snake-score">🪣 ' + caught + " / " + need + '</span></div><div class="pond">';
+      fishes.forEach(function (it, i) {
+        h += '<button class="lane focusable" type="button" data-i="' + i + '" aria-label="Poisson ' + label(it) + '"><span class="swim" style="animation-duration:' + (speed + i * 0.9) + "s;animation-delay:-" + (i * 1.7) + 's"><span class="fish-ico" aria-hidden="true">' + FISH[i % FISH.length] + '</span><b class="fish-l">' + label(it) + "</b></span></button>";
+      });
+      app.innerHTML = h + "</div>";
+      document.getElementById("fish-listen").addEventListener("click", function () { play(audio(target)); });
+      app.querySelectorAll(".lane").forEach(function (b) {
+        b.addEventListener("click", function () {
+          if (locked) return;
+          var it = fishes[+b.dataset.i];
+          if (key(it) === key(target)) {
+            locked = true; caught++; b.classList.add("caught"); confetti(30);
+            play(["ui/bravo.mp3"], function () {
+              locked = false;
+              if (caught >= need) { var r = gameReward(p, bonusFor(errors)); return gameLevelDone(p, "fish", level, r.gain, r.capped, "Tu as pêché " + need + " poissons" + (errors ? ", avec " + errors + " erreur" + (errors > 1 ? "s" : "") + "." : " sans erreur !")); }
+              round(); play(audio(target));
+            });
+          } else { errors++; b.classList.add("miss"); setTimeout(function () { b.classList.remove("miss"); }, 500); play(wrongVoice(it, audio(target))); }
+        });
+      });
+      focusFirst(".lane");
+    }
+    round();
+    play(["ui/peche-intro.mp3"].concat(audio(target)));
   };
 
   // ---- Le serpent des lettres : il se déplace case par case avec les flèches ----
@@ -952,13 +1035,16 @@
     setTop("Le serpent · niveau " + level, true);
     var size = [5, 5, 6, 6, 7, 7, 8, 8][Math.min(level, 8) - 1], need = 5, onBoard = [3, 3, 4, 4, 4, 5, 5, 5][Math.min(level, 8) - 1];
     var syl = arcadePool(p, "syllabe");
-    var useSyl = level >= 5 && syl.length >= 8;
-    var pool = useSyl ? syl : arcadePool(p, "lettre").filter(function (it) { return it.lettre_minuscule !== "h"; });
+    // Niveaux : 1-2 lettres · 3-4 images (l'image qui commence par le son) · 5-6 syllabes · 7+ images ; rochers dès le niveau 3
+    var useSyl = (level === 5 || level === 6) && syl.length >= 8;
+    var useImg = !useSyl && level >= 3;
+    var pool = useSyl ? syl : arcadePool(p, "lettre").filter(function (it) { return "hxyw".indexOf(it.lettre_minuscule) < 0 && it.illustration; });
     function key(it) { return useSyl ? it.syllabe_tts : (it.son_tts || it.lettre_minuscule); }
-    function label(it) { return useSyl ? esc(it.affiche || it.syllabe_tts) : esc(it.lettre_minuscule); }
-    function audio(it) { return useSyl ? ["syllabes/" + it.syllabe_tts + ".mp3"] : ["lettres/question-" + it.lettre_minuscule + ".mp3"]; }
+    function label(it) { return useSyl ? esc(it.affiche || it.syllabe_tts) : useImg ? '<span class="snk-img">' + it.illustration + "</span>" : esc(it.lettre_minuscule); }
+    var nRocks = level >= 3 ? Math.min(6, level - 1) : 0, rocks = [];
+    function audio(it) { return useSyl ? ["syllabes/" + it.syllabe_tts + ".mp3"] : [((cours.sons_seuls || []).indexOf(it.lettre_minuscule) >= 0 ? "lettres/son-" : "lettres/question-") + it.lettre_minuscule + ".mp3"]; }
     var mid = Math.floor(size / 2), snake = [{ x: 0, y: mid }], tiles = [], target = null, eaten = 0, errors = 0, done = false;
-    function free(x, y) { return !snake.some(function (c) { return c.x === x && c.y === y; }) && !tiles.some(function (t) { return t.x === x && t.y === y; }); }
+    function free(x, y) { return !snake.some(function (c) { return c.x === x && c.y === y; }) && !tiles.some(function (t) { return t.x === x && t.y === y; }) && !rocks.some(function (r) { return r.x === x && r.y === y; }); }
     function spawn(it) {
       var cells = [];
       for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) if (free(x, y) && Math.abs(x - snake[0].x) + Math.abs(y - snake[0].y) > 1) cells.push({ x: x, y: y });
@@ -970,14 +1056,16 @@
       pickDistinct(pool.filter(function (it) { return !have[key(it)]; }), onBoard - tiles.length, key).forEach(spawn);
     }
     function newTarget() { target = tiles[Math.floor(Math.random() * tiles.length)].it; }
+    for (var rk = 0; rk < nRocks; rk++) { var rx = 2 + Math.floor(Math.random() * (size - 2)), ry = Math.floor(Math.random() * size); if (free(rx, ry)) rocks.push({ x: rx, y: ry }); }
     fill(); newTarget();
     function draw() {
-      var h = '<div class="snake-top"><button class="listen focusable small-listen" type="button" id="snk-listen" data-t="' + esc(label(target)) + '" aria-label="Réécouter">🔊</button><span class="snake-score">🍎 ' + eaten + " / " + need + "</span></div>" +
+      var h = '<div class="snake-top"><button class="listen focusable small-listen" type="button" id="snk-listen" data-t="' + esc(key(target)) + '" aria-label="Réécouter">🔊</button><span class="snake-score">🍎 ' + eaten + " / " + need + "</span></div>" +
         '<div class="snake-grid" style="--n:' + size + '">';
       for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) {
         var si = -1; snake.forEach(function (c, i) { if (c.x === x && c.y === y) si = i; });
         var t = tiles.filter(function (q) { return q.x === x && q.y === y; })[0];
-        h += '<span class="snk-cell' + (si === 0 ? " head" : si > 0 ? " body" : "") + '">' + (si === 0 ? "🐍" : t ? '<b class="snk-tile">' + label(t.it) + "</b>" : "") + "</span>";
+        var rock = rocks.some(function (r) { return r.x === x && r.y === y; });
+        h += '<span data-k="' + (t ? esc(key(t.it)) : "") + '" class="snk-cell' + (si === 0 ? " head" : si > 0 ? " body" : "") + (rock ? " rock" : "") + '">' + (si === 0 ? "🐍" : rock ? "🪨" : t ? '<b class="snk-tile">' + label(t.it) + "</b>" : "") + "</span>";
       }
       h += '</div><p class="snake-tv-hint">Utilise les flèches de la télécommande pour guider le serpent.</p><div class="snake-pad" aria-label="Flèches"><button class="pad focusable" type="button" data-d="ArrowUp" aria-label="Haut">⬆️</button>' +
         '<button class="pad focusable" type="button" data-d="ArrowLeft" aria-label="Gauche">⬅️</button><button class="pad focusable" type="button" data-d="ArrowDown" aria-label="Bas">⬇️</button>' +
@@ -991,6 +1079,7 @@
       var hd = snake[0], nx = hd.x + (d === "ArrowLeft" ? -1 : d === "ArrowRight" ? 1 : 0), ny = hd.y + (d === "ArrowUp" ? -1 : d === "ArrowDown" ? 1 : 0);
       if (nx < 0 || ny < 0 || nx >= size || ny >= size) return;
       if (snake.slice(0, -1).some(function (c) { return c.x === nx && c.y === ny; })) return;
+      if (rocks.some(function (r) { return r.x === nx && r.y === ny; })) return;
       snake.unshift({ x: nx, y: ny });
       var t = tiles.filter(function (q) { return q.x === nx && q.y === ny; })[0];
       if (t && key(t.it) === key(target)) {
@@ -1004,7 +1093,7 @@
         play(["ui/bravo.mp3"].concat(audio(target)));
       } else {
         snake.pop();
-        if (t) { errors++; tiles.splice(tiles.indexOf(t), 1); spawn(t.it); draw(); play(["ui/encore.mp3"].concat(audio(target))); }
+        if (t) { errors++; tiles.splice(tiles.indexOf(t), 1); spawn(t.it); draw(); play(wrongVoice(t.it, audio(target))); }
         else draw();
       }
       var hb = document.querySelector(isTV ? "#snk-listen" : '.pad[data-d="' + d + '"]'); if (hb && isTV) hb.focus({ preventScroll: true });
@@ -1021,7 +1110,7 @@
       move(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "ArrowRight" : "ArrowLeft") : (dy > 0 ? "ArrowDown" : "ArrowUp"));
     }, { passive: true });
     draw();
-    play(["ui/serpent-intro.mp3"].concat(audio(target)));
+    play([useImg ? "ui/serpent-images.mp3" : useSyl ? "ui/serpent-syllabes.mp3" : "ui/serpent-intro.mp3"].concat(audio(target)));
     if (isTV) focusFirst("#snk-listen");
   };
 
@@ -1100,7 +1189,7 @@
             var nextChoice = app.querySelector(".choice:not([disabled])");
             if (nextChoice && isTV) nextChoice.focus();
             saveResume();
-            play(["ui/encore.mp3"].concat(qa));
+            play(wrongVoice(opts.filter(function (o) { return itemKey(o) === b.dataset.key; })[0], qa));
           }
         });
       });
@@ -1481,16 +1570,27 @@
     var p = profile();
     setTop("Mes cadeaux", true);
     var left = starsLeft(p);
-    var html = bubble("Tu as " + left + " étoile" + (left > 1 ? "s" : "") + " à dépenser !", "happy") + '<div class="gifts">';
-    p.rewards.forEach(function (r) {
-      var ok = left >= r.cout;
-      html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-id="' + esc(r.id) + '"' + (ok ? "" : ' aria-disabled="true"') + '>' +
-        '<span class="gift-ico" aria-hidden="true">' + esc(r.ico || "🎁") + '</span><strong>' + esc(r.titre) + '</strong>' +
-        (r.action ? '<span class="gift-tag">Dans l\'appli</span>' : "") +
-        '<span class="gift-cost"><span class="star-ico" aria-hidden="true">★</span> ' + r.cout + "</span>" +
-        '<span class="gift-bar"><span style="width:' + Math.min(100, left / r.cout * 100) + '%"></span></span></button>';
+    var CATS = [["appli", "🎮 Dans l'appli", ["chanson", "livre", "minutes5"]], ["calins", "🤗 Câlins et petits plaisirs", ["calin", "bisou", "autocollant"]],
+      ["maison", "🏠 À la maison", ["histoire", "dessin-anime", "jeu", "glace", "dessert", "cuisine"]], ["sorties", "🌳 Les sorties", ["parc", "cinema"]]];
+    var known = {}; CATS.forEach(function (c) { c[2].forEach(function (id) { known[id] = c[0]; }); });
+    var next = p.rewards.filter(function (r) { return r.cout > left; }).sort(function (x, y) { return x.cout - y.cout; })[0];
+    var html = bubble(left ? "Tu as " + left + " étoile" + (left > 1 ? "s" : "") + " à dépenser !" : "Gagne des étoiles pour choisir un cadeau !", "happy") +
+      '<div class="wallet"><span class="wallet-star" aria-hidden="true">★</span><strong>' + left + "</strong><span>étoiles</span>" +
+      (next ? '<span class="wallet-next">Prochain cadeau : ' + esc(next.ico || "🎁") + " " + esc(next.titre) + " · plus que " + (next.cout - left) + " ★</span>" : "") + "</div>";
+    CATS.concat([["perso", "💝 Cadeaux de papa et maman", null]]).forEach(function (c) {
+      var list = p.rewards.filter(function (r) { return c[2] ? known[r.id] === c[0] : !known[r.id]; });
+      if (!list.length) return;
+      html += "<h2 class='gift-cat'>" + c[1] + "</h2><div class=\"gifts\">";
+      list.forEach(function (r) {
+        var ok = left >= r.cout;
+        html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-id="' + esc(r.id) + '"' + (ok ? "" : ' aria-disabled="true"') + '>' +
+          '<span class="gift-ico" aria-hidden="true">' + esc(r.ico || "🎁") + '</span><strong>' + esc(r.titre) + '</strong>' +
+          (r.action ? '<span class="gift-tag">Dans l\'appli</span>' : "") +
+          '<span class="gift-cost"><span class="star-ico" aria-hidden="true">★</span> ' + r.cout + "</span>" +
+          (ok ? '<span class="gift-ok">Je peux le prendre !</span>' : '<span class="gift-bar"><span style="width:' + Math.min(100, left / r.cout * 100) + '%"></span></span><span class="gift-left">Encore ' + (r.cout - left) + " ★</span>") + "</button>";
+      });
+      html += "</div>";
     });
-    html += "</div>";
     if (p.claimed.length) {
       html += "<h2>Déjà gagnés</h2><ul class='claimed'>";
       p.claimed.slice(-8).reverse().forEach(function (c) { html += "<li>" + esc(c.ico || "🎁") + " " + esc(c.titre) + "</li>"; });
@@ -1516,86 +1616,96 @@
     play("ui/cadeaux.mp3");
   };
 
-  // ---- Cadeau : la chanson de l'alphabet (air traditionnel « Ah ! vous dirai-je, maman », domaine public) ----
-  var ABC_SONG = [["A","C4",1],["B","C4",1],["C","G4",1],["D","G4",1],["E","A4",1],["F","A4",1],["G","G4",2],
-    ["H","F4",1],["I","F4",1],["J","E4",1],["K","E4",1],["L","D4",.5],["M","D4",.5],["N","D4",.5],["O","D4",.5],["P","C4",2],
-    ["Q","G4",1],["R","G4",1],["S","F4",2],["T","E4",1],["U","E4",1],["V","D4",2],
-    ["W","G4",1],["X","G4",1],["Y","F4",2],["Z","E4",1],["","D4",1],["","C4",2]];
-  var NOTE_HZ = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392, A4: 440 };
-  var songCtx = null;
+  // ---- Cadeau : la chanson de l'alphabet ----
+  // Air traditionnel « Ah ! vous dirai-je, maman » (1761, domaine public). La voix dit chaque lettre sur la musique ;
+  // la lettre s'allume d'après la position réelle de la musique, donc toujours en rythme.
+  var SONG_LETTERS = "abcdefghijklmnopqrstuvwxyz".split("");
+  var SONG_TIMES = [1.24, 1.86, 2.48, 3.1, 3.72, 4.34, 4.96, 6.2, 6.82, 7.44, 8.06, 8.68, 8.99, 9.3, 9.61, 9.92, 11.16, 11.78, 12.4, 13.64, 14.26, 14.88, 16.12, 16.74, 17.36, 18.6];
+  var songAudio = null, songRaf = 0;
   SCREENS.song = function () {
     var p = profile();
     setTop("La chanson", true);
     var html = bubble("Chante avec moi, " + esc(p.name) + " ! Suis la lettre qui s'allume.", "happy") + '<div class="song-grid">';
-    ABC_SONG.forEach(function (n, i) { if (n[0]) html += '<span class="song-l" data-i="' + i + '">' + n[0] + "</span>"; });
+    SONG_LETTERS.forEach(function (L, i) { html += '<span class="song-l" data-i="' + i + '">' + L.toUpperCase() + "</span>"; });
     html += '</div><div class="actions center"><button class="btn big focusable" type="button" id="sing">🎵 Chanter</button></div>';
     app.innerHTML = html;
-    var btn = document.getElementById("sing");
+    var btn = document.getElementById("sing"), cells = app.querySelectorAll(".song-l");
     btn.addEventListener("click", function () {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) { toast("Le son n'est pas disponible."); return; }
-      stopSong();
-      songCtx = new AC();
-      var ctx = songCtx, beat = 0.55, t0 = ctx.currentTime + 0.3, t = t0, timers = [];
-      ABC_SONG.forEach(function (n, i) {
-        var dur = n[2] * beat, o = ctx.createOscillator(), g = ctx.createGain();
-        o.type = "triangle"; o.frequency.value = NOTE_HZ[n[1]];
-        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.95);
-        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + dur);
-        timers.push(setTimeout(function () {
-          app.querySelectorAll(".song-l.on").forEach(function (x) { x.classList.remove("on"); });
-          var el = app.querySelector('.song-l[data-i="' + i + '"]'); if (el) el.classList.add("on", "done");
-        }, (t - ctx.currentTime) * 1000));
-        t += dur;
-      });
-      timers.push(setTimeout(function () {
-        app.querySelectorAll(".song-l.on").forEach(function (x) { x.classList.remove("on"); });
+      stopSong(); stopAudio();
+      songAudio = new Audio(AUDIO_BASE + "chanson/alphabet.mp3" + Q);
+      cells.forEach(function (c) { c.classList.remove("on", "done"); });
+      btn.textContent = "🎵 On chante…";
+      var last = -1;
+      (function tick() {
+        if (!songAudio) return;
+        var t = songAudio.currentTime, cur = -1;
+        for (var k = 0; k < SONG_TIMES.length; k++) if (t >= SONG_TIMES[k] - 0.03) cur = k;
+        if (cur !== last) {
+          if (last >= 0 && cells[last]) cells[last].classList.remove("on");
+          if (cur >= 0 && cells[cur]) cells[cur].classList.add("on", "done");
+          last = cur;
+        }
+        songRaf = requestAnimationFrame(tick);
+      })();
+      songAudio.onended = function () {
+        cancelAnimationFrame(songRaf);
+        cells.forEach(function (c) { c.classList.remove("on"); });
         if (!p.sang) { p.sang = true; saveState(p); checkTrophies(p); }
         confetti(120); toast("Bravo, tu connais l'alphabet !");
         btn.textContent = "🎵 Encore une fois";
-      }, (t - ctx.currentTime) * 1000 + 200));
-      songCtx._timers = timers;
-      btn.textContent = "🎵 On chante…";
+        songAudio = null;
+      };
+      songAudio.play().catch(function () { btn.textContent = "🎵 Chanter"; });
     });
     leaveHook = stopSong;
     focusFirst("#sing");
   };
   function stopSong() {
-    if (!songCtx) return;
-    (songCtx._timers || []).forEach(clearTimeout);
-    try { songCtx.close(); } catch (e) {}
-    songCtx = null;
+    cancelAnimationFrame(songRaf);
+    if (songAudio) { try { songAudio.pause(); } catch (e) {} songAudio = null; }
   }
 
-  // ---- Cadeau : une histoire racontée (phrases déjà vérifiées des leçons d'histoires) ----
+  // ---- Cadeau : une histoire racontée (histoires originales de 10 pages, voix vérifiée) ----
+  var HISTOIRES = null;
+  function loadStories(cb) {
+    if (HISTOIRES) return cb(HISTOIRES);
+    fetch("../contenu/histoires.json" + Q).then(function (r) { return r.json(); }).then(function (d) { HISTOIRES = d.histoires; cb(HISTOIRES); })
+      .catch(function () { toast("Les histoires ne sont pas disponibles pour le moment."); back(); });
+  }
   SCREENS.book = function (args) {
     var p = profile();
-    var stories = allLessons.map(findLesson).filter(function (l) { return l && l.type_jeu === "lecture_phrase" && /^H/.test(l.id); });
-    if (!args.id) {
-      setTop("Le livre", true);
-      var html = bubble("Choisis une histoire, je te la raconte !", "happy") + '<div class="gifts">';
-      stories.forEach(function (l) {
-        html += '<button class="gift ready focusable" type="button" data-id="' + l.id + '"><span class="gift-ico" aria-hidden="true">' + (l.icone || "📖") + "</span><strong>" + esc(l.titre) + "</strong></button>";
+    loadStories(function (stories) {
+      if (stack[stack.length - 1].screen !== "book") return;
+      if (!args.id) {
+        setTop("Le livre", true);
+        var html = bubble("Choisis une histoire, je te la raconte !", "happy") + '<div class="gifts">';
+        stories.forEach(function (h) {
+          html += '<button class="gift ready focusable" type="button" data-id="' + h.id + '"><span class="gift-ico" aria-hidden="true">' + h.icone + "</span><strong>" + esc(h.titre) + "</strong><span class='gift-tag'>" + h.pages.length + " pages</span></button>";
+        });
+        app.innerHTML = html + "</div>";
+        app.querySelectorAll(".gift").forEach(function (b) { b.addEventListener("click", function () { go("book", { id: b.dataset.id, page: 0 }); }); });
+        play(["ui/cadeaux.mp3"].slice(0, 0));
+        return focusFirst(".gift");
+      }
+      var h = stories.filter(function (x) { return x.id === args.id; })[0], page = args.page || 0, pg = h.pages[page];
+      setTop(h.titre, true);
+      app.innerHTML = '<div class="book-page"><span class="book-pic" aria-hidden="true">' + pg[1] + '</span><p class="book-text">' + esc(pg[0]) + "</p>" +
+        '<div class="book-dots" aria-hidden="true">' + h.pages.map(function (_, k) { return '<span class="' + (k <= page ? "on" : "") + '"></span>'; }).join("") + "</div>" +
+        '<p class="hint">Page ' + (page + 1) + " / " + h.pages.length + '</p></div><div class="actions center">' +
+        (page ? '<button class="btn secondary focusable" type="button" id="prev-page">◀</button>' : "") +
+        '<button class="btn secondary focusable" type="button" id="again">🔊 Réécouter</button>' +
+        '<button class="btn focusable" type="button" id="next-page">' + (page + 1 < h.pages.length ? "Page suivante ▶" : "Fin de l'histoire ✓") + "</button></div>";
+      var aud = (page === 0 ? ["histoires/" + h.id + "-titre.mp3"] : []).concat(["histoires/" + h.id + "-" + (page + 1) + ".mp3"]);
+      document.getElementById("again").addEventListener("click", function () { play(["histoires/" + h.id + "-" + (page + 1) + ".mp3"]); });
+      var pv = document.getElementById("prev-page"); if (pv) pv.addEventListener("click", function () { go("book", { id: h.id, page: page - 1 }, true); });
+      document.getElementById("next-page").addEventListener("click", function () {
+        if (page + 1 < h.pages.length) return go("book", { id: h.id, page: page + 1 }, true);
+        if (!p.book) { p.book = true; saveState(p); checkTrophies(p); }
+        confetti(140); back();
       });
-      app.innerHTML = html + "</div>";
-      app.querySelectorAll(".gift").forEach(function (b) { b.addEventListener("click", function () { go("book", { id: b.dataset.id, page: 0 }); }); });
-      return;
-    }
-    var l = findLesson(args.id), page = args.page || 0, it = l.items[page];
-    setTop(l.titre, true);
-    app.innerHTML = '<div class="book-page"><span class="book-pic" aria-hidden="true">' + it.illustration + '</span><p class="book-text">' + esc(it.phrase) + "</p>" +
-      '<p class="hint">Page ' + (page + 1) + " / " + l.items.length + '</p></div><div class="actions center">' +
-      '<button class="btn secondary focusable" type="button" id="again">🔊 Réécouter</button>' +
-      '<button class="btn focusable" type="button" id="next-page">' + (page + 1 < l.items.length ? "Page suivante ▶" : "Fin de l'histoire ✓") + "</button></div>";
-    var aud = ["phrases/" + l.id + "-" + (page + 1) + ".mp3"];
-    document.getElementById("again").addEventListener("click", function () { play(aud); });
-    document.getElementById("next-page").addEventListener("click", function () {
-      if (page + 1 < l.items.length) return go("book", { id: l.id, page: page + 1 }, true);
-      if (!p.book) { p.book = true; saveState(p); checkTrophies(p); }
-      confetti(120); back();
+      play(aud);
+      focusFirst("#next-page");
     });
-    play(aud);
-    focusFirst("#next-page");
   };
 
   SCREENS.pause = function () {
@@ -1652,6 +1762,12 @@
       var cur = pp.resume && findLesson(pp.resume.id);
       html += '<section class="card-panel"><h3>' + pp.avatar + " " + esc(pp.name) + (pp.age ? " · " + pp.age + " ans" : "") + "</h3>";
       if (tab === "cadeaux") {
+        html += '<div class="offer"><span class="label">🎁 Offrir un cadeau surprise à ' + esc(pp.name) + "</span>" +
+          '<form class="form offer-form" data-pid="' + esc(pp.id) + '" autocomplete="off"><input type="text" class="focusable" maxlength="60" placeholder="Ex. : une sortie à la piscine" aria-label="Cadeau à offrir">' +
+          '<div class="ages">' + ["🎁", "🍦", "🧸", "🎈", "🍫", "🎨", "⚽", "🎬"].map(function (e, i) { return '<button type="button" class="pick focusable of-ico" data-ico="' + e + '" aria-pressed="' + (i === 0) + '">' + e + "</button>"; }).join("") +
+          '</div><button class="btn focusable" type="submit">Offrir ce cadeau</button></form>' +
+          '<div class="actions"><button class="btn secondary focusable" type="button" data-givestars="3" data-pid="' + esc(pp.id) + '">Offrir 3 ★</button><button class="btn secondary focusable" type="button" data-givestars="5" data-pid="' + esc(pp.id) + '">Offrir 5 ★</button></div>' +
+          "<p class='hint'>" + esc(pp.name) + " le découvrira en ouvrant l'appli, avec des confettis.</p></div>";
         html += '<span class="label">Cadeaux (coût en étoiles) · ★ ' + starsLeft(pp) + " disponibles</span><ul class=\"reward-list\">" +
         pp.rewards.map(function (r) { return "<li><span>" + esc(r.ico || "🎁") + " " + esc(r.titre) + " · ★ " + r.cout + '</span><button class="btn ghost focusable" type="button" data-delrw="' + esc(r.id) + '" data-pid="' + esc(pp.id) + '">Retirer</button></li>'; }).join("") +
         '</ul><form class="form reward-form" data-pid="' + esc(pp.id) + '" autocomplete="off"><input type="text" class="focusable" maxlength="50" placeholder="Nouveau cadeau, ex. : choisir le film" aria-label="Nouveau cadeau">' +
@@ -1670,7 +1786,7 @@
         (timeUp(pp) ? '<div class="actions"><button class="btn secondary focusable" type="button" data-extra="' + esc(pp.id) + '">+10 minutes aujourd\'hui</button></div>' : "") +
         '<div class="table-wrap"><table class="parent-table"><thead><tr><th>Leçon</th><th>Étoiles</th></tr></thead><tbody>';
       allLessons.forEach(function (id) { html += "<tr><td>" + id + " · " + esc(findLesson(id).titre) + "</td><td>" + starsText(pp.stars[id] || 0, 3) + "</td></tr>"; });
-      html += '</tbody></table></div><div class="actions"><button class="btn secondary focusable" type="button" data-reset="' + esc(pp.id) + '">Remettre à zéro</button><button class="btn danger focusable" type="button" data-del="' + esc(pp.id) + '">Supprimer le profil</button></div></section>';
+      html += '</tbody></table></div><div class="actions"><button class="btn secondary focusable" type="button" data-resetgames="' + esc(pp.id) + '">Remettre les jeux au niveau 1</button><button class="btn secondary focusable" type="button" data-reset="' + esc(pp.id) + '">Remettre à zéro</button><button class="btn danger focusable" type="button" data-del="' + esc(pp.id) + '">Supprimer le profil</button></div></section>';
     });
     if (tab === "appareils") html += "<h2>À savoir</h2><p class='hint'>Aucune publicité, aucun achat, aucun micro. Les progrès restent sur l'appareil (et sur votre code famille si vous l'avez créé).</p>";
     app.innerHTML = html;
@@ -1704,6 +1820,28 @@
       state.code = null; persist(); toast("Appareil délié."); render();
     });
     function pById(id) { return state.profiles.filter(function (x) { return x.id === id; })[0]; }
+    app.querySelectorAll(".offer-form").forEach(function (f) {
+      f.querySelectorAll(".of-ico").forEach(function (b) { b.addEventListener("click", function () { f.querySelectorAll(".of-ico").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); }); });
+      f.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var t = f.querySelector("input").value.trim().slice(0, 60);
+        if (!t) { toast("Écrivez le cadeau à offrir."); return; }
+        var pp = pById(f.dataset.pid), ico = (f.querySelector('.of-ico[aria-pressed="true"]') || {}).dataset.ico || "🎁";
+        pp.gifted = pp.gifted || []; pp.gifted.push({ id: "g" + Date.now().toString(36), titre: t, ico: ico, t: Date.now(), opened: false });
+        saveState(pp); toast("Cadeau offert ! " + pp.name + " le verra à l'accueil."); render();
+      });
+    });
+    app.querySelectorAll("[data-givestars]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var pp = pById(b.dataset.pid), n = +b.dataset.givestars;
+        pp.bonus["parent-" + Date.now()] = n; pp.gifted = pp.gifted || [];
+        pp.gifted.push({ id: "s" + Date.now().toString(36), titre: n + " étoiles de la part de papa ou maman", ico: "⭐", t: Date.now(), opened: false });
+        saveState(pp); toast(n + " étoiles offertes !"); render();
+      });
+    });
+    app.querySelectorAll("[data-resetgames]").forEach(function (b) {
+      b.addEventListener("click", function () { var pp = pById(b.dataset.resetgames); pp.gameLevels = {}; saveState(pp); toast("Niveaux des jeux remis au niveau 1."); render(); });
+    });
     app.querySelectorAll("[data-glimit]").forEach(function (b) {
       b.addEventListener("click", function () { var pp = pById(b.dataset.pid); pp.gameLimit = +b.dataset.glimit; saveState(pp); render(); });
     });
@@ -1781,6 +1919,8 @@
       [l, r].forEach(function (s) { s.days.forEach(function (d) { days[d] = 1; }); });
       l.name = newer.name; l.age = newer.age; l.avatar = newer.avatar;
       l.limit = newer.limit; l.gameLimit = newer.gameLimit;
+      var gf = {}; [l, r].forEach(function (s) { (s.gifted || []).forEach(function (g) { var o = gf[g.id]; gf[g.id] = o ? { id: g.id, titre: g.titre, ico: g.ico, t: g.t, opened: o.opened || g.opened } : g; }); });
+      l.gifted = Object.keys(gf).map(function (k) { return gf[k]; });
       var gl = {}; [l, r].forEach(function (s) { for (var g in (s.gameLevels || {})) gl[g] = Math.max(gl[g] || 0, s.gameLevels[g]); }); l.gameLevels = gl;
       var gu = {}; [l, r].forEach(function (s) { for (var d in (s.gameUsage || {})) gu[d] = Math.max(gu[d] || 0, s.gameUsage[d]); }); l.gameUsage = gu; l.rewards = newer.rewards; l.errs = newer.errs || {};
       var claimed = {}; [l, r].forEach(function (s) { s.claimed.forEach(function (c) { claimed[c.id + "@" + c.t] = c; }); });

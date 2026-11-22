@@ -7,7 +7,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 |---|---|---|---|
 | ui/bravo.mp3 | Bravo ! | bʁavˈo! | dictionnaire |
 | ui/super.mp3 | Super, tu as trouvé ! | sypˈɛʁ, ty a tʁuvˈe! | dictionnaire |
-| ui/encore.mp3 | Essaie encore. | esˈɛ ɑ̃kˈɔʁ. | dictionnaire |
+| ui/encore.mp3 | Allez, essaie encore ! | esˈɛ ɑ̃kˈɔʁ. | imposée |
 | ui/etoile.mp3 | Tu as gagné des étoiles ! | ty a ɡanjˈe de-z etwˈal! | dictionnaire |
 | ui/fin.mp3 | Bravo ! Tu as fini la leçon. | bʁavˈo!ty a finˈi la- ləsˈɔ̃. | dictionnaire |
 | ui/choisis-lecon.mp3 | Choisis une leçon. | ʃwazˈiʲ yn ləsˈɔ̃. | dictionnaire |
@@ -51,6 +51,9 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/cadeau.mp3 | Bravo ! Tu as gagné un cadeau. Montre-le à papa ou maman ! | bʁavˈo!ty a ɡanjˈe œ̃ kadˈo.mˈɔ̃tʁlə- a papˈa u mamˈɑ̃! | dictionnaire |
 | ui/cadeaux.mp3 | Voici tes cadeaux. Gagne des étoiles pour les débloquer ! | vwasˌi te- kadˈo.ɡˈaɲ de-z etwˈal puʁ le- deblokˈe! | dictionnaire |
 | ui/revision.mp3 | On révise les petites erreurs. C'est comme ça qu'on devient fort ! | ɔ̃ ʁevˈiz le- pətˈitz ɛʁˈœʁ.sɛ kɔm sa kɔ̃ dəvjˈɛ̃ fˈɔʁ! | dictionnaire |
+| ui/touche.mp3 | Oh non, tu t'es trompé ! Tu as touché… | ˈɔ nˈɔ̃, ty tɛ tʁɔ̃pˈe!ty a tuʃˈe | dictionnaire |
+| ui/pas-bon.mp3 | Ce n'est pas le bon son. Réécoute bien : | sə- nɛ pa lə- bˈɔ̃ sˈɔ̃.ʁeekˈut bjˈɛ̃:  | dictionnaire |
+| ui/peche-intro.mp3 | C'est la pêche ! Écoute le son, et touche le poisson qui porte la bonne lettre. | sɛ la- pˈɛʃ!ekˈut lə- sˈɔ̃, e tˈuʃ lə- pwasˈɔ̃ ki pˈɔʁt la- bˈɔn lˈɛtʁ. | dictionnaire |
 | ui/memory-intro.mp3 | Retourne deux cartes. Trouve chaque lettre avec son image ! | ʁətˈuʁn dˈø kˈaʁt.tʁˈuv ʃak lˈɛtʁ avˌɛk sɔ̃n imˈaʒ! | dictionnaire |
 | ui/serpent-intro.mp3 | Tu es le serpent ! Avec les flèches, va manger la lettre qui fait ce son. | ty ɛ lə- sɛʁpˈɑ̃!avˌɛk le- flˈɛʃ, vˈa mɑ̃ʒˈe la- lˈɛtʁ ki fˈɛ sə- sˈɔ̃. | dictionnaire |
 | ui/revision-fin.mp3 | Super ! Tes erreurs sont corrigées. | sypˈɛʁ!te-z ɛʁˈœʁ sˈɔ̃ koʁiʒˈe. | dictionnaire |
@@ -68,7 +71,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/orange.mp3 | Orange. | yn oʁˈɑ̃ʒ. | imposée |
 | lettres/nom-u.mp3 | [nom de la lettre u] | la lˈɛtʁə, ˈy. | imposée |
 | mots/tortue.mp3 | Tortue. | yn tɔʁtˈy. | imposée |
-| titres/L2.mp3 | Les sons continus : m, l, r, s | le sˈɔ̃ kɔ̃tinˈy, mː, lː, ʁː, sː. | imposée |
+| titres/L2.mp3 | Les sons continus : m, l, r, s | le sˈɔ̃ kɔ̃tinˈy. | imposée |
 | consignes/L2.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-m.mp3 | [nom de la lettre m] | la lˈɛtʁə, ˈɛm. | imposée |
 | mots/maison.mp3 | Maison. | mɛzˈɔ̃. | dictionnaire |
@@ -78,7 +81,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/robot.mp3 | Robot. | ʁobˈo. | dictionnaire |
 | lettres/nom-s.mp3 | [nom de la lettre s] | la lˈɛtʁə, ˈɛs. | imposée |
 | mots/soleil.mp3 | Soleil. | sɔlˈɛj. | imposée |
-| titres/L3.mp3 | Les sons courts : p, t, b, d | le sˈɔ̃ kˈuʁ, pˈø, tˈø, bˈə, dˈø. | imposée |
+| titres/L3.mp3 | Les sons courts : p, t, b, d | le sˈɔ̃ kˈuʁ. | imposée |
 | consignes/L3.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-p.mp3 | [nom de la lettre p] | la lˈɛtʁə, pˈe. | imposée |
 | mots/pomme.mp3 | Pomme. | pˈɔm. | dictionnaire |
@@ -88,7 +91,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/bateau.mp3 | Bateau. | batˈo. | dictionnaire |
 | lettres/nom-d.mp3 | [nom de la lettre d] | la lˈɛtʁə, dˈe. | imposée |
 | mots/dauphin.mp3 | Dauphin. | dofˈɛ̃. | dictionnaire |
-| titres/L4.mp3 | Les sons f, v, z, j | le sˈɔ̃, fː, vː, zː, ʒː. | imposée |
+| titres/L4.mp3 | Les sons f, v, z, j | də nuvˈo sˈɔ̃. | imposée |
 | consignes/L4.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-f.mp3 | [nom de la lettre f] | la lˈɛtʁə, ˈɛf. | imposée |
 | mots/fleur.mp3 | Fleur. | flˈœʁ. | dictionnaire |
@@ -98,7 +101,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/zèbre.mp3 | Zèbre. | zˈɛbʁ. | dictionnaire |
 | lettres/nom-j.mp3 | [nom de la lettre j] | la lˈɛtʁə, ʒˈi. | imposée |
 | mots/jupe.mp3 | Jupe. | ʒˈyp. | dictionnaire |
-| titres/L5.mp3 | Les sons n, c, k, g | le sˈɔ̃, nː, kˈø, e ɡˈø. | imposée |
+| titres/L5.mp3 | Les sons n, c, k, g | ɑ̃kˈɔʁ də nuvˈo sˈɔ̃. | imposée |
 | consignes/L5.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-n.mp3 | [nom de la lettre n] | la lˈɛtʁə, ˈɛn. | imposée |
 | mots/nuage.mp3 | Nuage. | nyˈaʒ. | dictionnaire |
@@ -121,18 +124,18 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | lettres/nom-w.mp3 | [nom de la lettre w] | la lˈɛtʁə, dˈublə vˈe. | imposée |
 | mots/wagon.mp3 | Wagon. | vaɡˈɔ̃. | dictionnaire |
 | titres/M2.mp3 | Les syllabes. | le- silˈab. | dictionnaire |
-| titres/S1.mp3 | Syllabes avec m | silˈab avˈɛk mː. | imposée |
+| titres/S1.mp3 | Syllabes avec m | le pʁəmjˈɛʁ silˈab. | imposée |
 | consignes/S1.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| titres/S2.mp3 | Syllabes avec l et r | silˈab avˈɛk lː e ʁː. | imposée |
+| titres/S2.mp3 | Syllabes avec l et r | də nuvˈɛl silˈab. | imposée |
 | consignes/S2.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| titres/S3.mp3 | Syllabes avec p, t, b, d | silˈab avˈɛk pˈø, tˈø, bˈə, e dˈø. | imposée |
+| titres/S3.mp3 | Syllabes avec p, t, b, d | ɑ̃kˈɔʁ də silˈab. | imposée |
 | consignes/S3.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| titres/S4.mp3 | Syllabes avec f, s, v, j | silˈab avˈɛk fː, sː, vː, e ʒː. | imposée |
+| titres/S4.mp3 | Syllabes avec f, s, v, j | ɑ̃kˈɔʁ plˈy də silˈab. | imposée |
 | consignes/S4.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
-| titres/S5.mp3 | Syllabes avec n, c, g | silˈab avˈɛk nː, kˈø, e ɡˈø. | imposée |
+| titres/S5.mp3 | Syllabes avec n, c, g | le dɛʁnjˈɛʁ silˈab. | imposée |
 | consignes/S5.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
 | titres/M9.mp3 | Je connais toutes mes lettres. | ʒə- kɔnˈɛ tut me- lˈɛtʁ. | dictionnaire |
-| titres/R1.mp3 | Révision : voyelles et m, l, r, s | ʁevizjˈɔ̃, le vwajˈɛl, e mː, lː, ʁː, sː. | imposée |
+| titres/R1.mp3 | Révision : voyelles et m, l, r, s | ʁevizjˈɔ̃ de lˈɛtʁ. | imposée |
 | consignes/R1.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-a.mp3 | [nom de la lettre a] | la lˈɛtʁə, ˈa. | imposée |
 | mots/avion.mp3 | Avion. | avjˈɔ̃. | dictionnaire |
@@ -152,7 +155,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/robot.mp3 | Robot. | ʁobˈo. | dictionnaire |
 | lettres/nom-s.mp3 | [nom de la lettre s] | la lˈɛtʁə, ˈɛs. | imposée |
 | mots/soleil.mp3 | Soleil. | sɔlˈɛj. | imposée |
-| titres/R2.mp3 | Révision : p, t, b, d, f, v | ʁevizjˈɔ̃, pˈø, tˈø, bˈə, dˈø, fː, vː. | imposée |
+| titres/R2.mp3 | Révision : p, t, b, d, f, v | ʁevizjˈɔ̃ de sˈɔ̃ kˈuʁ. | imposée |
 | consignes/R2.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-p.mp3 | [nom de la lettre p] | la lˈɛtʁə, pˈe. | imposée |
 | mots/pomme.mp3 | Pomme. | pˈɔm. | dictionnaire |
@@ -166,7 +169,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | mots/fleur.mp3 | Fleur. | flˈœʁ. | dictionnaire |
 | lettres/nom-v.mp3 | [nom de la lettre v] | la lˈɛtʁə, vˈe. | imposée |
 | mots/vache.mp3 | Vache. | vˈaʃ. | dictionnaire |
-| titres/R3.mp3 | Révision : z, j, n, c, g | ʁevizjˈɔ̃, zː, ʒː, nː, kˈø, e ɡˈø. | imposée |
+| titres/R3.mp3 | Révision : z, j, n, c, g | ʁevizjˈɔ̃ de dɛʁnjˈɛʁ lˈɛtʁ. | imposée |
 | consignes/R3.mp3 | Écoute bien le son. Quelle lettre fait ce son ? | ekˈut bjˈɛ̃ lə- sˈɔ̃.kɛl lˈɛtʁ fˈɛ sə- sˈɔ̃? | dictionnaire |
 | lettres/nom-z.mp3 | [nom de la lettre z] | la lˈɛtʁə, zˈɛd. | imposée |
 | mots/zèbre.mp3 | Zèbre. | zˈɛbʁ. | dictionnaire |
@@ -240,21 +243,21 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | titres/Y5.mp3 | Les syllabes en e | le silˈab ɑ̃n ˈø. | imposée |
 | consignes/Y5.mp3 | Écoute la syllabe, puis trouve-la parmi les images. | ekˈut la- silˈab, pyˈi tʁˈuvla- paʁmˌi le-z imˈaʒ. | dictionnaire |
 | titres/M3.mp3 | Les premiers mots. | le- pʁəmjˈe mˈo. | dictionnaire |
-| titres/W1.mp3 | Premiers mots avec m, l, r, s | pʁəmjˈe mˈo avˈɛk mː, lː, ʁː, e sː. | imposée |
+| titres/W1.mp3 | Premiers mots avec m, l, r, s | le pʁəmjˈe mˈo. | imposée |
 | consignes/W1.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/lama.mp3 | Lama. | lamˈa. | dictionnaire |
 | mots/mule.mp3 | Mule. | mˈyl. | dictionnaire |
 | mots/rose.mp3 | Rose. | ʁˈoz. | imposée |
 | mots/sel.mp3 | Sel. | sˈɛl. | dictionnaire |
 | mots/ami.mp3 | Ami. | amˈi. | dictionnaire |
-| titres/W2.mp3 | Premiers mots avec p, t, b, d | pʁəmjˈe mˈo avˈɛk pˈø, tˈø, bˈə, e dˈø. | imposée |
+| titres/W2.mp3 | Premiers mots avec p, t, b, d | də nuvˈo mˈo. | imposée |
 | consignes/W2.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/papa.mp3 | Papa. | papˈa. | dictionnaire |
 | mots/dodo.mp3 | Dodo. | dodˈo. | dictionnaire |
 | mots/moto.mp3 | Moto. | mɔtˈo. | imposée |
 | mots/tapis.mp3 | Tapis. | tapˈi. | dictionnaire |
 | mots/bulle.mp3 | Bulle. | bˈyl. | dictionnaire |
-| titres/W3.mp3 | Premiers mots avec f, v, z, j, n | pʁəmjˈe mˈo avˈɛk fː, vː, zː, ʒː, e nː. | imposée |
+| titres/W3.mp3 | Premiers mots avec f, v, z, j, n | ɑ̃kˈɔʁ də mˈo. | imposée |
 | consignes/W3.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
 | mots/jupe.mp3 | Jupe. | ʒˈyp. | dictionnaire |
 | mots/navire.mp3 | Navire. | navˈiʁ. | dictionnaire |

@@ -681,7 +681,9 @@
               "son_tts": "a",
               "exemple": "avion",
               "illustration": "✈️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "ananas",
+              "illustration_bis": "🍍"
             },
             {
               "affiche": "E e",
@@ -701,7 +703,9 @@
               "son_tts": "i",
               "exemple": "image",
               "illustration": "🖼️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "île",
+              "illustration_bis": "🏝️"
             },
             {
               "affiche": "O o",
@@ -711,7 +715,9 @@
               "son_tts": "o",
               "exemple": "orange",
               "illustration": "🍊",
-              "note": "Le o fait le son « o », comme dans o-range."
+              "note": "Le o fait le son « o », comme dans o-range.",
+              "exemple_bis": "olive",
+              "illustration_bis": "🫒"
             },
             {
               "affiche": "U u",
@@ -721,7 +727,9 @@
               "son_tts": "u",
               "exemple": "tortue",
               "illustration": "🐢",
-              "note": ""
+              "note": "",
+              "exemple_bis": "plume",
+              "illustration_bis": "🪶"
             },
             {
               "affiche": "M m",
@@ -731,7 +739,9 @@
               "son_tts": "mmm",
               "exemple": "maison",
               "illustration": "🏠",
-              "note": ""
+              "note": "",
+              "exemple_bis": "moto",
+              "illustration_bis": "🏍️"
             },
             {
               "affiche": "L l",
@@ -741,7 +751,9 @@
               "son_tts": "lll",
               "exemple": "lune",
               "illustration": "🌙",
-              "note": ""
+              "note": "",
+              "exemple_bis": "lion",
+              "illustration_bis": "🦁"
             },
             {
               "affiche": "R r",
@@ -751,7 +763,9 @@
               "son_tts": "rrr",
               "exemple": "robot",
               "illustration": "🤖",
-              "note": ""
+              "note": "",
+              "exemple_bis": "raisin",
+              "illustration_bis": "🍇"
             },
             {
               "affiche": "S s",
@@ -761,7 +775,9 @@
               "son_tts": "sss",
               "exemple": "soleil",
               "illustration": "☀️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "serpent",
+              "illustration_bis": "🐍"
             }
           ]
         },
@@ -782,7 +798,9 @@
               "son_tts": "pe",
               "exemple": "pomme",
               "illustration": "🍎",
-              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé).",
+              "exemple_bis": "papillon",
+              "illustration_bis": "🦋"
             },
             {
               "affiche": "T t",
@@ -792,7 +810,9 @@
               "son_tts": "te",
               "exemple": "table",
               "illustration": "🪑",
-              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé).",
+              "exemple_bis": "tomate",
+              "illustration_bis": "🍅"
             },
             {
               "affiche": "B b",
@@ -822,7 +842,9 @@
               "son_tts": "fff",
               "exemple": "fleur",
               "illustration": "🌸",
-              "note": ""
+              "note": "",
+              "exemple_bis": "fourchette",
+              "illustration_bis": "🍴"
             },
             {
               "affiche": "V v",
@@ -832,7 +854,9 @@
               "son_tts": "vvv",
               "exemple": "vache",
               "illustration": "🐄",
-              "note": ""
+              "note": "",
+              "exemple_bis": "voiture",
+              "illustration_bis": "🚗"
             }
           ]
         },
@@ -853,7 +877,9 @@
               "son_tts": "zzz",
               "exemple": "zèbre",
               "illustration": "🦓",
-              "note": ""
+              "note": "",
+              "exemple_bis": "zéro",
+              "illustration_bis": "0️⃣"
             },
             {
               "affiche": "J j",
@@ -863,7 +889,9 @@
               "son_tts": "je",
               "exemple": "jupe",
               "illustration": "👗",
-              "note": ""
+              "note": "",
+              "exemple_bis": "jus",
+              "illustration_bis": "🧃"
             },
             {
               "affiche": "N n",
@@ -873,7 +901,9 @@
               "son_tts": "nnn",
               "exemple": "nuage",
               "illustration": "☁️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "nid",
+              "illustration_bis": "🪺"
             },
             {
               "affiche": "C c",
@@ -883,7 +913,9 @@
               "son_tts": "ke",
               "exemple": "cube",
               "illustration": "🧊",
-              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard."
+              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard.",
+              "exemple_bis": "carotte",
+              "illustration_bis": "🥕"
             },
             {
               "affiche": "G g",
@@ -893,7 +925,9 @@
               "son_tts": "gue",
               "exemple": "gorille",
               "illustration": "🦍",
-              "note": "Son dur [g] devant a, o, u (« gorille »)."
+              "note": "Son dur [g] devant a, o, u (« gorille »).",
+              "exemple_bis": "gâteau",
+              "illustration_bis": "🎂"
             }
           ]
         },
@@ -914,7 +948,9 @@
               "son_tts": "a",
               "exemple": "avion",
               "illustration": "✈️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "ananas",
+              "illustration_bis": "🍍"
             },
             {
               "affiche": "B b",
@@ -934,7 +970,9 @@
               "son_tts": "ke",
               "exemple": "cube",
               "illustration": "🧊",
-              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard."
+              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard.",
+              "exemple_bis": "carotte",
+              "illustration_bis": "🥕"
             },
             {
               "affiche": "D d",
@@ -964,7 +1002,9 @@
               "son_tts": "fff",
               "exemple": "fleur",
               "illustration": "🌸",
-              "note": ""
+              "note": "",
+              "exemple_bis": "fourchette",
+              "illustration_bis": "🍴"
             },
             {
               "affiche": "G g",
@@ -974,7 +1014,9 @@
               "son_tts": "gue",
               "exemple": "gorille",
               "illustration": "🦍",
-              "note": "Son dur [g] devant a, o, u (« gorille »)."
+              "note": "Son dur [g] devant a, o, u (« gorille »).",
+              "exemple_bis": "gâteau",
+              "illustration_bis": "🎂"
             },
             {
               "affiche": "I i",
@@ -984,7 +1026,9 @@
               "son_tts": "i",
               "exemple": "image",
               "illustration": "🖼️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "île",
+              "illustration_bis": "🏝️"
             },
             {
               "affiche": "J j",
@@ -994,7 +1038,9 @@
               "son_tts": "je",
               "exemple": "jupe",
               "illustration": "👗",
-              "note": ""
+              "note": "",
+              "exemple_bis": "jus",
+              "illustration_bis": "🧃"
             },
             {
               "affiche": "K k",
@@ -1014,7 +1060,9 @@
               "son_tts": "lll",
               "exemple": "lune",
               "illustration": "🌙",
-              "note": ""
+              "note": "",
+              "exemple_bis": "lion",
+              "illustration_bis": "🦁"
             },
             {
               "affiche": "M m",
@@ -1024,7 +1072,9 @@
               "son_tts": "mmm",
               "exemple": "maison",
               "illustration": "🏠",
-              "note": ""
+              "note": "",
+              "exemple_bis": "moto",
+              "illustration_bis": "🏍️"
             }
           ]
         },
@@ -1045,7 +1095,9 @@
               "son_tts": "nnn",
               "exemple": "nuage",
               "illustration": "☁️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "nid",
+              "illustration_bis": "🪺"
             },
             {
               "affiche": "O o",
@@ -1055,7 +1107,9 @@
               "son_tts": "o",
               "exemple": "orange",
               "illustration": "🍊",
-              "note": "Le o fait le son « o », comme dans o-range."
+              "note": "Le o fait le son « o », comme dans o-range.",
+              "exemple_bis": "olive",
+              "illustration_bis": "🫒"
             },
             {
               "affiche": "P p",
@@ -1065,7 +1119,9 @@
               "son_tts": "pe",
               "exemple": "pomme",
               "illustration": "🍎",
-              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé).",
+              "exemple_bis": "papillon",
+              "illustration_bis": "🦋"
             },
             {
               "affiche": "R r",
@@ -1075,7 +1131,9 @@
               "son_tts": "rrr",
               "exemple": "robot",
               "illustration": "🤖",
-              "note": ""
+              "note": "",
+              "exemple_bis": "raisin",
+              "illustration_bis": "🍇"
             },
             {
               "affiche": "S s",
@@ -1085,7 +1143,9 @@
               "son_tts": "sss",
               "exemple": "soleil",
               "illustration": "☀️",
-              "note": ""
+              "note": "",
+              "exemple_bis": "serpent",
+              "illustration_bis": "🐍"
             },
             {
               "affiche": "T t",
@@ -1095,7 +1155,9 @@
               "son_tts": "te",
               "exemple": "table",
               "illustration": "🪑",
-              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé).",
+              "exemple_bis": "tomate",
+              "illustration_bis": "🍅"
             },
             {
               "affiche": "U u",
@@ -1105,7 +1167,9 @@
               "son_tts": "u",
               "exemple": "tortue",
               "illustration": "🐢",
-              "note": ""
+              "note": "",
+              "exemple_bis": "plume",
+              "illustration_bis": "🪶"
             },
             {
               "affiche": "V v",
@@ -1115,7 +1179,9 @@
               "son_tts": "vvv",
               "exemple": "vache",
               "illustration": "🐄",
-              "note": ""
+              "note": "",
+              "exemple_bis": "voiture",
+              "illustration_bis": "🚗"
             },
             {
               "affiche": "X x",
@@ -1125,7 +1191,9 @@
               "son_tts": "ks",
               "exemple": "xylophone",
               "illustration": "🎶",
-              "note": "Son [ks] dans ce cas ; les autres sons de x sont vus plus tard."
+              "note": "Son [ks] dans ce cas ; les autres sons de x sont vus plus tard.",
+              "exemple_bis": "taxi",
+              "illustration_bis": "🚕"
             },
             {
               "affiche": "Y y",
@@ -1135,7 +1203,9 @@
               "son_tts": "i",
               "exemple": "stylo",
               "illustration": "🖊️",
-              "note": "Le y fait le son « i », comme dans sty-lo."
+              "note": "Le y fait le son « i », comme dans sty-lo.",
+              "exemple_bis": "cygne",
+              "illustration_bis": "🦢"
             },
             {
               "affiche": "Z z",
@@ -1145,7 +1215,9 @@
               "son_tts": "zzz",
               "exemple": "zèbre",
               "illustration": "🦓",
-              "note": ""
+              "note": "",
+              "exemple_bis": "zéro",
+              "illustration_bis": "0️⃣"
             }
           ]
         }
@@ -2311,5 +2383,33 @@
         }
       ]
     }
+  ],
+  "sons_seuls": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z"
   ]
 }

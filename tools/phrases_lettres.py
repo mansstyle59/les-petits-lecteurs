@@ -13,20 +13,26 @@ v = PiperVoice.load("/tmp/voices/fr_FR-siwis-medium.onnx"); SR = v.config.sample
 W = WhisperModel("small", device="cpu", compute_type="int8")
 cours = json.load(open(R / "contenu" / "cours.json", encoding="utf-8"))
 EX = {it["lettre_minuscule"]: it["exemple"] for m in cours["modules"] for l in m["lecons"] for it in l["items"] if "lettre_minuscule" in it}
+import os
+SUFFIX = ""
+if os.environ.get("EXBIS"):   # deuxième série d'exemples (leçons de révision) : fichiers « -2 »
+    EX.update(json.load(open(os.environ["EXBIS"], encoding="utf-8"))); SUFFIX = "-2"
 NOM = {"a": "ˈa", "b": "bˈe", "c": "sˈe", "d": "dˈe", "e": "ˈə", "f": "ˈɛf", "g": "ʒˈe", "h": "ˈaʃ", "i": "ˈi", "j": "ʒˈi", "k": "kˈa",
        "l": "ˈɛl", "m": "ˈɛm", "n": "ˈɛn", "o": "ˈo", "p": "pˈe", "q": "kˈy", "r": "ˈɛʁ", "s": "ˈɛs", "t": "tˈe", "u": "ˈy", "v": "vˈe",
        "w": "dˈublə vˈe", "x": "ˈiks", "y": "ˈi ɡʁˈɛk", "z": "zˈɛd"}
-SON = {"a": "ˈa", "e": "ˈøː", "i": "ˈi", "o": "ˈo", "u": "ˈy", "y": "ˈi", "m": "ˈmː", "l": "ˈlː", "r": "ʁˈø", "s": "ˈsː", "f": "ˈfː",
-       "v": "ˈvː", "z": "ˈzː", "j": "ˈʒː", "n": "ˈnː", "w": "vˈø", "x": "ˈiks", "p": "pˈø", "t": "tˈø", "b": "bˈə", "d": "dˈø",
+SON = {"a": "ˈa", "e": "ˈøː", "i": "ˈi", "o": "ˈo", "u": "ˈy", "y": "ˈi", "m": "mˈø", "l": "lˈø", "r": "ʁˈø", "s": "sˈø", "f": "fˈø",
+       "v": "vˈø", "z": "zˈø", "j": "ʒˈø", "n": "nˈø", "w": "vˈø", "x": "ˈiks", "p": "pˈø", "t": "tˈø", "b": "bˈə", "d": "dˈø",
        "c": "kˈø", "k": "kˈø", "q": "kˈø", "g": "ɡˈø"}
 MOT_API = {"kiwi": "kiwˈi", "xylophone": "ksilɔfˈɔn", "rose": "ʁˈoz", "robot": "ʁobˈo", "orange": "ɔʁˈɑ̃ʒ", "gorille": "ɡɔʁˈij", "soleil": "sɔlˈɛj",
-           "image": "imˈaʒ", "renard": "ʁənˈaʁ", "stylo": "stilˈo", "hibou": "ibˈu", "wagon": "vaɡˈɔ̃", "quatre": "kˈatʁ", "tortue": "tɔʁtˈy"}
+           "image": "imˈaʒ", "renard": "ʁənˈaʁ", "stylo": "stilˈo", "hibou": "ibˈu", "wagon": "vaɡˈɔ̃", "quatre": "kˈatʁ", "tortue": "tɔʁtˈy", "île": "ˈil", "cygne": "sˈiɲ", "zéro": "zeʁˈo", "taxi": "taksˈi", "koala": "koalˈa", "quille": "kˈij", "hérisson": "eʁisˈɔ̃", "jus": "ʒˈy", "nid": "nˈi"}
 # Ce que la reconnaissance française peut écrire pour le son (voyelles : contrôle strict)
 SON_TXT = {"a": {"a", "ah", "à", "as", "ha"}, "e": {"e", "eu", "euh", "eux", "œufs", "oeufs"}, "i": {"i", "y", "hi", "il"},
            "o": {"o", "oh", "eau", "au", "aux", "haut"}, "u": {"u", "hu", "hue", "eut", "eus", "eût", "us"}, "y": {"i", "y", "hi", "il"},
            "p": {"p", "pe", "peu", "peux"}, "t": {"t", "te", "teu", "teux", "the"}, "b": {"b", "be", "beu", "beux"}, "d": {"d", "de", "deu", "deux"},
            "c": {"k", "ke", "que", "queue", "keu"}, "k": {"k", "ke", "que", "queue", "keu"}, "q": {"k", "ke", "que", "queue", "keu"},
-           "g": {"g", "gue", "gueu", "gueux"}, "r": {"r", "re", "reu", "reux", "rr"}, "w": {"v", "ve", "veu", "veux", "vœu"}, "x": {"x", "ks", "kss", "xe", "kse", "ksse", "ixe", "iks", "x."}}
+           "g": {"g", "gue", "gueu", "gueux"}, "r": {"r", "re", "reu", "reux", "rr"}, "m": {"m", "me", "meu", "meux", "mm"}, "l": {"l", "le", "leu", "leux"},
+           "s": {"s", "se", "ce", "ceux", "seu"}, "f": {"f", "fe", "feu", "feux"}, "v": {"v", "ve", "veu", "veux"}, "z": {"z", "ze", "zeu"},
+           "j": {"j", "je", "jeu", "jeux"}, "n": {"n", "ne", "neu", "nœud", "noeud", "nœuds"}, "w": {"v", "ve", "veu", "veux", "vœu"}, "x": {"x", "ks", "kss", "xe", "kse", "ksse", "ixe", "iks", "x."}}
 def P(t): return "".join("".join(s) for s in v.phonemize(t)).rstrip(".")
 def word_ipa(w): return MOT_API.get(w) or P(w)
 def norm(s):
@@ -47,6 +53,7 @@ def ok(L, f, kind):
     # le mot exemple est cherché à la prononciation (Whisper écrit « l une » pour « lune »)
     if not set(word) <= set(w) and phon(EX[L]) not in phon(" ".join(w)).replace(" ", ""): return False, "mot absent : " + " ".join(w)
     if "son" not in w and L != "h": return False, "« son » absent : " + " ".join(w)
+    if L != "h" and "comme" in w and w.index("comme") == w.index("son") + 1: return False, "son muet : " + " ".join(w)
     if kind == "phrase" and "lettre" not in w and "lettres" not in w: return False, "« lettre » absent : " + " ".join(w)
     if L in SON_TXT:
         fr = norm(text_of(f))
@@ -67,7 +74,7 @@ for L in letters:
             ph = f"{P('la lettre')} {NOM[L]} {P('fait le son')}{sep}{SON[L]}, {P('comme dans')} {word_ipa(EX[L])}."
         else:
             ph = f"{P('écoute le son')}, {SON[L]}, {P('comme dans')} {word_ipa(EX[L])}."
-        dest = R / "audio" / "lettres" / f"{kind}-{L}.mp3"; out = f"/tmp/pl_{kind}_{L}.mp3"
+        dest = R / "audio" / "lettres" / f"{kind}-{L}{SUFFIX}.mp3"; out = f"/tmp/pl_{kind}_{L}.mp3"
         good, why = False, ""
         for ls, ns, nw in list(itertools.product((1.05, 1.15, 0.95), (0.5, 0.3, 0.65), (0.6, 0.8))) * 2:
             synth(ph, ls, ns, nw, out)

@@ -1,7 +1,7 @@
 """Régénère sw.js (cache hors connexion). À lancer après toute modification des fichiers web ou audio."""
 import json, pathlib, hashlib
 R = pathlib.Path(__file__).resolve().parent.parent
-files = ["./", "index.html", "app/", "app/index.html", "app/app.css", "app/app.js", "app/voice.js", "logos/icone.svg", "app/fonts/nunito-latin-700-normal.woff2", "app/fonts/nunito-latin-800-normal.woff2", "app/fonts/nunito-latin-900-normal.woff2", "contenu/cours.json",
+files = ["./", "index.html", "app/", "app/index.html", "app/app.css", "app/app.js", "app/voice.js", "logos/icone.svg", "app/fonts/nunito-latin-700-normal.woff2", "app/fonts/nunito-latin-800-normal.woff2", "app/fonts/nunito-latin-900-normal.woff2", "contenu/cours.json", "contenu/histoires.json",
          "manifest.webmanifest", "apple-touch-icon.png", "icon-192.png", "icon-512.png"]
 files += sorted(str(p.relative_to(R)) for p in R.glob("audio/**/*.mp3"))
 h = hashlib.sha1()
