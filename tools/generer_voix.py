@@ -10,6 +10,7 @@ Usage : python3 tools/generer_voix.py [dossier_du_depot] [--tout]
   --tout : régénère aussi les fichiers déjà présents.
 """
 import json, wave, pathlib, subprocess, sys, tempfile, os
+from dataclasses import replace
 from piper import PiperVoice
 from piper.config import SynthesisConfig
 
@@ -115,7 +116,10 @@ PRENOMS = {"maelo": "Maëlo,"}
 def to_wav(phonemes, path_wav, cfg=None, voice=None, speaker_id=None):
     voice = voice or v
     ids = voice.phonemes_to_ids(list(phonemes))
-    audio = voice.phoneme_ids_to_audio(ids, cfg or CFG, speaker_id=speaker_id)
+    syn_cfg = cfg or CFG
+    if speaker_id is not None:
+        syn_cfg = replace(syn_cfg, speaker_id=speaker_id)
+    audio = voice.phoneme_ids_to_audio(ids, syn_cfg)
     import numpy as np
     pcm = (np.clip(audio, -1, 1) * 32767).astype("<i2").tobytes()
     with wave.open(str(path_wav), "wb") as w:
