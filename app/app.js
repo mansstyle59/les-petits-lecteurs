@@ -65,6 +65,8 @@
     p.errs = p.errs || {}; p.bonus = p.bonus || {}; p.usage = p.usage || {}; p.claimed = Array.isArray(p.claimed) ? p.claimed : [];
     if (!Array.isArray(p.rewards)) p.rewards = DEFAULT_REWARDS.map(function (r) { return { id: r.id, titre: r.titre, ico: r.ico, cout: r.cout }; });
     if (typeof p.limit !== "number") p.limit = 20;
+    if (typeof p.gameLimit !== "number") p.gameLimit = 10;   // temps des jeux, séparé du temps des leçons
+    p.gameUsage = p.gameUsage || {};
     p.rewards.forEach(function (r) { DEFAULT_REWARDS.forEach(function (d) { if (d.id === r.id && d.action) r.action = d.action; }); });
     if (!p.rewardsV3) {   // ajoute les nouveaux cadeaux proposés sans toucher à ceux des parents
       var have = {}; p.rewards.forEach(function (r) { have[r.id] = 1; });
@@ -246,12 +248,16 @@
     catch (e) { if (window[k] === d) return false; window[k] = d; return true; }
   }
   function timeUp(p) { return p.limit > 0 && timeLeft(p) <= 0; }
+  function gameUsed(p) { return (p.gameUsage[today()] || 0); }
+  function gameLeft(p) { return p.gameLimit ? Math.max(0, p.gameLimit * 60 - gameUsed(p)) : Infinity; }
+  function gameTimeUp(p) { return p.gameLimit > 0 && gameLeft(p) <= 0; }
   setInterval(function () {
     var top = stack[stack.length - 1], p = profile();
     if (!p || !top || !PLAY_SCREENS[top.screen] || document.visibilityState !== "visible") return;
-    var t = today();
-    p.usage[t] = (p.usage[t] || 0) + 10;
-    var keys = Object.keys(p.usage).sort(); while (keys.length > 14) delete p.usage[keys.shift()];
+    var t = today(), bucket = top.args && top.args.arcade ? p.gameUsage : p.usage;   // jeux et leçons comptés à part
+    bucket[t] = (bucket[t] || 0) + 10;
+    if (bucket === p.gameUsage && gameTimeUp(p) && !window.__lplGameEnd) { window.__lplGameEnd = 1; toast("Le temps des jeux est fini pour aujourd'hui !"); setTimeout(function () { window.__lplGameEnd = 0; resetTo("home"); }, 1500); }
+    var keys = Object.keys(bucket).sort(); while (keys.length > 14) delete bucket[keys.shift()];
     persist();
   }, 10000);
 
@@ -597,7 +603,9 @@
       '<button class="tile focusable" type="button" id="progress"><span class="tile-ico" aria-hidden="true">📈</span><span>Progrès</span><span class="badge">' + doneCount(p) + "/" + allLessons.length + '</span></button>' +
       '<button class="tile focusable" type="button" id="gifts"><span class="tile-ico" aria-hidden="true">🎁</span><span>Cadeaux</span><span class="badge">' + starsLeft(p) + ' ★</span></button>' +
       (nbErr ? '<button class="tile focusable" type="button" id="review"><span class="tile-ico" aria-hidden="true">🔁</span><span>Révisions</span><span class="badge">' + nbErr + "</span></button>" : "") +
-      "</div>" + '<div class="actions center"><button class="btn ghost small focusable" type="button" id="home-parents">👪 Espace parents</button></div>' + (p.limit ? '<div class="time-left" aria-live="polite">⏱ ' + (timeUp(p) ? "Temps de jeu terminé pour aujourd'hui" : "Encore " + Math.ceil(timeLeft(p) / 60) + " min de jeu aujourd'hui") + "</div>" : "") + "</section>";
+      "</div>" + '<div class="actions center"><button class="btn ghost small focusable" type="button" id="home-parents">👪 Espace parents</button></div>' + ((p.limit || p.gameLimit) ? '<div class="time-left" aria-live="polite">' +
+        (p.limit ? "📚 " + (timeUp(p) ? "Leçons finies pour aujourd'hui" : "Leçons : encore " + Math.ceil(timeLeft(p) / 60) + " min") : "📚 Leçons sans limite") + " · " +
+        (p.gameLimit ? "🎮 " + (gameTimeUp(p) ? "Jeux finis" : "Jeux : " + Math.ceil(gameLeft(p) / 60) + " min") : "🎮 Jeux sans limite") + "</div>" : "") + "</section>";
     html += '<div class="path">';
     var n = 0;
     cours.modules.forEach(function (m, mi) {
@@ -839,14 +847,19 @@
   }
   SCREENS.arcade = function () {
     var p = profile();
-    if (timeUp(p)) return go("pause", {}, true);
     setTop("Jeux", true);
+    if (gameTimeUp(p)) {
+      app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Les jeux, c'est fini pour aujourd'hui !</h1><p class='hint'>On rejoue demain. Tu peux encore faire tes leçons et tes révisions.</p>" +
+        '<div class="actions column"><button class="btn big wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+      document.getElementById("menu").addEventListener("click", back);
+      return focusFirst("#menu");
+    }
     var html = bubble("À quoi on joue, " + esc(p.name) + " ?", "happy") + '<div class="gifts arcade">';
     Object.keys(ARCADE).forEach(function (k) {
       var g = ARCADE[k], n = arcadePool(p, g.kind).length, ok = n >= 4;
       html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-k="' + k + '"' + (ok ? "" : ' aria-disabled="true"') + '><span class="gift-ico" aria-hidden="true">' + g.ico + "</span><strong>" + g.titre + "</strong><span class='hint'>" + (ok ? g.desc : "🔒 Avance sur ton chemin pour l'ouvrir") + "</span></button>";
     });
-    app.innerHTML = html + "</div><p class='hint center'>Chaque partie sans faute rapporte 3 étoiles bonus (5 parties récompensées par jour).</p>";
+    app.innerHTML = html + "</div><p class='hint center'>" + (p.gameLimit ? "🎮 Encore " + Math.ceil(gameLeft(p) / 60) + " min de jeux aujourd'hui. " : "") + "Chaque partie sans faute rapporte 3 étoiles bonus (5 parties récompensées par jour).</p>";
     app.querySelectorAll(".gift").forEach(function (b) {
       b.addEventListener("click", function () {
         if (b.getAttribute("aria-disabled")) { toast("Avance encore un peu sur ton chemin !"); return; }
@@ -1493,8 +1506,11 @@
       }
       html +=
         "<p class='hint'>★ " + totalStars(pp) + " étoiles · 🏆 " + Object.keys(pp.trophies).length + " trophées · 🔥 " + streak(pp) + " jour(s) de suite · ⏱ " + Math.round(usedToday(pp) / 60) + " min aujourd'hui" + (cur ? " · Leçon en cours : " + esc(cur.titre) : "") + "</p>" +
-        '<span class="label">Temps de jeu par jour</span><div class="ages" role="group" aria-label="Temps de jeu par jour">' +
+        '<span class="label">📚 Temps des leçons par jour</span><div class="ages" role="group" aria-label="Temps des leçons par jour">' +
         LIMITS.map(function (m) { return '<button type="button" class="pick focusable" data-limit="' + m + '" data-pid="' + esc(pp.id) + '" aria-pressed="' + (pp.limit === m) + '">' + (m ? m + " min" : "Illimité") + "</button>"; }).join("") + "</div>" +
+        '<span class="label">🎮 Temps des jeux par jour (en plus des leçons)</span><div class="ages" role="group" aria-label="Temps des jeux par jour">' +
+        [0, 10, 20, 30].map(function (m) { return '<button type="button" class="pick focusable" data-glimit="' + m + '" data-pid="' + esc(pp.id) + '" aria-pressed="' + (pp.gameLimit === m) + '">' + (m ? m + " min" : "Illimité") + "</button>"; }).join("") + "</div>" +
+        "<p class='hint'>Total possible aujourd'hui : " + (pp.limit && pp.gameLimit ? (pp.limit + pp.gameLimit) + " min" : "illimité") + " · jeux utilisés : " + Math.round(gameUsed(pp) / 60) + " min. Les révisions restent toujours possibles.</p>" +
         (timeUp(pp) ? '<div class="actions"><button class="btn secondary focusable" type="button" data-extra="' + esc(pp.id) + '">+10 minutes aujourd\'hui</button></div>' : "") +
         '<div class="table-wrap"><table class="parent-table"><thead><tr><th>Leçon</th><th>Étoiles</th></tr></thead><tbody>';
       allLessons.forEach(function (id) { html += "<tr><td>" + id + " · " + esc(findLesson(id).titre) + "</td><td>" + starsText(pp.stars[id] || 0, 3) + "</td></tr>"; });
@@ -1532,6 +1548,9 @@
       state.code = null; persist(); toast("Appareil délié."); render();
     });
     function pById(id) { return state.profiles.filter(function (x) { return x.id === id; })[0]; }
+    app.querySelectorAll("[data-glimit]").forEach(function (b) {
+      b.addEventListener("click", function () { var pp = pById(b.dataset.pid); pp.gameLimit = +b.dataset.glimit; saveState(pp); render(); });
+    });
     app.querySelectorAll("[data-limit]").forEach(function (b) {
       b.addEventListener("click", function () { var pp = pById(b.dataset.pid); pp.limit = +b.dataset.limit; saveState(pp); render(); });
     });
@@ -1605,7 +1624,8 @@
       });
       [l, r].forEach(function (s) { s.days.forEach(function (d) { days[d] = 1; }); });
       l.name = newer.name; l.age = newer.age; l.avatar = newer.avatar;
-      l.limit = newer.limit; l.rewards = newer.rewards; l.errs = newer.errs || {};
+      l.limit = newer.limit; l.gameLimit = newer.gameLimit;
+      var gu = {}; [l, r].forEach(function (s) { for (var d in (s.gameUsage || {})) gu[d] = Math.max(gu[d] || 0, s.gameUsage[d]); }); l.gameUsage = gu; l.rewards = newer.rewards; l.errs = newer.errs || {};
       var claimed = {}; [l, r].forEach(function (s) { s.claimed.forEach(function (c) { claimed[c.id + "@" + c.t] = c; }); });
       l.claimed = Object.keys(claimed).map(function (k) { return claimed[k]; }).sort(function (x, y) { return x.t - y.t; });
       var bonus = {}; [l, r].forEach(function (s) { for (var b in (s.bonus || {})) bonus[b] = Math.max(bonus[b] || 0, s.bonus[b]); });
