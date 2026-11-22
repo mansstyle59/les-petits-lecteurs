@@ -1,5 +1,5 @@
 /* Généré par tools/build_sw.py : cache hors connexion */
-const VERSION = "3d71db1af9";
+const VERSION = "1fb7b1d015";
 const CACHE = "lpl-" + VERSION;
 const CACHE_MODELES = "lpl-modeles-v1";   // modèle vocal et moteur : gardés d'une version à l'autre
 const FILES = ["./", "index.html", "app/", "app/index.html", "app/app.css", "app/app.js", "app/voice.js", "logos/icone.svg", "app/fonts/nunito-latin-700-normal.woff2", "app/fonts/nunito-latin-800-normal.woff2", "app/fonts/nunito-latin-900-normal.woff2", "contenu/cours.json", "manifest.webmanifest", "apple-touch-icon.png", "icon-192.png", "icon-512.png"];
