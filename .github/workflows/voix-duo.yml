@@ -1,0 +1,58 @@
+name: Générer et contrôler les voix françaises
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voix-duo
+  cancel-in-progress: false
+
+jobs:
+  voix-duo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Récupérer la branche sélectionnée
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Installer les outils audio
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install piper-tts numpy faster-whisper
+
+      - name: Télécharger les deux voix Piper françaises
+        run: |
+          mkdir -p /tmp/voices
+          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx -o /tmp/voices/fr_FR-siwis-medium.onnx
+          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json -o /tmp/voices/fr_FR-siwis-medium.onnx.json
+          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx -o /tmp/voices/fr_FR-upmc-medium.onnx
+          curl -fL https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/upmc/medium/fr_FR-upmc-medium.onnx.json -o /tmp/voices/fr_FR-upmc-medium.onnx.json
+          echo "20e876e8c839e9b11a26085858f2300c  /tmp/voices/fr_FR-siwis-medium.onnx" | md5sum -c -
+          echo "6837ede9408c7e1b39fa4a126af9e865  /tmp/voices/fr_FR-upmc-medium.onnx" | md5sum -c -
+
+      - name: Générer uniquement les encouragements masculins
+        env:
+          PIPER_MALE_VOICE: /tmp/voices/fr_FR-upmc-medium.onnx
+        run: python tools/generer_voix.py . --voix-duo
+
+      - name: Contrôler les fichiers audio générés
+        run: python tools/auditer_voix_duo.py
+
+      - name: Enregistrer les audios et rapports sur la branche
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audio/ui contenu/AUDIT_VOIX_DUO.md
+          if git diff --cached --quiet; then
+            echo "Aucun changement audio à enregistrer."
+          else
+            git commit -m "build(audio): generate male encouragement voice"
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi
