@@ -39,7 +39,8 @@ jobs:
           python - <<'PY'
           from huggingface_hub import hf_hub_download
           from pathlib import Path
-          import shutil
+          import json, shutil
+          from piper import PiperVoice
           out = Path("/tmp/voices")
           out.mkdir(parents=True, exist_ok=True)
           files = [
@@ -53,8 +54,16 @@ jobs:
               destination = out / Path(name).name
               shutil.copy2(source, destination)
               print(f"Downloaded {destination.name}: {destination.stat().st_size} bytes")
+          # Contrôle structurel des modèles et des identifiants de locuteurs.
+          female_cfg = json.loads((out / "fr_FR-siwis-medium.onnx.json").read_text())
+          male_cfg = json.loads((out / "fr_FR-upmc-medium.onnx.json").read_text())
+          assert female_cfg["num_speakers"] == 1, female_cfg.get("num_speakers")
+          assert male_cfg["num_speakers"] == 2, male_cfg.get("num_speakers")
+          assert male_cfg["speaker_id_map"].get("pierre") == 1, male_cfg.get("speaker_id_map")
+          PiperVoice.load(str(out / "fr_FR-siwis-medium.onnx"))
+          PiperVoice.load(str(out / "fr_FR-upmc-medium.onnx"))
+          print("Modèles Piper chargés et configuration des deux voix vérifiée.")
           PY
-          echo "20e876e8c839e9b11a26085858f2300c  /tmp/voices/fr_FR-siwis-medium.onnx" | md5sum -c -
           echo "6837ede9408c7e1b39fa4a126af9e865  /tmp/voices/fr_FR-upmc-medium.onnx" | md5sum -c -
 
       - name: Générer uniquement les encouragements masculins
