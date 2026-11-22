@@ -1253,6 +1253,255 @@
           "reussite": "Lire 3 phrases."
         }
       ]
+    },
+    {
+      "id": "M7",
+      "titre": "Les sons difficiles",
+      "lecons": [
+        {
+          "id": "D1",
+          "icone": "🚲",
+          "titre": "Les sons é, è et ê",
+          "objectif": "é fait « é », è et ê font « è ».",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "bébé",
+              "decoupage": "bé-bé",
+              "illustration": "👶",
+              "mot_tts": "bébé",
+              "note": ""
+            },
+            {
+              "mot": "vélo",
+              "decoupage": "vé-lo",
+              "illustration": "🚲",
+              "mot_tts": "vélo",
+              "note": ""
+            },
+            {
+              "mot": "fée",
+              "decoupage": "fée",
+              "illustration": "🧚",
+              "mot_tts": "fée",
+              "note": ""
+            },
+            {
+              "mot": "flèche",
+              "decoupage": "flè-che",
+              "illustration": "🏹",
+              "mot_tts": "flèche",
+              "note": ""
+            },
+            {
+              "mot": "fête",
+              "decoupage": "fê-te",
+              "illustration": "🎉",
+              "mot_tts": "fête",
+              "note": ""
+            },
+            {
+              "mot": "forêt",
+              "decoupage": "fo-rêt",
+              "illustration": "🌲",
+              "mot_tts": "forêt",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        },
+        {
+          "id": "D2",
+          "icone": "🔥",
+          "titre": "Les sons eu et œu",
+          "objectif": "eu et œu font « eu ».",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "feu",
+              "decoupage": "feu",
+              "illustration": "🔥",
+              "mot_tts": "feu",
+              "note": ""
+            },
+            {
+              "mot": "bleu",
+              "decoupage": "bleu",
+              "illustration": "🔵",
+              "mot_tts": "bleu",
+              "note": ""
+            },
+            {
+              "mot": "cheveu",
+              "decoupage": "che-veu",
+              "illustration": "💇",
+              "mot_tts": "cheveu",
+              "note": ""
+            },
+            {
+              "mot": "cœur",
+              "decoupage": "cœur",
+              "illustration": "❤️",
+              "mot_tts": "cœur",
+              "note": ""
+            },
+            {
+              "mot": "neuf",
+              "decoupage": "neuf",
+              "illustration": "9️⃣",
+              "mot_tts": "neuf",
+              "note": ""
+            },
+            {
+              "mot": "jeu",
+              "decoupage": "jeu",
+              "illustration": "🎲",
+              "mot_tts": "jeu",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        },
+        {
+          "id": "D3",
+          "icone": "🦋",
+          "titre": "Les sons gn, ill et ph",
+          "objectif": "gn fait « gne », ill fait « ye », ph fait « f ».",
+          "type_jeu": "image_vers_mot",
+          "consigne": "Écoute le mot, puis touche son image.",
+          "items": [
+            {
+              "mot": "montagne",
+              "decoupage": "mon-ta-gne",
+              "illustration": "⛰️",
+              "mot_tts": "montagne",
+              "note": ""
+            },
+            {
+              "mot": "champignon",
+              "decoupage": "cham-pi-gnon",
+              "illustration": "🍄",
+              "mot_tts": "champignon",
+              "note": ""
+            },
+            {
+              "mot": "abeille",
+              "decoupage": "a-bei-lle",
+              "illustration": "🐝",
+              "mot_tts": "abeille",
+              "note": ""
+            },
+            {
+              "mot": "papillon",
+              "decoupage": "pa-pi-llon",
+              "illustration": "🦋",
+              "mot_tts": "papillon",
+              "note": ""
+            },
+            {
+              "mot": "photo",
+              "decoupage": "pho-to",
+              "illustration": "📷",
+              "mot_tts": "photo",
+              "note": ""
+            },
+            {
+              "mot": "éléphant",
+              "decoupage": "é-lé-phant",
+              "illustration": "🐘",
+              "mot_tts": "éléphant",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        }
+      ]
+    },
+    {
+      "id": "M8",
+      "titre": "De plus longues histoires",
+      "lecons": [
+        {
+          "id": "H4",
+          "icone": "🛝",
+          "titre": "Au parc",
+          "objectif": "Lire des phrases plus longues.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Le bébé joue dans le sable.",
+              "illustration": "🏖️",
+              "note": ""
+            },
+            {
+              "phrase": "Papa pousse la balançoire.",
+              "illustration": "🛝",
+              "note": ""
+            },
+            {
+              "phrase": "Le chien court après un ballon.",
+              "illustration": "🐕",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        },
+        {
+          "id": "H5",
+          "icone": "🎂",
+          "titre": "La fête",
+          "objectif": "Lire des phrases plus longues.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Maman fait un gâteau pour la fête.",
+              "illustration": "🎂",
+              "note": ""
+            },
+            {
+              "phrase": "Les enfants mangent une glace.",
+              "illustration": "🍦",
+              "note": ""
+            },
+            {
+              "phrase": "Le papillon vole sur une fleur.",
+              "illustration": "🦋",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        },
+        {
+          "id": "H6",
+          "icone": "🦉",
+          "titre": "La forêt",
+          "objectif": "Lire des phrases plus longues.",
+          "type_jeu": "lecture_phrase",
+          "consigne": "Lis la phrase, puis touche la bonne image.",
+          "items": [
+            {
+              "phrase": "Le hibou dort dans un arbre.",
+              "illustration": "🦉",
+              "note": ""
+            },
+            {
+              "phrase": "Un écureuil mange une noisette.",
+              "illustration": "🐿️",
+              "note": ""
+            },
+            {
+              "phrase": "La nuit, la lune brille.",
+              "illustration": "🌙",
+              "note": ""
+            }
+          ],
+          "reussite": "Tout bon."
+        }
+      ]
     }
   ]
 }

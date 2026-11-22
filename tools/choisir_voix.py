@@ -12,13 +12,21 @@ def norm(s):
     s=unicodedata.normalize("NFD",s.lower()); s="".join(c for c in s if unicodedata.category(c)!="Mn"); s=re.sub(r"[^a-z ]","",s)
     for a,b in [("eau","o"),("au","o"),("ai","e"),("ei","e"),("ph","f"),("qu","k"),("c","k"),("y","i"),("h","")]: s=s.replace(a,b)
     s=" ".join(re.sub(r"(s|t|x|d|e)$","",w) for w in s.split()); return re.sub(r"(.)\1+",r"\1",s.replace(" ",""))
+LAST={}
 def heard(ph, ls):
     a=np.clip(v.phoneme_ids_to_audio(v.phonemes_to_ids(list(ph)), SynthesisConfig(length_scale=ls, noise_scale=0.55, noise_w_scale=0.6)),-1,1)
     with tempfile.NamedTemporaryFile(suffix=".wav") as t:
         with wave.open(t.name,"wb") as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(v.config.sample_rate); w.writeframes((a*32767).astype("<i2").tobytes())
         raw=subprocess.run(["ffmpeg","-v","error","-i",t.name,"-af","adelay=120,apad=pad_dur=0.6","-f","s16le","-ac","1","-ar","16000","-"],capture_output=True).stdout
     x=np.frombuffer(raw,np.int16).astype(np.float32)/32768
+    LAST["a"]=a
     return " ".join(s.text.strip() for s in W.transcribe(x,language="fr",beam_size=5)[0])
+def save(key):
+    a=LAST["a"]
+    with tempfile.NamedTemporaryFile(suffix=".wav") as t:
+        with wave.open(t.name,"wb") as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(v.config.sample_rate); w.writeframes((a*32767).astype("<i2").tobytes())
+        out=R/"audio"/(key+".mp3"); out.parent.mkdir(parents=True,exist_ok=True)
+        subprocess.run(["ffmpeg","-v","error","-y","-i",t.name,"-af","adelay=80,apad=pad_dur=0.15,loudnorm=I=-16:TP=-1.5","-ac","1","-ar","24000","-b:a","48k",str(out)],check=True)
 def phon(t): return "".join("".join(s) for s in v.phonemize(t))
 def choose(key, expected, texts, apis):
     cands=[(phon(t),t) for t in texts]+[(a,"API "+a) for a in apis]
@@ -27,7 +35,7 @@ def choose(key, expected, texts, apis):
         for ls in (1.0,1.15,1.3):
             h=heard(ph,ls); r=difflib.SequenceMatcher(None,norm(expected),norm(h)).ratio()
             if best is None or r>best["score"]: best={"api":ph,"ls":ls,"source":label,"entendu":h,"score":round(r,2)}
-            if r>=0.85: return best
+            if r>=0.85: save(key); best["fichier_verifie"]=True; return best
     return best
 jobs=json.load(open(sys.argv[1],encoding="utf-8"))
 out_path=R/"tools"/"choix_voix.json"

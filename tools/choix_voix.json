@@ -320,5 +320,235 @@
   "source": "Une tortue.",
   "entendu": "Une tortue.",
   "score": 1.0
+ },
+ "mots/bébé": {
+  "api": "œ̃ bebˈe.",
+  "ls": 1.3,
+  "source": "Un bébé.",
+  "entendu": "un bébé",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/vélo": {
+  "api": "œ̃ velˈo.",
+  "ls": 1.0,
+  "source": "Un vélo.",
+  "entendu": "un vélo",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/fée": {
+  "api": "yn fˈe.",
+  "ls": 1.0,
+  "source": "Une fée.",
+  "entendu": "Une fée.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/flèche": {
+  "api": "yn flˈɛʃ.",
+  "ls": 1.0,
+  "source": "Une flèche.",
+  "entendu": "Une flèche.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/fête": {
+  "api": "yn fˈɛt.",
+  "ls": 1.0,
+  "source": "Une fête.",
+  "entendu": "Une fête.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/forêt": {
+  "api": "yn foʁˈɛ.",
+  "ls": 1.0,
+  "source": "Une forêt.",
+  "entendu": "Une forêt",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/feu": {
+  "api": "œ̃ fˈø.",
+  "ls": 1.0,
+  "source": "Un feu.",
+  "entendu": "un feu",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/bleu": {
+  "api": "lə- blˈø.",
+  "ls": 1.0,
+  "source": "Le bleu.",
+  "entendu": "Le bleu.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/œuf": {
+  "api": "œ̃n ˈœf.",
+  "ls": 1.0,
+  "source": "Un œuf.",
+  "entendu": "Onuf",
+  "score": 0.75
+ },
+ "mots/cœur": {
+  "api": "œ̃ kˈœʁ.",
+  "ls": 1.0,
+  "source": "Un cœur.",
+  "entendu": "Un cœur",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/neuf": {
+  "api": "lə- nˈœf.",
+  "ls": 1.0,
+  "source": "Le neuf.",
+  "entendu": "l'uneuf",
+  "score": 0.91,
+  "fichier_verifie": true
+ },
+ "mots/jeu": {
+  "api": "œ̃ ʒˈø.",
+  "ls": 1.0,
+  "source": "Un jeu.",
+  "entendu": "Un jeu",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/montagne": {
+  "api": "yn mɔ̃tˈaɲ.",
+  "ls": 1.0,
+  "source": "Une montagne.",
+  "entendu": "Une montagne",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/champignon": {
+  "api": "œ̃ ʃɑ̃pinjˈɔ̃.",
+  "ls": 1.0,
+  "source": "Un champignon.",
+  "entendu": "Un champignon.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/abeille": {
+  "api": "yn abˈɛj.",
+  "ls": 1.0,
+  "source": "Une abeille.",
+  "entendu": "UNE ABEIL",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/papillon": {
+  "api": "œ̃ papijˈɔ̃.",
+  "ls": 1.0,
+  "source": "Un papillon.",
+  "entendu": "un papillon",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/photo": {
+  "api": "yn fotˈo.",
+  "ls": 1.0,
+  "source": "Une photo.",
+  "entendu": "Une photo.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/éléphant": {
+  "api": "œ̃n elefˈɑ̃.",
+  "ls": 1.0,
+  "source": "Un éléphant.",
+  "entendu": "Un éléphant.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H4-1": {
+  "api": "lə- bebˈe ʒˈu dɑ̃ lə- sˈabl.",
+  "ls": 1.0,
+  "source": "Le bébé joue dans le sable.",
+  "entendu": "Le bébé joue dans le sable.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H4-2": {
+  "api": "papˈa pˈus la- balɑ̃swˈaʁ.",
+  "ls": 1.0,
+  "source": "Papa pousse la balançoire.",
+  "entendu": "Papa pousse la balançoire.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H4-3": {
+  "api": "lə- ʃjˈɛ̃ kˈuʁ apʁˌɛz œ̃ balˈɔ̃.",
+  "ls": 1.0,
+  "source": "Le chien court après un ballon.",
+  "entendu": "Le chien court après un ballon.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H5-1": {
+  "api": "mamˈɑ̃ fˈɛt œ̃ ɡatˈo puʁ la- fˈɛt.",
+  "ls": 1.0,
+  "source": "Maman fait un gâteau pour la fête.",
+  "entendu": "Maman fait un gâteau pour la fête.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H5-2": {
+  "api": "le-z ɑ̃fˈɑ̃ mˈɑ̃ʒt yn ɡlˈas.",
+  "ls": 1.0,
+  "source": "Les enfants mangent une glace.",
+  "entendu": "Les enfants mangent une glace.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H5-3": {
+  "api": "lə- papijˈɔ̃ vˈɔl syʁ yn flˈœʁ.",
+  "ls": 1.0,
+  "source": "Le papillon vole sur une fleur.",
+  "entendu": "Le papillon vole sur une fleur.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H6-1": {
+  "api": "lə- ibˈu dˈɔʁ dɑ̃z œ̃n ˈaʁbʁ.",
+  "ls": 1.0,
+  "source": "Le hibou dort dans un arbre.",
+  "entendu": "Le hiboudor dans un arbre.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H6-2": {
+  "api": "œ̃n ekyʁˈœj mˈɑ̃ʒ yn nwazˈɛt.",
+  "ls": 1.0,
+  "source": "Un écureuil mange une noisette.",
+  "entendu": "Un écureuil mange une oisette.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "phrases/H6-3": {
+  "api": "la- nyˈi, la- lˈyn bʁˈij.",
+  "ls": 1.0,
+  "source": "La nuit, la lune brille.",
+  "entendu": "La nuit, la lune brille.",
+  "score": 1.0,
+  "fichier_verifie": true
+ },
+ "mots/deux": {
+  "api": "dˈø.",
+  "ls": 1.0,
+  "source": "Deux.",
+  "entendu": "de",
+  "score": 0.5
+ },
+ "mots/cheveu": {
+  "api": "œ̃ ʃəvˈø.",
+  "ls": 1.0,
+  "source": "Un cheveu.",
+  "entendu": "Un cheveux",
+  "score": 1.0,
+  "fichier_verifie": true
  }
 }

@@ -89,6 +89,7 @@ UI = {
     "comme-dans": "comme dans",
     "jai-entendu": "J'ai entendu :", "ecoute-bien": "Écoute bien, on dit :", "reessaie": "À toi, essaie encore !",
     "repete": "À toi, répète !",
+    "rate": "Oh, il y a eu des erreurs. Ce n'est pas encore bien : tu n'as pas gagné d'étoile cette fois. Écoute bien, et recommence pour les gagner !",
     "inscription": "Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge.",
     "inscription-ecrit": "Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal.",
     "compris": "J'ai compris ! C'est bien ça ?",
@@ -157,6 +158,7 @@ for m in cours["modules"]:
                 synth(OUT / "mots" / f"{ex}.mp3", ex.capitalize() + ".", MOTS_API.get(ex))
             elif "syllabe_tts" in it:
                 s = it["syllabe_tts"]
+                if (OUT / "syllabes" / f"{s}.mp3").exists() and "--syllabes" not in sys.argv: continue  # fichiers vérifiés : ne jamais écraser
                 synth(OUT / "syllabes" / f"{s}.mp3", f"[syllabe {s}]", syllabe_api(s))
             elif "mot" in it:
                 synth(OUT / "mots" / f"{it['mot']}.mp3", it["mot"].capitalize() + ".", MOTS_API.get(it["mot"]))
@@ -198,6 +200,7 @@ for m in cours["modules"]:
             if "syllabe_tts" in it:
                 s_ = it["syllabe_tts"]
                 if f"syllabes/{s_}" in CHOIX: continue  # rendu direct vérifié
+                if "--syllabes" not in sys.argv: continue  # syllabes vérifiées par tools/syllabes_mots.py
                 voyelle_naturelle(s_, syllabe_api(s_), OUT / "syllabes" / f"{s_}.mp3", carrier="lə sˈɔ̃, ", tempo="0.9")
 
 # Rapport de prononciation (relecture humaine)

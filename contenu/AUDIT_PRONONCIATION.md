@@ -42,6 +42,7 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | ui/ecoute-bien.mp3 | Écoute bien, on dit : | ekˈut bjˈɛ̃, ɔ̃ dˈi:  | dictionnaire |
 | ui/reessaie.mp3 | À toi, essaie encore ! | a twˈa, esˈɛ ɑ̃kˈɔʁ! | dictionnaire |
 | ui/repete.mp3 | À toi, répète ! | a twˈa, ʁepˈɛt! | dictionnaire |
+| ui/rate.mp3 | Oh, il y a eu des erreurs. Ce n'est pas encore bien : tu n'as pas gagné d'étoile cette fois. Écoute bien, et recommence pour les gagner ! | ˈɔ, il iʲ a y de-z ɛʁˈœʁ.sə- nɛ paz ɑ̃kˌɔʁ bjˈɛ̃: ty na pa ɡanjˈe detwˈal sɛt fwˈa.ekˈut bjˈɛ̃, e ʁəkɔmˈɑ̃s puʁ le- ɡanjˈe! | dictionnaire |
 | ui/inscription.mp3 | Avec papa, maman, ou un adulte : appuie sur le micro, et dis ton prénom et ton âge. | avˌɛk papˈa, mamˈɑ̃, u œ̃n adˈylt: apyˈi syʁ lə- mikʁˈo, e dˈi tɔ̃ pʁenˈɔ̃ e tɔ̃n ˈaːʒ. | dictionnaire |
 | ui/inscription-ecrit.mp3 | Avec un adulte, écris ton prénom, puis choisis ton âge et ton animal. | avˌɛk œ̃n adˈylt, ekʁˈi tɔ̃ pʁenˈɔ̃, pyˈi ʃwazˈi tɔ̃n ˈaːʒ e tɔ̃n animˈal. | dictionnaire |
 | ui/compris.mp3 | J'ai compris ! C'est bien ça ? | ʒe kɔ̃pʁˈi!sɛ bjˈɛ̃ sˈa? | dictionnaire |
@@ -298,3 +299,44 @@ Transcription phonétique (API) envoyée au moteur vocal pour chaque fichier.
 | phrases/H3-1.mp3 | Le roi a un gros gâteau. | lə- ʁwˈa a œ̃ ɡʁˈo ɡatˈo. | dictionnaire |
 | phrases/H3-2.mp3 | Le lapin mange une carotte. | lə- lapˈɛ̃ mˈɑ̃ʒ yn kaʁˈɔt. | dictionnaire |
 | phrases/H3-3.mp3 | Maman lit un livre au lit. | mamˈɑ̃ lˈiʲ œ̃ lˈivʁ o lˈi. | dictionnaire |
+| titres/M7.mp3 | Les sons difficiles. | le- sˈɔ̃ difisˈil. | dictionnaire |
+| titres/D1.mp3 | Les sons é, è et ê. | le- sˈɔ̃z ˌəaksɑ̃tɛɡˈy, ˌəaksɑ̃ɡʁˈav e ˌəaksɑ̃siʁkɔ̃flˈɛks. | dictionnaire |
+| consignes/D1.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/bébé.mp3 | Bébé. | œ̃ bebˈe. | imposée |
+| mots/vélo.mp3 | Vélo. | œ̃ velˈo. | imposée |
+| mots/fée.mp3 | Fée. | yn fˈe. | imposée |
+| mots/flèche.mp3 | Flèche. | yn flˈɛʃ. | imposée |
+| mots/fête.mp3 | Fête. | yn fˈɛt. | imposée |
+| mots/forêt.mp3 | Forêt. | yn foʁˈɛ. | imposée |
+| titres/D2.mp3 | Les sons eu et œu. | le- sˈɔ̃z y e ˈœ. | dictionnaire |
+| consignes/D2.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/feu.mp3 | Feu. | œ̃ fˈø. | imposée |
+| mots/bleu.mp3 | Bleu. | lə- blˈø. | imposée |
+| mots/cheveu.mp3 | Cheveu. | œ̃ ʃəvˈø. | imposée |
+| mots/cœur.mp3 | Cœur. | œ̃ kˈœʁ. | imposée |
+| mots/neuf.mp3 | Neuf. | lə- nˈœf. | imposée |
+| mots/jeu.mp3 | Jeu. | œ̃ ʒˈø. | imposée |
+| titres/D3.mp3 | Les sons gn, ill et ph. | le- sˈɔ̃ ʒˌeˈɛn, ˈɪl e pˌeˈaʃ. | dictionnaire |
+| consignes/D3.mp3 | Écoute le mot, puis touche son image. | ekˈut lə- mˈo, pyˈi tˈuʃ sɔ̃n imˈaʒ. | dictionnaire |
+| mots/montagne.mp3 | Montagne. | yn mɔ̃tˈaɲ. | imposée |
+| mots/champignon.mp3 | Champignon. | œ̃ ʃɑ̃pinjˈɔ̃. | imposée |
+| mots/abeille.mp3 | Abeille. | yn abˈɛj. | imposée |
+| mots/papillon.mp3 | Papillon. | œ̃ papijˈɔ̃. | imposée |
+| mots/photo.mp3 | Photo. | yn fotˈo. | imposée |
+| mots/éléphant.mp3 | Éléphant. | œ̃n elefˈɑ̃. | imposée |
+| titres/M8.mp3 | De plus longues histoires. | də- ply lˈɔ̃ɡz istwˈaʁ. | dictionnaire |
+| titres/H4.mp3 | Au parc. | o pˈaʁk. | dictionnaire |
+| consignes/H4.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H4-1.mp3 | Le bébé joue dans le sable. | lə- bebˈe ʒˈu dɑ̃ lə- sˈabl. | imposée |
+| phrases/H4-2.mp3 | Papa pousse la balançoire. | papˈa pˈus la- balɑ̃swˈaʁ. | imposée |
+| phrases/H4-3.mp3 | Le chien court après un ballon. | lə- ʃjˈɛ̃ kˈuʁ apʁˌɛz œ̃ balˈɔ̃. | imposée |
+| titres/H5.mp3 | La fête. | la- fˈɛt. | dictionnaire |
+| consignes/H5.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H5-1.mp3 | Maman fait un gâteau pour la fête. | mamˈɑ̃ fˈɛt œ̃ ɡatˈo puʁ la- fˈɛt. | imposée |
+| phrases/H5-2.mp3 | Les enfants mangent une glace. | le-z ɑ̃fˈɑ̃ mˈɑ̃ʒt yn ɡlˈas. | imposée |
+| phrases/H5-3.mp3 | Le papillon vole sur une fleur. | lə- papijˈɔ̃ vˈɔl syʁ yn flˈœʁ. | imposée |
+| titres/H6.mp3 | La forêt. | la- foʁˈɛ. | dictionnaire |
+| consignes/H6.mp3 | Lis la phrase, puis touche la bonne image. | lˈi la- fʁˈaz, pyˈi tˈuʃ la- bˈɔn imˈaʒ. | dictionnaire |
+| phrases/H6-1.mp3 | Le hibou dort dans un arbre. | lə- ibˈu dˈɔʁ dɑ̃z œ̃n ˈaʁbʁ. | imposée |
+| phrases/H6-2.mp3 | Un écureuil mange une noisette. | œ̃n ekyʁˈœj mˈɑ̃ʒ yn nwazˈɛt. | imposée |
+| phrases/H6-3.mp3 | La nuit, la lune brille. | la- nyˈi, la- lˈyn bʁˈij. | imposée |

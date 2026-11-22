@@ -90,6 +90,14 @@ button{font:inherit;color:inherit}
 .chip.sync.err{color:var(--red)}
 .star-ico{color:var(--yellow)}
 
+/* ---------- Barre « la voix parle » : les cartes sont bloquées pendant l'explication ---------- */
+.voice-bar{position:sticky;top:calc(var(--topbar-h) + var(--safe-top));z-index:65;height:30px;background:var(--blue-bg);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.voice-bar span{position:absolute;left:0;top:0;bottom:0;width:0;background:#bfe8ff}
+.voice-bar em{position:relative;font-style:normal;font-weight:900;color:var(--blue-deep);font-size:.95rem}
+body.voice-busy #app .card,body.voice-busy #app .choice,body.voice-busy #app .btn,body.voice-busy #app .mic,body.voice-busy #app .listen,body.voice-busy #app .node{filter:saturate(.6) brightness(.97);cursor:wait}
+.mode-tv .voice-bar{top:9vh;height:4.5vh}
+.mode-tv .voice-bar em{font-size:1em}
+
 /* ---------- Écran ---------- */
 .screen{
   width:min(760px,100%);margin-inline:auto;
@@ -223,6 +231,20 @@ button{font:inherit;color:inherit}
 .road .road-done{fill:none;stroke:#ffe08a;stroke-linecap:round;stroke-linejoin:round}
 .unit-head,.node-wrap{position:relative;z-index:1}
 
+/* ---------- Mes progrès ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:var(--gap)}
+.stat{display:grid;justify-items:center;text-align:center;gap:2px;padding:14px 8px;border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg)}
+.stat-ico{font-size:2rem}
+.stat strong{font-size:1.5rem;font-weight:900}
+.stat span:last-child{color:var(--ink-soft);font-weight:800}
+.steps-progress{display:grid;gap:10px}
+.step-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(80px,1.2fr) auto;align-items:center;gap:10px;font-weight:800}
+.step-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.step-bar{height:16px;border-radius:999px;background:var(--line);overflow:hidden}
+.step-bar span{display:block;height:100%;background:var(--green);border-radius:999px}
+.unit-1 .step-bar span{background:var(--blue)}.unit-2 .step-bar span{background:var(--purple)}.unit-3 .step-bar span{background:var(--orange)}
+.mode-tv .stats{grid-template-columns:repeat(6,minmax(0,1fr))}
+
 /* ---------- Trophées ---------- */
 .trophies{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:var(--gap)}
 .trophy{
@@ -231,8 +253,8 @@ button{font:inherit;color:inherit}
 }
 .trophy strong{color:var(--ink);font-weight:900}
 .trophy span:last-child{font-size:.9rem}
-.trophy-ico{font-size:2.8rem;line-height:1.1}
-.trophy:not(.got) .trophy-ico{filter:grayscale(1);opacity:.5}
+.trophy-ico{font-size:2.6rem;line-height:1;display:grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,#fff3c4 45%,#ffd84a 100%);box-shadow:0 4px 0 var(--yellow-deep)}
+.trophy:not(.got) .trophy-ico{filter:grayscale(1);opacity:.55;background:#eee;box-shadow:0 4px 0 #d5d5d5}
 .trophy.got{background:#fff8d6;border-color:var(--yellow);color:var(--ink)}
 .trophy-won{
   display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px 16px;margin-top:6px;
@@ -258,6 +280,8 @@ button{font:inherit;color:inherit}
 .card .caption{font-weight:800;color:var(--ink-soft);text-align:center;overflow-wrap:anywhere}
 .card .play-ico{position:absolute;top:8px;right:10px;font-size:1rem;opacity:.55}
 .card.wide{grid-column:1/-1;min-height:130px}
+.compagnon{display:block;margin-top:4px;padding:3px 8px;border-radius:999px;background:var(--blue-bg);color:var(--blue-deep);font-size:.78rem;font-weight:900;line-height:1.25;text-align:center}
+.mode-tv .compagnon{font-size:.72em;padding:.2em .6em}
 
 /* ---------- Jeu ---------- */
 .game,.speak{display:grid;gap:16px;justify-items:center;text-align:center;padding-bottom:110px}
@@ -273,7 +297,7 @@ button{font:inherit;color:inherit}
   background:var(--blue);box-shadow:0 6px 0 var(--blue-deep);
 }
 .listen:active{transform:translateY(5px);box-shadow:0 1px 0 var(--blue-deep)}
-.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);width:100%;max-width:640px}
+.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap);width:100%;max-width:640px}
 .choice{
   min-height:96px;padding:8px;cursor:pointer;display:grid;place-items:center;
   background:var(--bg);border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg);
@@ -378,7 +402,7 @@ button{font:inherit;color:inherit}
 .reward-form{margin-top:4px}
 
 @media (max-width:420px){
-  .choices{gap:8px}
+  .choices{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
   .choice{min-height:100px}
   .topbar-back-label{display:none}
   .mascot{width:70px;height:70px}
@@ -465,7 +489,7 @@ body.mode-tv{font-size:clamp(13px,1.35vw,26px)}
 
 /* Jeu */
 .mode-tv .game,.mode-tv .speak{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);align-items:center;gap:3vw;padding-bottom:12vh}
-.mode-tv .game .progressbar{grid-column:1/-1}
+.mode-tv .game .progressbar,.mode-tv .game .advmap{grid-column:1/-1;align-self:start}
 .mode-tv .question .mascot{width:9vh;height:9vh}
 .mode-tv .target{font-size:7vh}
 .mode-tv .listen{width:13vh;height:13vh;font-size:6vh;border-radius:3vh}
@@ -479,7 +503,10 @@ body.mode-tv{font-size:clamp(13px,1.35vw,26px)}
 .mode-tv .big-stars{font-size:10vh}
 .mode-tv .actions.column{flex-direction:row;justify-content:center}
 .mode-tv .actions.column .btn.wide{width:auto;min-width:0}
-.mode-tv .trophies,.mode-tv .gifts{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:16vw;overflow-x:auto;padding:1.5vh .8vw 3vh}
+.mode-tv .trophies,.mode-tv .gifts{grid-template-columns:repeat(auto-fill,minmax(17vw,1fr));gap:1.4vw;padding:1vh .4vw 3vh}
+.mode-tv .trophy,.mode-tv .gift{padding:1.6vh .8vw}
+.mode-tv .trophy-ico,.mode-tv .gift-ico{font-size:7vh}
+.mode-tv .home-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
 .mode-tv .splash-logo{width:24vh;height:24vh}
 .mode-tv .splash-title{font-size:2.4em}
 
@@ -489,3 +516,53 @@ body.mode-tv{font-size:clamp(13px,1.35vw,26px)}
   .bstar{transform:none}
   .mode-tv .focusable:focus,.mode-tv button:focus{transform:none}
 }
+
+/* ---------- Carte d'aventure (jeu) ---------- */
+.advmap{position:relative;width:100%;box-sizing:border-box;border-radius:var(--radius-lg);padding:calc(clamp(26px,6vw,40px) + 8px) 8px 10px;border:2px solid var(--line);border-bottom-width:5px;overflow:hidden;background:linear-gradient(180deg,#dff4ff 0,#e9f8d8 100%)}
+.map-ferme{background:linear-gradient(180deg,#fff6d6 0,#e7f6c8 100%)}
+.map-glace{background:linear-gradient(180deg,#e8f6ff 0,#ffffff 100%)}
+.map-foret{background:linear-gradient(180deg,#e3f5e1 0,#cdebc4 100%)}
+.map-plage{background:linear-gradient(180deg,#d9f1ff 0,#fff1c9 100%)}
+.map-jungle{background:linear-gradient(180deg,#dcf7e3 0,#bfe8b8 100%)}
+.map-montagne{background:linear-gradient(180deg,#e9eefc 0,#e4f2db 100%)}
+.map-espace{background:linear-gradient(180deg,#2b2d6e 0,#4b3a8f 100%);border-color:#3b3478}
+.map-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;align-items:end}
+.map-tile{display:grid;place-items:center;height:clamp(30px,8vw,52px);border-radius:12px;background:rgba(255,255,255,.75);border-bottom:4px solid rgba(0,0,0,.12)}
+.map-espace .map-tile{background:rgba(255,255,255,.14)}
+.map-tile.passed{background:#d7ffb8;border-bottom-color:var(--green-deep, #58a700)}
+.map-tile.goal{background:#fff3c4;border-bottom-color:var(--yellow-deep)}
+.map-deco{font-size:clamp(14px,3.4vw,26px);line-height:1}
+.map-hero{position:absolute;top:4px;left:calc(8px + (100% - 16px) * (var(--pos) + .5) / (var(--steps) + 1));transform:translateX(-50%);font-size:clamp(26px,6vw,40px);line-height:1;transition:left .55s cubic-bezier(.3,1.4,.5,1);filter:drop-shadow(0 3px 0 rgba(0,0,0,.18))}
+.map-hero.hop{animation:hero-hop .55s ease}
+.map-hero.ouch{animation:hero-ouch .5s ease}
+@keyframes hero-hop{0%,100%{translate:0 0}40%{translate:0 -10px}}
+@keyframes hero-ouch{0%,100%{rotate:0deg}25%{rotate:-14deg}75%{rotate:14deg}}
+@media (prefers-reduced-motion:reduce){.map-hero{transition:none}.map-hero.hop,.map-hero.ouch{animation:none}}
+.mode-tv .map-tile{height:8vh}
+.mode-tv .map-deco{font-size:4.2vh}
+.mode-tv .map-hero{font-size:6vh}
+.mode-tv .advmap{padding-top:calc(6vh + 10px)}
+
+/* ---------- Chanson et livre ---------- */
+.song-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;margin:12px 0}
+.song-l{display:grid;place-items:center;aspect-ratio:1;border-radius:16px;font-size:1.8rem;font-weight:900;background:var(--surface,#fff);border:2px solid var(--line);border-bottom-width:5px;color:var(--ink-soft);transition:transform .15s,background .15s}
+.song-l.done{color:var(--ink)}
+.song-l.on{background:var(--yellow);border-color:var(--yellow-deep);color:var(--ink);transform:translateY(-4px)}
+.mode-tv .song-grid{grid-template-columns:repeat(13,minmax(0,1fr))}
+.book-page{display:grid;justify-items:center;gap:10px;text-align:center;padding:16px;border:2px solid var(--line);border-bottom-width:5px;border-radius:var(--radius-lg);background:#fffdf5}
+.book-pic{font-size:clamp(70px,22vw,140px);line-height:1}
+.book-text{font-size:clamp(1.4rem,5vw,2.2rem);font-weight:900;margin:0}
+.gift-tag{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;background:var(--blue-bg);color:var(--blue-deep);font-size:.75rem;font-weight:900}
+.btn.small{padding:8px 14px;font-size:.9rem}
+
+/* ---------- Fond plus vivant (léger, sans flou) ---------- */
+body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12%,rgba(88,204,2,.07) 0 90px,transparent 91px),radial-gradient(circle at 92% 30%,rgba(28,176,246,.07) 0 120px,transparent 121px),radial-gradient(circle at 15% 80%,rgba(255,200,0,.08) 0 110px,transparent 111px),radial-gradient(circle at 85% 88%,rgba(206,130,255,.07) 0 90px,transparent 91px)}
+
+/* ---------- Espace parents : onglets ---------- */
+.ptabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.ptab{padding:12px 6px;border-radius:14px;border:2px solid var(--line);border-bottom-width:4px;background:#fff;font:inherit;font-weight:900;color:var(--ink-soft);cursor:pointer}
+.ptab[aria-selected="true"]{background:var(--blue-bg);border-color:var(--blue);color:var(--blue-deep)}
+.ptab:focus-visible{outline:4px solid var(--blue);outline-offset:2px}
+.chip.sync.ok{color:var(--green-deep,#58a700)}.chip.sync.err{color:#d33}
+.mode-tv .question .hint{margin-top:2.5vh}
+.step-row{grid-template-columns:minmax(0,1fr) auto}.step-name{grid-column:1/-1;white-space:normal}
