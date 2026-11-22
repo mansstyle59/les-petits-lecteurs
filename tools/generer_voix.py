@@ -8,6 +8,7 @@ dictionnaire phonétique français d'espeak-ng, puis sont vérifiés (audit).
 
 Usage : python3 tools/generer_voix.py [dossier_du_depot] [--tout]
   --tout : régénère aussi les fichiers déjà présents.
+  --voix-duo : régénère uniquement les encouragements avec le locuteur masculin UPMC.
 """
 import json, wave, pathlib, subprocess, sys, tempfile, os
 from dataclasses import replace
