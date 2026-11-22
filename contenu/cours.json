@@ -105,8 +105,8 @@
               "lettre_minuscule": "r",
               "nom_tts": "erre",
               "son_tts": "rrr",
-              "exemple": "rose",
-              "illustration": "🌹",
+              "exemple": "robot",
+              "illustration": "🤖",
               "note": ""
             },
             {
@@ -657,6 +657,818 @@
           ],
           "reussite": "Assembler 5 syllabes sans aide.",
           "icone": "🐻"
+        }
+      ]
+    },
+    {
+      "id": "M9",
+      "titre": "Je connais toutes mes lettres",
+      "lecons": [
+        {
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "reussite": "Tout bon.",
+          "id": "R1",
+          "icone": "🐢",
+          "titre": "Révision : voyelles et m, l, r, s",
+          "objectif": "Mélanger les voyelles et les sons longs.",
+          "items": [
+            {
+              "affiche": "A a",
+              "lettre_majuscule": "A",
+              "lettre_minuscule": "a",
+              "nom_tts": "a",
+              "son_tts": "a",
+              "exemple": "avion",
+              "illustration": "✈️",
+              "note": ""
+            },
+            {
+              "affiche": "E e",
+              "lettre_majuscule": "E",
+              "lettre_minuscule": "e",
+              "nom_tts": "e",
+              "son_tts": "eu",
+              "exemple": "renard",
+              "illustration": "🦊",
+              "note": "Le e sans accent fait le son « e », comme dans re-nard, le, pe-tit. Le é (avec accent) fait « é »."
+            },
+            {
+              "affiche": "I i",
+              "lettre_majuscule": "I",
+              "lettre_minuscule": "i",
+              "nom_tts": "i",
+              "son_tts": "i",
+              "exemple": "image",
+              "illustration": "🖼️",
+              "note": ""
+            },
+            {
+              "affiche": "O o",
+              "lettre_majuscule": "O",
+              "lettre_minuscule": "o",
+              "nom_tts": "o",
+              "son_tts": "o",
+              "exemple": "orange",
+              "illustration": "🍊",
+              "note": "Le o fait le son « o », comme dans o-range."
+            },
+            {
+              "affiche": "U u",
+              "lettre_majuscule": "U",
+              "lettre_minuscule": "u",
+              "nom_tts": "u",
+              "son_tts": "u",
+              "exemple": "tortue",
+              "illustration": "🐢",
+              "note": ""
+            },
+            {
+              "affiche": "M m",
+              "lettre_majuscule": "M",
+              "lettre_minuscule": "m",
+              "nom_tts": "emme",
+              "son_tts": "mmm",
+              "exemple": "maison",
+              "illustration": "🏠",
+              "note": ""
+            },
+            {
+              "affiche": "L l",
+              "lettre_majuscule": "L",
+              "lettre_minuscule": "l",
+              "nom_tts": "elle",
+              "son_tts": "lll",
+              "exemple": "lune",
+              "illustration": "🌙",
+              "note": ""
+            },
+            {
+              "affiche": "R r",
+              "lettre_majuscule": "R",
+              "lettre_minuscule": "r",
+              "nom_tts": "erre",
+              "son_tts": "rrr",
+              "exemple": "robot",
+              "illustration": "🤖",
+              "note": ""
+            },
+            {
+              "affiche": "S s",
+              "lettre_majuscule": "S",
+              "lettre_minuscule": "s",
+              "nom_tts": "esse",
+              "son_tts": "sss",
+              "exemple": "soleil",
+              "illustration": "☀️",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "reussite": "Tout bon.",
+          "id": "R2",
+          "icone": "🦘",
+          "titre": "Révision : p, t, b, d, f, v",
+          "objectif": "Ne pas confondre p/b, t/d, f/v.",
+          "items": [
+            {
+              "affiche": "P p",
+              "lettre_majuscule": "P",
+              "lettre_minuscule": "p",
+              "nom_tts": "pé",
+              "son_tts": "pe",
+              "exemple": "pomme",
+              "illustration": "🍎",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "T t",
+              "lettre_majuscule": "T",
+              "lettre_minuscule": "t",
+              "nom_tts": "té",
+              "son_tts": "te",
+              "exemple": "table",
+              "illustration": "🪑",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "B b",
+              "lettre_majuscule": "B",
+              "lettre_minuscule": "b",
+              "nom_tts": "bé",
+              "son_tts": "be",
+              "exemple": "bateau",
+              "illustration": "⛵",
+              "note": "Consonne occlusive : prononcer le son court, sans ajouter de « e » (le moteur vocal doit utiliser l'audio enregistré)."
+            },
+            {
+              "affiche": "D d",
+              "lettre_majuscule": "D",
+              "lettre_minuscule": "d",
+              "nom_tts": "dé",
+              "son_tts": "de",
+              "exemple": "dauphin",
+              "illustration": "🐬",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "F f",
+              "lettre_majuscule": "F",
+              "lettre_minuscule": "f",
+              "nom_tts": "effe",
+              "son_tts": "fff",
+              "exemple": "fleur",
+              "illustration": "🌸",
+              "note": ""
+            },
+            {
+              "affiche": "V v",
+              "lettre_majuscule": "V",
+              "lettre_minuscule": "v",
+              "nom_tts": "vé",
+              "son_tts": "vvv",
+              "exemple": "vache",
+              "illustration": "🐄",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "reussite": "Tout bon.",
+          "id": "R3",
+          "icone": "🦓",
+          "titre": "Révision : z, j, n, c, g",
+          "objectif": "Les sons z, j, n, k et g.",
+          "items": [
+            {
+              "affiche": "Z z",
+              "lettre_majuscule": "Z",
+              "lettre_minuscule": "z",
+              "nom_tts": "zède",
+              "son_tts": "zzz",
+              "exemple": "zèbre",
+              "illustration": "🦓",
+              "note": ""
+            },
+            {
+              "affiche": "J j",
+              "lettre_majuscule": "J",
+              "lettre_minuscule": "j",
+              "nom_tts": "ji",
+              "son_tts": "je",
+              "exemple": "jupe",
+              "illustration": "👗",
+              "note": ""
+            },
+            {
+              "affiche": "N n",
+              "lettre_majuscule": "N",
+              "lettre_minuscule": "n",
+              "nom_tts": "enne",
+              "son_tts": "nnn",
+              "exemple": "nuage",
+              "illustration": "☁️",
+              "note": ""
+            },
+            {
+              "affiche": "C c",
+              "lettre_majuscule": "C",
+              "lettre_minuscule": "c",
+              "nom_tts": "cé",
+              "son_tts": "ke",
+              "exemple": "cube",
+              "illustration": "🧊",
+              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard."
+            },
+            {
+              "affiche": "G g",
+              "lettre_majuscule": "G",
+              "lettre_minuscule": "g",
+              "nom_tts": "gé",
+              "son_tts": "gue",
+              "exemple": "gorille",
+              "illustration": "🦍",
+              "note": "Son dur [g] devant a, o, u (« gorille »)."
+            }
+          ]
+        },
+        {
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "reussite": "Tout bon.",
+          "id": "R4",
+          "icone": "🦁",
+          "titre": "Toutes les lettres de A à M",
+          "objectif": "Reconnaître les lettres de a à m.",
+          "items": [
+            {
+              "affiche": "A a",
+              "lettre_majuscule": "A",
+              "lettre_minuscule": "a",
+              "nom_tts": "a",
+              "son_tts": "a",
+              "exemple": "avion",
+              "illustration": "✈️",
+              "note": ""
+            },
+            {
+              "affiche": "B b",
+              "lettre_majuscule": "B",
+              "lettre_minuscule": "b",
+              "nom_tts": "bé",
+              "son_tts": "be",
+              "exemple": "bateau",
+              "illustration": "⛵",
+              "note": "Consonne occlusive : prononcer le son court, sans ajouter de « e » (le moteur vocal doit utiliser l'audio enregistré)."
+            },
+            {
+              "affiche": "C c",
+              "lettre_majuscule": "C",
+              "lettre_minuscule": "c",
+              "nom_tts": "cé",
+              "son_tts": "ke",
+              "exemple": "cube",
+              "illustration": "🧊",
+              "note": "Son dur [k] devant a, o, u (« cube »). Le son doux [s] est vu plus tard."
+            },
+            {
+              "affiche": "D d",
+              "lettre_majuscule": "D",
+              "lettre_minuscule": "d",
+              "nom_tts": "dé",
+              "son_tts": "de",
+              "exemple": "dauphin",
+              "illustration": "🐬",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "E e",
+              "lettre_majuscule": "E",
+              "lettre_minuscule": "e",
+              "nom_tts": "e",
+              "son_tts": "eu",
+              "exemple": "renard",
+              "illustration": "🦊",
+              "note": "Le e sans accent fait le son « e », comme dans re-nard, le, pe-tit. Le é (avec accent) fait « é »."
+            },
+            {
+              "affiche": "F f",
+              "lettre_majuscule": "F",
+              "lettre_minuscule": "f",
+              "nom_tts": "effe",
+              "son_tts": "fff",
+              "exemple": "fleur",
+              "illustration": "🌸",
+              "note": ""
+            },
+            {
+              "affiche": "G g",
+              "lettre_majuscule": "G",
+              "lettre_minuscule": "g",
+              "nom_tts": "gé",
+              "son_tts": "gue",
+              "exemple": "gorille",
+              "illustration": "🦍",
+              "note": "Son dur [g] devant a, o, u (« gorille »)."
+            },
+            {
+              "affiche": "I i",
+              "lettre_majuscule": "I",
+              "lettre_minuscule": "i",
+              "nom_tts": "i",
+              "son_tts": "i",
+              "exemple": "image",
+              "illustration": "🖼️",
+              "note": ""
+            },
+            {
+              "affiche": "J j",
+              "lettre_majuscule": "J",
+              "lettre_minuscule": "j",
+              "nom_tts": "ji",
+              "son_tts": "je",
+              "exemple": "jupe",
+              "illustration": "👗",
+              "note": ""
+            },
+            {
+              "affiche": "K k",
+              "lettre_majuscule": "K",
+              "lettre_minuscule": "k",
+              "nom_tts": "ka",
+              "son_tts": "ke",
+              "exemple": "kiwi",
+              "illustration": "🥝",
+              "note": "Son [k], comme le c dur."
+            },
+            {
+              "affiche": "L l",
+              "lettre_majuscule": "L",
+              "lettre_minuscule": "l",
+              "nom_tts": "elle",
+              "son_tts": "lll",
+              "exemple": "lune",
+              "illustration": "🌙",
+              "note": ""
+            },
+            {
+              "affiche": "M m",
+              "lettre_majuscule": "M",
+              "lettre_minuscule": "m",
+              "nom_tts": "emme",
+              "son_tts": "mmm",
+              "exemple": "maison",
+              "illustration": "🏠",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "type_jeu": "son_vers_lettre",
+          "consigne": "Écoute bien le son. Quelle lettre fait ce son ?",
+          "reussite": "Tout bon.",
+          "id": "R5",
+          "icone": "🐳",
+          "titre": "Toutes les lettres de N à Z",
+          "objectif": "Reconnaître les lettres de n à z.",
+          "items": [
+            {
+              "affiche": "N n",
+              "lettre_majuscule": "N",
+              "lettre_minuscule": "n",
+              "nom_tts": "enne",
+              "son_tts": "nnn",
+              "exemple": "nuage",
+              "illustration": "☁️",
+              "note": ""
+            },
+            {
+              "affiche": "O o",
+              "lettre_majuscule": "O",
+              "lettre_minuscule": "o",
+              "nom_tts": "o",
+              "son_tts": "o",
+              "exemple": "orange",
+              "illustration": "🍊",
+              "note": "Le o fait le son « o », comme dans o-range."
+            },
+            {
+              "affiche": "P p",
+              "lettre_majuscule": "P",
+              "lettre_minuscule": "p",
+              "nom_tts": "pé",
+              "son_tts": "pe",
+              "exemple": "pomme",
+              "illustration": "🍎",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "R r",
+              "lettre_majuscule": "R",
+              "lettre_minuscule": "r",
+              "nom_tts": "erre",
+              "son_tts": "rrr",
+              "exemple": "robot",
+              "illustration": "🤖",
+              "note": ""
+            },
+            {
+              "affiche": "S s",
+              "lettre_majuscule": "S",
+              "lettre_minuscule": "s",
+              "nom_tts": "esse",
+              "son_tts": "sss",
+              "exemple": "soleil",
+              "illustration": "☀️",
+              "note": ""
+            },
+            {
+              "affiche": "T t",
+              "lettre_majuscule": "T",
+              "lettre_minuscule": "t",
+              "nom_tts": "té",
+              "son_tts": "te",
+              "exemple": "table",
+              "illustration": "🪑",
+              "note": "Consonne occlusive : son court, sans « e » ajouté (audio enregistré recommandé)."
+            },
+            {
+              "affiche": "U u",
+              "lettre_majuscule": "U",
+              "lettre_minuscule": "u",
+              "nom_tts": "u",
+              "son_tts": "u",
+              "exemple": "tortue",
+              "illustration": "🐢",
+              "note": ""
+            },
+            {
+              "affiche": "V v",
+              "lettre_majuscule": "V",
+              "lettre_minuscule": "v",
+              "nom_tts": "vé",
+              "son_tts": "vvv",
+              "exemple": "vache",
+              "illustration": "🐄",
+              "note": ""
+            },
+            {
+              "affiche": "X x",
+              "lettre_majuscule": "X",
+              "lettre_minuscule": "x",
+              "nom_tts": "iks",
+              "son_tts": "ks",
+              "exemple": "xylophone",
+              "illustration": "🎶",
+              "note": "Son [ks] dans ce cas ; les autres sons de x sont vus plus tard."
+            },
+            {
+              "affiche": "Y y",
+              "lettre_majuscule": "Y",
+              "lettre_minuscule": "y",
+              "nom_tts": "i grec",
+              "son_tts": "i",
+              "exemple": "stylo",
+              "illustration": "🖊️",
+              "note": "Le y fait le son « i », comme dans sty-lo."
+            },
+            {
+              "affiche": "Z z",
+              "lettre_majuscule": "Z",
+              "lettre_minuscule": "z",
+              "nom_tts": "zède",
+              "son_tts": "zzz",
+              "exemple": "zèbre",
+              "illustration": "🦓",
+              "note": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M10",
+      "titre": "Je lis des syllabes",
+      "lecons": [
+        {
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "reussite": "Tout bon.",
+          "id": "Y1",
+          "icone": "🍎",
+          "titre": "Les syllabes en a",
+          "objectif": "ma, la, ra, pa… : la même voyelle, des consonnes différentes.",
+          "items": [
+            {
+              "affiche": "ma",
+              "syllabe_tts": "ma"
+            },
+            {
+              "affiche": "la",
+              "syllabe_tts": "la"
+            },
+            {
+              "affiche": "ra",
+              "syllabe_tts": "ra"
+            },
+            {
+              "affiche": "sa",
+              "syllabe_tts": "sa"
+            },
+            {
+              "affiche": "pa",
+              "syllabe_tts": "pa"
+            },
+            {
+              "affiche": "ta",
+              "syllabe_tts": "ta"
+            },
+            {
+              "affiche": "ba",
+              "syllabe_tts": "ba"
+            },
+            {
+              "affiche": "da",
+              "syllabe_tts": "da"
+            },
+            {
+              "affiche": "fa",
+              "syllabe_tts": "fa"
+            },
+            {
+              "affiche": "va",
+              "syllabe_tts": "va"
+            },
+            {
+              "affiche": "na",
+              "syllabe_tts": "na"
+            },
+            {
+              "affiche": "ja",
+              "syllabe_tts": "ja"
+            },
+            {
+              "affiche": "ca",
+              "syllabe_tts": "ca"
+            },
+            {
+              "affiche": "ga",
+              "syllabe_tts": "ga"
+            }
+          ]
+        },
+        {
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "reussite": "Tout bon.",
+          "id": "Y2",
+          "icone": "🐞",
+          "titre": "Les syllabes en i",
+          "objectif": "mi, li, ri, pi…",
+          "items": [
+            {
+              "affiche": "mi",
+              "syllabe_tts": "mi"
+            },
+            {
+              "affiche": "li",
+              "syllabe_tts": "li"
+            },
+            {
+              "affiche": "ri",
+              "syllabe_tts": "ri"
+            },
+            {
+              "affiche": "si",
+              "syllabe_tts": "si"
+            },
+            {
+              "affiche": "pi",
+              "syllabe_tts": "pi"
+            },
+            {
+              "affiche": "ti",
+              "syllabe_tts": "ti"
+            },
+            {
+              "affiche": "bi",
+              "syllabe_tts": "bi"
+            },
+            {
+              "affiche": "di",
+              "syllabe_tts": "di"
+            },
+            {
+              "affiche": "fi",
+              "syllabe_tts": "fi"
+            },
+            {
+              "affiche": "vi",
+              "syllabe_tts": "vi"
+            },
+            {
+              "affiche": "ni",
+              "syllabe_tts": "ni"
+            },
+            {
+              "affiche": "ji",
+              "syllabe_tts": "ji"
+            }
+          ]
+        },
+        {
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "reussite": "Tout bon.",
+          "id": "Y3",
+          "icone": "🦉",
+          "titre": "Les syllabes en o",
+          "objectif": "mo, lo, ro, po…",
+          "items": [
+            {
+              "affiche": "mo",
+              "syllabe_tts": "mo"
+            },
+            {
+              "affiche": "lo",
+              "syllabe_tts": "lo"
+            },
+            {
+              "affiche": "ro",
+              "syllabe_tts": "ro"
+            },
+            {
+              "affiche": "so",
+              "syllabe_tts": "so"
+            },
+            {
+              "affiche": "po",
+              "syllabe_tts": "po"
+            },
+            {
+              "affiche": "to",
+              "syllabe_tts": "to"
+            },
+            {
+              "affiche": "bo",
+              "syllabe_tts": "bo"
+            },
+            {
+              "affiche": "do",
+              "syllabe_tts": "do"
+            },
+            {
+              "affiche": "fo",
+              "syllabe_tts": "fo"
+            },
+            {
+              "affiche": "vo",
+              "syllabe_tts": "vo"
+            },
+            {
+              "affiche": "no",
+              "syllabe_tts": "no"
+            },
+            {
+              "affiche": "jo",
+              "syllabe_tts": "jo"
+            },
+            {
+              "affiche": "co",
+              "syllabe_tts": "co"
+            },
+            {
+              "affiche": "go",
+              "syllabe_tts": "go"
+            }
+          ]
+        },
+        {
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "reussite": "Tout bon.",
+          "id": "Y4",
+          "icone": "🦆",
+          "titre": "Les syllabes en u",
+          "objectif": "mu, lu, ru, pu…",
+          "items": [
+            {
+              "affiche": "mu",
+              "syllabe_tts": "mu"
+            },
+            {
+              "affiche": "lu",
+              "syllabe_tts": "lu"
+            },
+            {
+              "affiche": "ru",
+              "syllabe_tts": "ru"
+            },
+            {
+              "affiche": "su",
+              "syllabe_tts": "su"
+            },
+            {
+              "affiche": "pu",
+              "syllabe_tts": "pu"
+            },
+            {
+              "affiche": "tu",
+              "syllabe_tts": "tu"
+            },
+            {
+              "affiche": "bu",
+              "syllabe_tts": "bu"
+            },
+            {
+              "affiche": "du",
+              "syllabe_tts": "du"
+            },
+            {
+              "affiche": "fu",
+              "syllabe_tts": "fu"
+            },
+            {
+              "affiche": "vu",
+              "syllabe_tts": "vu"
+            },
+            {
+              "affiche": "nu",
+              "syllabe_tts": "nu"
+            },
+            {
+              "affiche": "ju",
+              "syllabe_tts": "ju"
+            },
+            {
+              "affiche": "cu",
+              "syllabe_tts": "cu"
+            }
+          ]
+        },
+        {
+          "type_jeu": "assemblage_syllabe",
+          "consigne": "Écoute la syllabe, puis trouve-la parmi les images.",
+          "reussite": "Tout bon.",
+          "id": "Y5",
+          "icone": "🐸",
+          "titre": "Les syllabes en e",
+          "objectif": "me, le, re, pe…",
+          "items": [
+            {
+              "affiche": "me",
+              "syllabe_tts": "me"
+            },
+            {
+              "affiche": "le",
+              "syllabe_tts": "le"
+            },
+            {
+              "affiche": "re",
+              "syllabe_tts": "re"
+            },
+            {
+              "affiche": "se",
+              "syllabe_tts": "se"
+            },
+            {
+              "affiche": "pe",
+              "syllabe_tts": "pe"
+            },
+            {
+              "affiche": "te",
+              "syllabe_tts": "te"
+            },
+            {
+              "affiche": "be",
+              "syllabe_tts": "be"
+            },
+            {
+              "affiche": "de",
+              "syllabe_tts": "de"
+            },
+            {
+              "affiche": "fe",
+              "syllabe_tts": "fe"
+            },
+            {
+              "affiche": "ve",
+              "syllabe_tts": "ve"
+            },
+            {
+              "affiche": "ne",
+              "syllabe_tts": "ne"
+            },
+            {
+              "affiche": "je",
+              "syllabe_tts": "je"
+            }
+          ]
         }
       ]
     },

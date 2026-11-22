@@ -570,3 +570,13 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12
 .map-tile.now{background:#fff;outline:3px dashed var(--blue);outline-offset:-3px}
 .map-syl{font-size:clamp(11px,2.8vw,18px);font-weight:900;color:var(--ink)}
 .mode-tv .map-syl{font-size:3vh}
+
+/* ---------- Coffres bonus et mode jeu ---------- */
+.node.chest{background:#ffe9a8;border-color:#f0b400;box-shadow:0 6px 0 #d79a00}
+.node.chest.locked{background:#eee;border-color:#ddd;box-shadow:0 6px 0 #cfcfcf}
+.node.chest.done{background:#fff7d6}
+.chest-wrap .node-label{font-weight:900;color:#b07d00}
+.arcade .gift{min-height:150px}
+.arcade .gift .hint{font-size:.85rem;margin:2px 0 0}
+.mode-tv .arcade{grid-template-columns:repeat(4,minmax(0,1fr))}
+.center{text-align:center}

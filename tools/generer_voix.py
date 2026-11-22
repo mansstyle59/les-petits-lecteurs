@@ -141,7 +141,15 @@ for k, t in PRENOMS.items(): synth(OUT / "prenoms" / f"{k}.mp3", t, PRENOMS_API.
 for m in cours["modules"]:
     synth(OUT / "titres" / f"{m['id']}.mp3", m["titre"] + ".")
     for l in m["lecons"]:
-        TITRE_API = {"C3": "le sˈɔ̃, ˈɑ̃, ˈɛ̃, e wˈa.", "C4": "mˈo avˈɛk ˈɑ̃, ˈɛ̃, e wˈa.", "D3": "le sˈɔ̃, ɲə, ijə, e fə."}
+        TITRE_API = {"C3": "le sˈɔ̃, ˈɑ̃, ˈɛ̃, e wˈa.", "C4": "mˈo avˈɛk ˈɑ̃, ˈɛ̃, e wˈa.", "D3": "le sˈɔ̃, ɲə, ijə, e fə.",
+            "L2": "le sˈɔ̃ kɔ̃tinˈy, mː, lː, ʁː, sː.", "L3": "le sˈɔ̃ kˈuʁ, pˈø, tˈø, bˈə, dˈø.", "L4": "le sˈɔ̃, fː, vː, zː, ʒː.",
+            "L5": "le sˈɔ̃, nː, kˈø, e ɡˈø.", "S1": "silˈab avˈɛk mː.", "S2": "silˈab avˈɛk lː e ʁː.", "S3": "silˈab avˈɛk pˈø, tˈø, bˈə, e dˈø.",
+            "S4": "silˈab avˈɛk fː, sː, vː, e ʒː.", "S5": "silˈab avˈɛk nː, kˈø, e ɡˈø.", "W1": "pʁəmjˈe mˈo avˈɛk mː, lː, ʁː, e sː.",
+            "W2": "pʁəmjˈe mˈo avˈɛk pˈø, tˈø, bˈə, e dˈø.", "W3": "pʁəmjˈe mˈo avˈɛk fː, vː, zː, ʒː, e nː.", "W4": "le sˈɔ̃ ʃː e ˈu.",
+            "C5": "le sˈɔ̃, ʃː, ˈo, e ˈɛ.", "C6": "mˈo avˈɛk ʃː, ˈo, e ˈɛ.",
+            "R1": "ʁevizjˈɔ̃, le vwajˈɛl, e mː, lː, ʁː, sː.", "R2": "ʁevizjˈɔ̃, pˈø, tˈø, bˈə, dˈø, fː, vː.", "R3": "ʁevizjˈɔ̃, zː, ʒː, nː, kˈø, e ɡˈø.",
+            "R4": "tˈut le lˈɛtʁ də ˈa a ˈɛm.", "R5": "tˈut le lˈɛtʁ də ˈɛn a zˈɛd.",
+            "Y1": "le silˈab ɑ̃n ˈa.", "Y2": "le silˈab ɑ̃n ˈi.", "Y3": "le silˈab ɑ̃n ˈo.", "Y4": "le silˈab ɑ̃n ˈy.", "Y5": "le silˈab ɑ̃n ˈø."}
         if l["id"] in TITRE_API: synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"], TITRE_API[l["id"]])
         else: synth(OUT / "titres" / f"{l['id']}.mp3", l["titre"].replace(":", ",").replace(" h, q", " ache, ku").replace(" x, y, w", " ixe, i grec, double vé") + ".")
         synth(OUT / "consignes" / f"{l['id']}.mp3", l["consigne"])

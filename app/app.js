@@ -62,7 +62,7 @@
   var memoryStore = null;
   function normProfile(p) {
     p.stars = p.stars || {}; p.trophies = p.trophies || {}; p.days = Array.isArray(p.days) ? p.days : [];
-    p.errs = p.errs || {}; p.usage = p.usage || {}; p.claimed = Array.isArray(p.claimed) ? p.claimed : [];
+    p.errs = p.errs || {}; p.bonus = p.bonus || {}; p.usage = p.usage || {}; p.claimed = Array.isArray(p.claimed) ? p.claimed : [];
     if (!Array.isArray(p.rewards)) p.rewards = DEFAULT_REWARDS.map(function (r) { return { id: r.id, titre: r.titre, ico: r.ico, cout: r.cout }; });
     if (typeof p.limit !== "number") p.limit = 20;
     p.rewards.forEach(function (r) { DEFAULT_REWARDS.forEach(function (d) { if (d.id === r.id && d.action) r.action = d.action; }); });
@@ -213,7 +213,9 @@
     clearTimeout(toast._t);
     toast._t = setTimeout(function () { toastEl.classList.remove("show"); }, 2600);
   }
-  function totalStars(p) { var t = 0; for (var k in p.stars) t += p.stars[k]; return t; }
+  function totalStars(p) { var t = 0; for (var k in p.stars) t += p.stars[k]; for (var b in (p.bonus || {})) t += p.bonus[b]; return t; }
+  // Barème des révisions et des jeux : 0 faute = 3 étoiles · 1 faute = 2 · 2 ou 3 fautes = 1 · plus = 0
+  function bonusFor(errors) { return errors === 0 ? 3 : errors === 1 ? 2 : errors <= 3 ? 1 : 0; }
   function starsText(n, max) { var s = ""; for (var i = 0; i < max; i++) s += i < n ? "★" : "☆"; return s; }
   function today() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
   function streak(p) {
@@ -369,6 +371,10 @@
     { id: "M4", ico: "💬", titre: "Premières phrases", desc: "Tu lis tes premières phrases.", test: function (p) { return moduleDone(p, "M4"); } },
     { id: "M5", ico: "🪄", titre: "Sons magiques", desc: "Tu connais ou, on, an, in, oi, ch…", test: function (p) { return moduleDone(p, "M5"); } },
     { id: "M6", ico: "🏆", titre: "Je sais lire !", desc: "Tu lis de petites histoires.", test: function (p) { return moduleDone(p, "M6"); } },
+    { id: "M9", ico: "🔠", titre: "As de l'alphabet", desc: "Toutes les lettres révisées.", test: function (p) { return moduleDone(p, "M9"); } },
+    { id: "M10", ico: "🧱", titre: "Bâtisseur de syllabes", desc: "Les syllabes en a, i, o, u, e.", test: function (p) { return moduleDone(p, "M10"); } },
+    { id: "coffre", ico: "🧰", titre: "Chasseur de coffres", desc: "Tu as ouvert un coffre bonus.", test: function (p) { return Object.keys(p.bonus || {}).some(function (k) { return k.indexOf("coffre-") === 0; }); } },
+    { id: "joueur", ico: "🎮", titre: "Champion des jeux", desc: "Une partie de jeu sans faute.", test: function (p) { return Object.keys(p.bonus || {}).some(function (k) { return k.indexOf("jeu-") === 0 && p.bonus[k] === 3; }); } },
     { id: "M7", ico: "🧠", titre: "Sons difficiles", desc: "é, eu, gn, ill, ph : bravo !", test: function (p) { return moduleDone(p, "M7"); } },
     { id: "M8", ico: "📚", titre: "Grand lecteur", desc: "Tu lis de longues histoires.", test: function (p) { return moduleDone(p, "M8"); } },
     { id: "dix", ico: "🎖️", titre: "10 leçons", desc: "10 leçons réussies sans faute.", test: function (p) { return doneCount(p) >= 10; } },
@@ -581,6 +587,7 @@
       '<span class="btn-sub">' + esc(nextL.titre) + '</span></button>' +
       '<div class="home-tiles">' +
       '<button class="tile focusable" type="button" id="trophies"><span class="tile-ico" aria-hidden="true">🏆</span><span>Trophées</span><span class="badge">' + nbTro + "/" + TROPHIES.length + '</span></button>' +
+      '<button class="tile focusable" type="button" id="arcade"><span class="tile-ico" aria-hidden="true">🎮</span><span>Jeux</span><span class="badge">' + Object.keys(ARCADE).filter(function (k) { return arcadePool(p, ARCADE[k].kind).length >= 4; }).length + "/" + Object.keys(ARCADE).length + '</span></button>' +
       '<button class="tile focusable" type="button" id="progress"><span class="tile-ico" aria-hidden="true">📈</span><span>Progrès</span><span class="badge">' + doneCount(p) + "/" + allLessons.length + '</span></button>' +
       '<button class="tile focusable" type="button" id="gifts"><span class="tile-ico" aria-hidden="true">🎁</span><span>Cadeaux</span><span class="badge">' + starsLeft(p) + ' ★</span></button>' +
       (nbErr ? '<button class="tile focusable" type="button" id="review"><span class="tile-ico" aria-hidden="true">🔁</span><span>Révisions</span><span class="badge">' + nbErr + "</span></button>" : "") +
@@ -602,15 +609,30 @@
           '<span class="node-label">' + esc(l.titre) + '</span><span class="node-stars" aria-hidden="true">' + starsText(s, 3) + "</span></div>";
         n++;
       });
+      var chestKey = "coffre-" + m.id, chestDone = !!p.bonus[chestKey], chestOpen = moduleDone(p, m.id);
+      html += '<div class="node-wrap chest-wrap" style="--offset:0px"><button class="node chest focusable' + (chestDone ? " done" : chestOpen ? " current" : " locked") + '" type="button" data-chest="' + m.id + '" aria-label="Coffre bonus de l\'étape ' + (mi + 1) + '">' +
+        '<span class="node-ico" aria-hidden="true">' + (chestDone ? "✨" : chestOpen ? "🎁" : "🧰") + "</span></button>" +
+        '<span class="node-label">' + (chestDone ? "Coffre ouvert" : "Coffre bonus +3 ★") + "</span></div>";
       html += "</div></section>";
     });
     html += "</div>";
     app.innerHTML = html;
     drawRoad(); setTimeout(drawRoad, 250);
+    app.querySelectorAll("[data-chest]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var key = "coffre-" + b.dataset.chest;
+        if (p.bonus[key]) { toast("Tu as déjà ouvert ce coffre !"); return; }
+        if (!moduleDone(p, b.dataset.chest)) { toast("Finis toutes les leçons de l'étape pour ouvrir le coffre !"); return; }
+        p.bonus[key] = 3; saveState(p); checkTrophies(p); confetti(220); toast("Coffre ouvert : +3 étoiles !");
+        play(["ui/super-prenom.mp3"].concat(nameAudio(p)).concat(["ui/etoile.mp3"]));
+        setTimeout(render, 900);
+      });
+    });
     document.getElementById("continue").addEventListener("click", function () { openLesson(nextId); });
     document.getElementById("trophies").addEventListener("click", function () { go("trophies"); });
     document.getElementById("gifts").addEventListener("click", function () { go("gifts"); });
     document.getElementById("progress").addEventListener("click", function () { go("progress"); });
+    document.getElementById("arcade").addEventListener("click", function () { go("arcade"); });
     var hp = document.getElementById("home-parents"); if (hp) hp.addEventListener("click", function () { go("parentsGate"); });
     var rv = document.getElementById("review");
     if (rv) rv.addEventListener("click", function () { var r = reviewLesson(p); if (r) go("game", { id: "REV", review: true }); });
@@ -624,7 +646,13 @@
     if (timeUp(p)) homeVoice.push("ui/pause.mp3");
     else if (p.limit && timeLeft(p) < 4 * 60) homeVoice.push("ui/presque-fini.mp3");
     else homeVoice.push("ui/choisis-lecon.mp3");
-    if (Date.now() - (window.__lplHello || 0) > 90000 || window.__lplHelloId !== p.id) { window.__lplHello = Date.now(); window.__lplHelloId = p.id; play(homeVoice); }
+    var helloKey = "lpl.hello." + p.id, saidToday = false;
+    try { saidToday = localStorage.getItem(helloKey) === today(); } catch (e) { saidToday = !!window["__lplSaid" + p.id]; }
+    if (!saidToday && !window["__lplSaid" + p.id]) {
+      window["__lplSaid" + p.id] = true;
+      try { localStorage.setItem(helloKey, today()); } catch (e) {}
+      play(homeVoice);
+    } else if (timeUp(p)) play(["ui/pause.mp3"]);   // au retour sur l'accueil : pas de nouveau « bonjour »
   };
   // Route qui serpente d'une leçon à l'autre (dessinée d'après la position réelle des leçons)
   function drawRoad() {
@@ -775,9 +803,56 @@
     if (cls) { hero.classList.remove("hop", "ouch"); void hero.offsetWidth; hero.classList.add(cls); }
   }
 
+  // ================= Mode jeu : véhicules =================
+  var ARCADE = {
+    train: { ico: "🚂", titre: "Le train des lettres", desc: "Trouve la lettre qui fait le son.", kind: "lettre", consigneId: "L1",
+      theme: { nom: "Le train", deco: [], but: "🚉", cls: "ferme" } },
+    voiture: { ico: "🚗", titre: "La course des syllabes", desc: "Trouve la syllabe que tu entends.", kind: "syllabe", consigneId: "S1",
+      theme: { nom: "La route", deco: [], but: "🏁", cls: "village" } },
+    fusee: { ico: "🚀", titre: "La fusée des mots", desc: "Trouve l'image du mot.", kind: "mot", consigneId: "W1",
+      theme: { nom: "L'espace", deco: [], but: "🪐", cls: "espace" } },
+    bateau: { ico: "⛵", titre: "Le bateau des sons", desc: "ou, on, an, in, oi, ch…", kind: "son", consigneId: "C1",
+      theme: { nom: "La mer", deco: [], but: "🏝️", cls: "plage" } }
+  };
+  function arcadePool(p, kind) {
+    var seen = {}, out = [];
+    allLessons.forEach(function (id, i) {
+      var l = lessonIndex[id];
+      if (!isUnlocked(p, id)) return;
+      var m = l.type_jeu === "son_vers_lettre" ? "lettre" : l.type_jeu === "assemblage_syllabe" ? (/^C/.test(id) ? "son" : "syllabe") : l.type_jeu === "image_vers_mot" ? "mot" : "";
+      if (m !== kind) return;
+      l.items.forEach(function (it) { var k = itemKey(it); if (!seen[k]) { seen[k] = 1; out.push(it); } });
+    });
+    return out;
+  }
+  function startArcade(key, replace) {
+    var p = profile(), g = ARCADE[key], pool = arcadePool(p, g.kind);
+    var src = allLessons.map(findLesson).filter(function (l) { return l.id === g.consigneId; })[0];
+    lessonIndex.ARC = { id: "ARC", titre: g.titre, type_jeu: src.type_jeu, consigne: src.consigne, consigneId: g.consigneId, items: pool, pool: pool, theme: g.theme, hero: g.ico };
+    go("game", { id: "ARC", arcade: key }, replace);
+  }
+  SCREENS.arcade = function () {
+    var p = profile();
+    if (timeUp(p)) return go("pause", {}, true);
+    setTop("Jeux", true);
+    var html = bubble("À quoi on joue, " + esc(p.name) + " ?", "happy") + '<div class="gifts arcade">';
+    Object.keys(ARCADE).forEach(function (k) {
+      var g = ARCADE[k], n = arcadePool(p, g.kind).length, ok = n >= 4;
+      html += '<button class="gift focusable' + (ok ? " ready" : "") + '" type="button" data-k="' + k + '"' + (ok ? "" : ' aria-disabled="true"') + '><span class="gift-ico" aria-hidden="true">' + g.ico + "</span><strong>" + g.titre + "</strong><span class='hint'>" + (ok ? g.desc : "🔒 Avance sur ton chemin pour l'ouvrir") + "</span></button>";
+    });
+    app.innerHTML = html + "</div><p class='hint center'>Chaque partie sans faute rapporte 3 étoiles bonus (5 parties récompensées par jour).</p>";
+    app.querySelectorAll(".gift").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (b.getAttribute("aria-disabled")) { toast("Avance encore un peu sur ton chemin !"); return; }
+        startArcade(b.dataset.k);
+      });
+    });
+    if (isTV) focusFirst(".gift.ready");
+  };
+
   SCREENS.game = function (a) {
     var p = profile();
-    var l = a.review ? (lessonIndex.REV || reviewLesson(p)) : findLesson(a.id);
+    var l = a.arcade ? lessonIndex.ARC : a.review ? (lessonIndex.REV || reviewLesson(p)) : findLesson(a.id);
     if (!l) return back();
     setTop(l.titre, true);
     var pool = poolFor(l);
@@ -793,7 +868,7 @@
       order = order.slice(0, 8);
     }
     function saveResume() {
-      if (a.review) { saveState(p); return; }
+      if (a.review || a.arcade) { saveState(p); return; }
       p.resume = { id: l.id, phase: "game", order: order, step: step, errors: errors, t: Date.now() };
       saveState(p);
     }
@@ -816,7 +891,7 @@
       var opts = shuffle([it].concat(others));
       var showText = l.type_jeu === "image_vers_mot" ? esc(it.mot) : l.type_jeu === "lecture_phrase" ? esc(it.phrase) : "";
       var faces = order.map(function (k) { return tileFace(l.items[k]); });
-      var html = '<div class="game">' + mapHTML(mapTheme(l), order.length, Math.max(0, step - errors), p.avatar, faces, step) +
+      var html = '<div class="game">' + mapHTML(a.arcade ? l.theme : mapTheme(l), order.length, Math.max(0, step - errors), a.arcade ? l.hero : p.avatar, faces, step) +
         '<div class="question">' + mascot("think") + (showText ? '<div class="target">' + showText + "</div>" : "") +
         '<button class="listen focusable" type="button" id="listen" aria-label="Réécouter">🔊</button><p class="hint">' + esc(l.consigne) + "</p></div>" +
         '<div class="choices">';
@@ -855,19 +930,28 @@
         });
       });
       if (isTV) focusFirst(".choice");
-      var intro = a.review ? ["ui/revision.mp3"] : ["consignes/" + l.id + ".mp3"];
+      var intro = a.arcade ? ["consignes/" + l.consigneId + ".mp3"] : a.review ? ["ui/revision.mp3"] : ["consignes/" + l.id + ".mp3"];
       play(step === 0 ? nameAudio(p).concat(intro).concat(qa) : qa);
     }
 
     function finishGame() {
-      if (a.review) {
-        markToday(p); saveState(p); confetti(120);
-        app.innerHTML = '<div class="result">' + mascot("happy") + "<h1>Révisions terminées !</h1><p class='hint'>" +
-          (Object.keys(p.errs).length ? "Il reste " + Object.keys(p.errs).length + " petite(s) erreur(s) à revoir une autre fois." : "Toutes tes erreurs sont corrigées. Bravo !") +
-          '</p><div class="actions column"><button class="btn big wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+      if (a.review || a.arcade) {
+        var gain = bonusFor(errors), dayKey = today(), nbJeux = Object.keys(p.bonus).filter(function (k) { return k.indexOf("jeu-" + dayKey) === 0; }).length;
+        if (a.arcade && nbJeux >= 5) gain = 0;   // 5 jeux récompensés par jour, ensuite on joue pour le plaisir
+        if (gain) p.bonus[(a.arcade ? "jeu-" : "rev-") + dayKey + "-" + Date.now()] = gain;
+        checkTrophies(p);
+        markToday(p); saveState(p); confetti(gain ? 160 : 60);
+        var bigS = '<div class="big-stars" aria-label="' + gain + ' étoiles bonus">' + [0, 1, 2].map(function (i) { return '<span class="bstar' + (i < gain ? " on" : "") + '" style="animation-delay:' + (i * .25) + 's">★</span>'; }).join("") + "</div>";
+        app.innerHTML = '<div class="result">' + mascot(gain ? "happy" : "think") + "<h1>" + (a.arcade ? "Fin du jeu !" : "Révisions terminées !") + "</h1>" + bigS + "<p class='hint'>" +
+          (gain ? "Tu gagnes " + gain + " étoile" + (gain > 1 ? "s" : "") + " bonus" + (errors ? " (" + errors + " faute" + (errors > 1 ? "s" : "") + ")." : " : aucune faute !") : (a.arcade && nbJeux >= 5 ? "Tu as déjà gagné beaucoup d'étoiles en jouant aujourd'hui. Bravo !" : "Trop de fautes pour gagner une étoile. Réessaie !")) + " " +
+          (a.review ? (Object.keys(p.errs).length ? "Il reste " + Object.keys(p.errs).length + " petite(s) erreur(s) à revoir." : "Toutes tes erreurs sont corrigées !") : "") +
+          '</p><div class="actions column">' + (a.arcade ? '<button class="btn big wide focusable" type="button" id="again-arc">↻ Rejouer</button>' : "") +
+          '<button class="btn ' + (a.arcade ? "secondary" : "big") + ' wide focusable" type="button" id="menu">Mon chemin</button></div></div>';
+        var ag = document.getElementById("again-arc"); if (ag) ag.addEventListener("click", function () { startArcade(a.arcade, true); });
+        if (a.arcade) { document.getElementById("menu").addEventListener("click", function (e) { e.stopImmediatePropagation(); resetTo("home"); }, true); }
         document.getElementById("menu").addEventListener("click", back);
         if (isTV) focusFirst();
-        return play(nameAudio(p).concat(["ui/revision-fin.mp3"]));
+        return play(gain ? ["ui/super-prenom.mp3"].concat(nameAudio(p)).concat(["ui/etoile.mp3"]) : nameAudio(p).concat(["ui/rate.mp3"]));
       }
       var stars = starsFor(errors);
       p.stars[l.id] = Math.max(p.stars[l.id] || 0, stars);
@@ -1518,6 +1602,8 @@
       l.limit = newer.limit; l.rewards = newer.rewards; l.errs = newer.errs || {};
       var claimed = {}; [l, r].forEach(function (s) { s.claimed.forEach(function (c) { claimed[c.id + "@" + c.t] = c; }); });
       l.claimed = Object.keys(claimed).map(function (k) { return claimed[k]; }).sort(function (x, y) { return x.t - y.t; });
+      var bonus = {}; [l, r].forEach(function (s) { for (var b in (s.bonus || {})) bonus[b] = Math.max(bonus[b] || 0, s.bonus[b]); });
+      l.bonus = bonus;
       var usage = {}; [l, r].forEach(function (s) { for (var d in s.usage) usage[d] = Math.max(usage[d] || 0, s.usage[d]); });
       l.usage = usage;
       l.deleted = !!(l.deleted || r.deleted);

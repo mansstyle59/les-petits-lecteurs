@@ -16,14 +16,17 @@ EX = {it["lettre_minuscule"]: it["exemple"] for m in cours["modules"] for l in m
 NOM = {"a": "ˈa", "b": "bˈe", "c": "sˈe", "d": "dˈe", "e": "ˈə", "f": "ˈɛf", "g": "ʒˈe", "h": "ˈaʃ", "i": "ˈi", "j": "ʒˈi", "k": "kˈa",
        "l": "ˈɛl", "m": "ˈɛm", "n": "ˈɛn", "o": "ˈo", "p": "pˈe", "q": "kˈy", "r": "ˈɛʁ", "s": "ˈɛs", "t": "tˈe", "u": "ˈy", "v": "vˈe",
        "w": "dˈublə vˈe", "x": "ˈiks", "y": "ˈi ɡʁˈɛk", "z": "zˈɛd"}
-SON = {"a": "ˈa", "e": "ˈøː", "i": "ˈi", "o": "ˈo", "u": "ˈy", "y": "ˈi", "m": "ˈmː", "l": "ˈlː", "r": "ˈʁː", "s": "ˈsː", "f": "ˈfː",
-       "v": "ˈvː", "z": "ˈzː", "j": "ˈʒː", "n": "ˈnː", "w": "ˈvː", "x": "kˈs", "p": "pˈə", "t": "tˈə", "b": "bˈə", "d": "dˈə",
-       "c": "kˈə", "k": "kˈə", "q": "kˈə", "g": "ɡˈə"}
-MOT_API = {"kiwi": "kiwˈi", "xylophone": "ksilɔfˈɔn", "rose": "ʁˈoz", "orange": "ɔʁˈɑ̃ʒ", "gorille": "ɡɔʁˈij", "soleil": "sɔlˈɛj",
+SON = {"a": "ˈa", "e": "ˈøː", "i": "ˈi", "o": "ˈo", "u": "ˈy", "y": "ˈi", "m": "ˈmː", "l": "ˈlː", "r": "ʁˈø", "s": "ˈsː", "f": "ˈfː",
+       "v": "ˈvː", "z": "ˈzː", "j": "ˈʒː", "n": "ˈnː", "w": "vˈø", "x": "ˈiks", "p": "pˈø", "t": "tˈø", "b": "bˈə", "d": "dˈø",
+       "c": "kˈø", "k": "kˈø", "q": "kˈø", "g": "ɡˈø"}
+MOT_API = {"kiwi": "kiwˈi", "xylophone": "ksilɔfˈɔn", "rose": "ʁˈoz", "robot": "ʁobˈo", "orange": "ɔʁˈɑ̃ʒ", "gorille": "ɡɔʁˈij", "soleil": "sɔlˈɛj",
            "image": "imˈaʒ", "renard": "ʁənˈaʁ", "stylo": "stilˈo", "hibou": "ibˈu", "wagon": "vaɡˈɔ̃", "quatre": "kˈatʁ", "tortue": "tɔʁtˈy"}
 # Ce que la reconnaissance française peut écrire pour le son (voyelles : contrôle strict)
 SON_TXT = {"a": {"a", "ah", "à", "as", "ha"}, "e": {"e", "eu", "euh", "eux", "œufs", "oeufs"}, "i": {"i", "y", "hi", "il"},
-           "o": {"o", "oh", "eau", "au", "aux", "haut"}, "u": {"u", "hu", "hue", "eut", "eus", "eût", "us"}, "y": {"i", "y", "hi", "il"}}
+           "o": {"o", "oh", "eau", "au", "aux", "haut"}, "u": {"u", "hu", "hue", "eut", "eus", "eût", "us"}, "y": {"i", "y", "hi", "il"},
+           "p": {"p", "pe", "peu", "peux"}, "t": {"t", "te", "teu", "teux", "the"}, "b": {"b", "be", "beu", "beux"}, "d": {"d", "de", "deu", "deux"},
+           "c": {"k", "ke", "que", "queue", "keu"}, "k": {"k", "ke", "que", "queue", "keu"}, "q": {"k", "ke", "que", "queue", "keu"},
+           "g": {"g", "gue", "gueu", "gueux"}, "r": {"r", "re", "reu", "reux", "rr"}, "w": {"v", "ve", "veu", "veux", "vœu"}, "x": {"x", "ks", "kss", "xe", "kse", "ksse", "ixe", "iks", "x."}}
 def P(t): return "".join("".join(s) for s in v.phonemize(t)).rstrip(".")
 def word_ipa(w): return MOT_API.get(w) or P(w)
 def norm(s):
@@ -60,14 +63,14 @@ for L in letters:
             texte = "La lettre H ne fait pas de son, comme dans hibou." if kind == "phrase" else "La lettre H ne fait pas de son. Écoute : hibou."
             ph = P(texte)
         elif kind == "phrase":
-            sep = ", " if L in ("u",) else " "   # petite pause : évite « sonlu »
+            sep = ", " if L in ("u", "x", "r", "w") else " "   # petite pause : évite « sonlu »
             ph = f"{P('la lettre')} {NOM[L]} {P('fait le son')}{sep}{SON[L]}, {P('comme dans')} {word_ipa(EX[L])}."
         else:
             ph = f"{P('écoute le son')}, {SON[L]}, {P('comme dans')} {word_ipa(EX[L])}."
-        out = str(R / "audio" / "lettres" / f"{kind}-{L}.mp3")
+        dest = R / "audio" / "lettres" / f"{kind}-{L}.mp3"; out = f"/tmp/pl_{kind}_{L}.mp3"
         good, why = False, ""
         for ls, ns, nw in list(itertools.product((1.05, 1.15, 0.95), (0.5, 0.3, 0.65), (0.6, 0.8))) * 2:
             synth(ph, ls, ns, nw, out)
             good, why = ok(L, out, kind)
-            if good: break
+            if good: import shutil; shutil.copy(out, dest); break  # le fichier n'est remplacé que s'il est validé
         print(("OK    " if good else "ÉCHEC ") + f"{kind}-{L}", "|", why, flush=True)
