@@ -50,6 +50,7 @@ def main():
     model = WhisperModel("small", device="cpu", compute_type="int8")
     failures = []
     review = []
+    results = {}
     print("| Fichier | Attendu | Reconnu | Score | Résultat |")
     print("|---|---|---|---:|---|")
     for key, expected in EXPECTED.items():
@@ -63,6 +64,7 @@ def main():
         score = difflib.SequenceMatcher(
             None, normaliser(expected), normaliser(heard)
         ).ratio()
+        results[key] = (heard, score)
         status = "OK" if score >= 0.75 else "À ÉCOUTER"
         if score < 0.55:
             failures.append(key)
@@ -74,19 +76,21 @@ def main():
     print(f"- À écouter : {len(review)}" + (f" ({', '.join(review)})" if review else " (aucun)"))
     print(f"- Échecs sévères : {len(failures)}" + (f" ({', '.join(failures)})" if failures else " (aucun)"))
     report = ROOT / "contenu" / "AUDIT_RECONNAISSANCE_VOIX_DUO.md"
+    rows = [
+        "| Fichier | Attendu | Reconnu | Score | Résultat |",
+        "|---|---|---|---:|---|",
+    ]
+    for key, expected in EXPECTED.items():
+        heard, score = results.get(key, ("Fichier absent", 0.0))
+        status = "OK" if score >= 0.75 else "À ÉCOUTER"
+        rows.append(f"| {key}.mp3 | {expected} | {heard} | {score:.2f} | {status} |")
     report.write_text(
-        "# Contrôle automatique des encouragements\n\n"
+        "# Contrôle automatique des encouragements\\n\\n"
         "Reconnaissance Whisper (modèle small). Ce contrôle repère des écarts possibles ; "
-        "il ne constitue pas une validation pédagogique ou une écoute humaine.\n\n"
-        + "| Fichier | Attendu | Reconnu | Score | Résultat |\n|---|---|---|---:|---|\n"
-        + "\n".join(
-            f"| {key}.mp3 | {EXPECTED[key]} | {heard} | {score:.2f} | "
-            + ("OK" if score >= 0.75 else "À ÉCOUTER")
-            + " |"
-            for key, (heard, score) in results.items()
-        ) + "\n",
+        "il ne constitue pas une validation pédagogique ou une écoute humaine.\\n\\n"
+        + "\\n".join(rows) + "\\n",
         encoding="utf-8",
-    ) if False else None
+    )
     if failures:
         sys.exit(1)
 
