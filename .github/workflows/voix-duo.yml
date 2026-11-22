@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audio/ui contenu/AUDIT_VOIX_DUO.md
+          git add audio/ui contenu/AUDIT_VOIX_DUO.md contenu/AUDIT_RECONNAISSANCE_VOIX_DUO.md
           if git diff --cached --quiet; then
             echo "Aucun changement audio à enregistrer."
           else
