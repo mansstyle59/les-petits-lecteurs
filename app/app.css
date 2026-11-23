@@ -675,7 +675,7 @@ body{background-color:var(--bg);background-image:radial-gradient(circle at 8% 12
 #app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(4){animation-delay:.2s}
 #app.enter :is(.cards,.choices,.gifts,.trophies,.stats,.home-tiles,.memory) > *:nth-child(n+5){animation-delay:.26s}
 @keyframes talk{0%,100%{translate:0 0}50%{translate:0 -4px}}
-body.voice-busy .mascot,body:has(#caption.on) .bubble .mascot{animation:talk .45s ease-in-out infinite}
+body.voice-busy .mascot{animation:talk .45s ease-in-out infinite}
 .fly-star{position:fixed;z-index:95;margin:-14px 0 0 -14px;font-size:28px;line-height:1;color:#ffc800;text-shadow:0 2px 0 #d79a00;pointer-events:none;transition:translate .7s cubic-bezier(.5,-.3,.6,1),opacity .7s}
 @keyframes bump{0%,100%{translate:0 0}35%{translate:0 -6px}}
 .chip.gold.bump{animation:bump .4s ease}
@@ -687,3 +687,5 @@ body:not(.mode-tv) #caption{bottom:auto;top:calc(var(--topbar-h) + var(--safe-to
 body:not(.mode-tv) #caption.on{translate:-50% 0}
 body:not(.mode-tv) #caption{left:0;right:0;max-width:none;top:calc(var(--topbar-h) + var(--safe-top));translate:0 -6px;border-radius:0 0 16px 16px;border-width:0 0 4px;border-color:#bfe8ff;background:#eaf7ff;padding:8px 14px;font-size:1.05rem;box-shadow:0 6px 14px rgba(0,0,0,.08)}
 body:not(.mode-tv) #caption.on{translate:0 0}
+
+#caption{display:none !important}

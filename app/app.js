@@ -170,6 +170,7 @@
   var VOIX = {}, capEl = null, capRaf = 0, capHide = 0, capSession = 0;
   function subtitlesOn() { return !(state && state.settings && state.settings.subtitles === false); }
   function showCaption(text, timed, isName) {
+    return;   // sous-titres retirés à la demande des parents
     if (!subtitlesOn() || !text) return hideCaption(true);
     if (!capEl) { capEl = document.createElement("div"); capEl.id = "caption"; capEl.setAttribute("aria-hidden", "true"); document.body.appendChild(capEl); }
     clearTimeout(capHide); cancelAnimationFrame(capRaf);
@@ -1854,14 +1855,8 @@
       allLessons.forEach(function (id) { html += "<tr><td>" + id + " · " + esc(findLesson(id).titre) + "</td><td>" + starsText(pp.stars[id] || 0, 3) + "</td></tr>"; });
       html += '</tbody></table></div><div class="actions"><button class="btn secondary focusable" type="button" data-resetgames="' + esc(pp.id) + '">Remettre les jeux au niveau 1</button><button class="btn secondary focusable" type="button" data-reset="' + esc(pp.id) + '">Remettre à zéro</button><button class="btn danger focusable" type="button" data-del="' + esc(pp.id) + '">Supprimer le profil</button></div></section>';
     });
-    if (tab === "appareils") html += "<h2>Sous-titres</h2><p class='hint'>Le texte de la voix s'affiche en bas de l'écran, et les mots s'allument pendant qu'elle parle : votre enfant voit ce qu'il entend.</p>" +
-      '<div class="ages"><button type="button" class="pick focusable" id="sub-on" aria-pressed="' + subtitlesOn() + '">Activés</button><button type="button" class="pick focusable" id="sub-off" aria-pressed="' + !subtitlesOn() + '">Désactivés</button></div>';
     if (tab === "appareils") html += "<h2>À savoir</h2><p class='hint'>Aucune publicité, aucun achat, aucun micro. Les progrès restent sur l'appareil (et sur votre code famille si vous l'avez créé).</p>";
     app.innerHTML = html;
-    [["sub-on", true], ["sub-off", false]].forEach(function (x) {
-      var b = document.getElementById(x[0]);
-      if (b) b.addEventListener("click", function () { state.settings = state.settings || {}; state.settings.subtitles = x[1]; persist(); render(); });
-    });
     app.querySelectorAll(".ptab").forEach(function (b) { b.addEventListener("click", function () { go("parents", { tab: b.dataset.tab }, true); }); });
 
     var cc = document.getElementById("create-code");
@@ -2158,7 +2153,6 @@
   });
 
   function start() {
-    fetch("../contenu/voix.json" + Q).then(function (r) { return r.json(); }).then(function (v) { VOIX = v; }).catch(function () {});
     fetch("../contenu/cours.json" + Q, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function (data) {
       cours = data;
       cours.modules.forEach(function (m) { m.lecons.forEach(function (l) {
